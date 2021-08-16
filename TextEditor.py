@@ -4,6 +4,7 @@ from tkinter import ttk, INSERT
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
 import CreateHelpMessage
+from ttkthemes import ThemedStyle
 
 
 def open_file():
@@ -133,6 +134,13 @@ def update_editor():
 def switch():
     global is_on
 
+    labels_list = ["neat_section_L", "fitness_Criterion_l","fitness_threshold_l","no_fitness_termination_l", "pop_size_l",
+                   "reset_on_extinction_L", "default_stagnation_l", "species_fitness_func_l", "max_stagnation_l", "species_elitism_l",
+                   "default_reproduction_l", "elitism_l", "survival_threshold_l", "min_species_size_l", "genome_Section_l", "network_Parameters_l",
+                   "num_inputs_l", "num_outputs_l", "num_hidden_l", "initial_connection_L", "initial_conection_value_l", "feed_forward_L",
+                   "activation_n_aggregation_o", "activation_default_L", "activation_mutate_rate_L", "activation_options_L",
+                   "aggregation_mutate_rate_L", "aggregation_default_L", "aggregation_options_L", "node_bias_o", "bias_init_mean_l"]
+
     # Determin is on or off
     if is_on:
         on_button.config(image=off)
@@ -141,11 +149,24 @@ def switch():
 
         on_button.config(image=on)
         is_on = True
-
+        for label in labels_list: # Loop though Labels
+            exec(label + '.config(fg = "white smoke", bg = "grey35")')
+        root.config(bg='gray24')
+        #Tab Style
+        style.theme_use('default')
+        style.configure('TNotebook.Tab', background="gray45")
+        style.configure("TNotebook", background="gray24", borderwidth=0)
+        #style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
+        # Style of form (background), no foreground
+        style.configure("TFrame", background="grey35", borderwidth=5)
+        style.configure("TCombobox", fieldbackground="dark slate gray", background="dark red")
+        style.configure("TSpinbox", fieldbackground="dark slate gray", background="dark red")
+        style.configure("TCheckbutton", fieldbackground="dark slate gray", background="grey35")
 root = tk.Tk()
 
 
 style = ttk.Style()
+
 
 #Easy Input
 
@@ -655,7 +676,7 @@ update_btn = tk.Button(fr_buttons, text="Update Config", command=update_editor)
 
 # Keep track of the button state on/off
 #global is_on
-is_on = True
+is_on = False
 
 # Define Our Images
 on = tk.PhotoImage(file="on.png")
@@ -664,7 +685,7 @@ off = tk.PhotoImage(file="off.png")
 
 
 # Create A Button
-on_button = tk.Button(fr_buttons, image=on, bd=0,
+on_button = tk.Button(fr_buttons, image=off, bd=0,
                       command=switch)
 
 
