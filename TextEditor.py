@@ -113,7 +113,7 @@ def update_editor():
     if(fitness_threshold.get() != ""):
         txt_edit.delete("3.0", "4.0")
         txt_edit.insert('3.0', "fitness_threshold = " + fitness_threshold.get() + "\n")
-    if (no_termination_value.get() == 1):
+   # if (no_termination_value.get() == 1):
         txt_edit.delete("4.0", "5.0")
         txt_edit.insert('4.0', "no_fitness_termination = True\n")
     else:
@@ -122,7 +122,7 @@ def update_editor():
     if(pop_size.get() != ""):
         txt_edit.delete("5.0", "6.0")
         txt_edit.insert('5.0', "pop_size = " + pop_size.get() + "\n")
-    if (reset_on_extinction_value.get() == 1):
+    #if (reset_on_extinction_value.get() == 1):
         txt_edit.delete("6.0", "7.0")
         txt_edit.insert('6.0', "reset_on_extinction = True\n")
     else:
@@ -148,6 +148,7 @@ def switch():
 
         on_button.config(image=on)
         is_on = True
+        #Labels
         for label in labels_list: # Loop though Labels
             exec(label + '.config(fg = "white smoke", bg = "grey35")')
         root.config(bg='gray24')
@@ -161,6 +162,12 @@ def switch():
         style.configure("TCombobox", fieldbackground="dark slate gray", background="dark red")
         style.configure("TSpinbox", fieldbackground="dark slate gray", background="dark red")
         style.configure("TCheckbutton", fieldbackground="dark slate gray", background="grey35")
+        # this changes the background colour of the 2nd item
+        for options in range(len(aggregation_options)):
+            listbox_aggregation_options.itemconfig(options, {'bg': 'gray77'})
+        for activation_option in range(len(activation_options)):
+            listbox.itemconfig(activation_option, {'bg': "gray77"})
+
 root = tk.Tk()
 
 
