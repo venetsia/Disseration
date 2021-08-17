@@ -131,6 +131,8 @@ def update_editor():
 
 # Define our switch function
 def switch():
+
+    #colors found at: http://tephra.smith.edu/dftwiki/images/3/3d/TkInterColorCharts.png
     global is_on
 
     labels_list = ["neat_section_L", "fitness_Criterion_l","fitness_threshold_l","no_fitness_termination_l", "pop_size_l",
