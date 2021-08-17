@@ -129,7 +129,6 @@ def update_editor():
         txt_edit.delete("6.0", "7.0")
         txt_edit.insert('6.0', "reset_on_extinction = False\n")
 
-
 # Define our switch function
 def switch():
     global is_on
@@ -141,7 +140,7 @@ def switch():
                    "activation_n_aggregation_o", "activation_default_L", "activation_mutate_rate_L", "activation_options_L",
                    "aggregation_mutate_rate_L", "aggregation_default_L", "aggregation_options_L", "node_bias_o", "bias_init_mean_l"]
 
-    # Determin is on or off
+    # DarkMode is on or off
     if is_on:
         on_button.config(image=off)
         is_on = False
@@ -218,8 +217,8 @@ no_fitness_termination_l.grid(row=3, column=0, ipadx=36, pady = 1)
 CreateHelpMessage.CreateToolTip(no_fitness_termination_l, text ='If this evaluates to True, then the fitness_criterion and fitness_threshold are ignored for termination;\n only valid if termination by a maximum number of generations passed to population.Population.run() is enabled,\n and the found_solution method is called upon generation number termination. If it evaluates to False, then fitness is used to determine termination. This defaults to “False”.')
 
 
-no_termination_value = tk.IntVar()
-no_fitness_termination = ttk.Checkbutton(tab1,variable=no_termination_value, onvalue=1, offvalue=0)
+no_fitness_termination = ttk.Combobox(tab1)
+no_fitness_termination['values'] = ('True','False')
 no_fitness_termination.grid(row=3, column =1)
 CreateHelpMessage.CreateToolTip(no_fitness_termination, text ='If this evaluates to True, then the fitness_criterion and fitness_threshold are ignored for termination;\n only valid if termination by a maximum number of generations passed to population.Population.run() is enabled,\n and the found_solution method is called upon generation number termination. If it evaluates to False, then fitness is used to determine termination. This defaults to “False”.')
 
@@ -238,10 +237,11 @@ reset_on_extinction_L= tk.Label(tab1,text ="Reset on extinction?", justify=LEFT,
 reset_on_extinction_L.grid(row=5, column=0, ipadx=27, pady = 1)
 CreateHelpMessage.CreateToolTip(reset_on_extinction_L, text = 'If this evaluates to True, when all species simultaneously become extinct due to stagnation,\n a new random population will be created. If False, a CompleteExtinctionException will be thrown.')
 
-reset_on_extinction_value = tk.IntVar()
-reset_on_extinction = ttk.Checkbutton(tab1,variable=reset_on_extinction_value, onvalue=1, offvalue=0)
+reset_on_extinction = ttk.Combobox(tab1)
+reset_on_extinction['values'] = ('True','False')
 reset_on_extinction.grid(row=5, column =1)
 CreateHelpMessage.CreateToolTip(reset_on_extinction, text = 'If this evaluates to True, when all species simultaneously become extinct due to stagnation,\n a new random population will be created. If False, a CompleteExtinctionException will be thrown.')
+
 
 #Default Stagnation section
 default_stagnation_l = tk.Label(tab1, text='Default Stagnation', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
@@ -295,7 +295,7 @@ survival_threshold_l.grid(row=12,column=0, ipadx=32)
 CreateHelpMessage.CreateToolTip(survival_threshold_l, text ='The fraction for each species allowed to reproduce each generation. This defaults to 0.2.')
 
 survival_threshold = ttk.Spinbox(tab1, from_= 0.0, to = 100000000.0, increment=0.1)
-survival_threshold.grid(row=12,column=1, ipady = 2)
+survival_threshold.grid(row=12,column=1) #ipady = 2)
 CreateHelpMessage.CreateToolTip(survival_threshold, text ='The fraction for each species allowed to reproduce each generation. This defaults to 0.2.')
 
 # min_species_size
@@ -376,8 +376,8 @@ feed_forward_L= tk.Label(tab1,text ="Feed Forward?", anchor = "w")
 feed_forward_L.grid(row=7, column=3, ipadx = 24)
 CreateHelpMessage.CreateToolTip(feed_forward_L, text = 'feed_forward\nIf this evaluates to True, generated networks will not be\nallowed to have recurrent connections (they will be feedforward).\nOtherwise they may be (but are not forced to be) recurrent.')
 
-feed_forward_value = tk.IntVar()
-feed_forward = ttk.Checkbutton(tab1,variable=feed_forward_value, onvalue=1, offvalue=0)
+feed_forward = ttk.Combobox(tab1)
+feed_forward['values'] = ('True','False')
 feed_forward.grid(row=7, column =4)
 CreateHelpMessage.CreateToolTip(feed_forward, text = 'feed_forward\nIf this evaluates to True, generated networks will not be\nallowed to have recurrent connections (they will be feedforward).\nOtherwise they may be (but are not forced to be) recurrent.')
 
