@@ -140,7 +140,15 @@ def switch():
                    "default_reproduction_l", "elitism_l", "survival_threshold_l", "min_species_size_l", "genome_Section_l", "network_Parameters_l",
                    "num_inputs_l", "num_outputs_l", "num_hidden_l", "initial_connection_L", "initial_conection_value_l", "feed_forward_L",
                    "activation_n_aggregation_o", "activation_default_L", "activation_mutate_rate_L", "activation_options_L",
-                   "aggregation_mutate_rate_L", "aggregation_default_L", "aggregation_options_L", "node_bias_o", "bias_init_mean_l"]
+                   "aggregation_mutate_rate_L", "aggregation_default_L", "aggregation_options_L", "node_bias_o", "bias_init_mean_l", "bias_init_stdev_l"
+                    , "bias_init_type_l", "bias_max_value_l", "bias_min_value_l", "bias_mutate_power_l", "bias_mutate_rate_l", "bias_replace_rate_l",
+                   "genome_compatibility_o", "compatibility_threshold_l", "compatibility_disjoint_coefficient_l",
+                   "compatibility_weight_coefficient_l", "connection_options_l", "conn_add_prob_l", "conn_delete_prob_l", "enabled_default_L",
+                   "enabled_mutate_rate_l", "enabled_rate_to_false_add_l", "enabled_rate_to_true_add_l", "node_add_prob_l", "node_delete_prob_l",
+                   "response_l", "response_init_mean_l", "response_init_stdev_l", "response_init_type_L", "response_max_value_l",
+                   "response_min_value_l", "response_mutate_power_l", "response_mutate_rate_l", "response_replace_rate_l", "single_structural_mutation_L",
+                   "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l", "weight_init_type_L",
+                   "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l", "weight_replace_rate_l"]
 
     # DarkMode is on or off
     if is_on:
