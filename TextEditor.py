@@ -149,7 +149,7 @@ def switch():
                    "response_min_value_l", "response_mutate_power_l", "response_mutate_rate_l", "response_replace_rate_l", "single_structural_mutation_L",
                    "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l", "weight_init_type_L",
                    "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l", "weight_replace_rate_l"]
-
+    buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
     # DarkMode is on or off
     if is_on:
         on_button.config(image=off)
@@ -161,6 +161,10 @@ def switch():
         #Labels
         for label in labels_list: # Loop though Labels
             exec(label + '.config(fg = "white smoke", bg = "grey35")')
+        for button in buttons_list:
+            exec(button + ".configure(bg = 'dark slate gray')")
+        fr_buttons.configure(bg="gray18")
+        on_button.configure(bg="gray18")
         root.config(bg='gray24')
         #Tab Style
         style.theme_use('default')
@@ -186,7 +190,7 @@ style = ttk.Style()
 
 #Easy Input
 
-frame1 = tk.Frame(master=root, width= 700, height=500)
+frame1 = tk.Frame(master=root, width= 700, height=600)
 frame1.grid(row=0, column=0)
 
 
@@ -759,7 +763,7 @@ CreateHelpMessage.CreateToolTip(single_structural_mutation, text ='If this evalu
 
 #structural_mutation_surer
 structural_mutation_surer_L = tk.Label(tab1, text = "Structural mutation surer?")
-structural_mutation_surer_L.grid(row=19,column=5, sticky = tk.W)
+structural_mutation_surer_L.grid(row=19,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(structural_mutation_surer_L, text ='f this evaluates to True, then an attempt to add a node to a genome lacking connections will result in adding a connection instead; furthermore, if an attempt to add a connection tries to add a connection that already exists, that connection will be enabled. If this is set to default, then it acts as if it had the same value as single_structural_mutation (above). This defaults to “default”.')
 
 structural_mutation_surer = ttk.Combobox(tab1)
@@ -773,35 +777,35 @@ weight_l.grid(row=20, column =5, pady = 5, sticky = tk.W)
 
 #weight_init_mean
 weight_init_mean_l = tk.Label(tab1, text = "Mean weight:")
-weight_init_mean_l.grid(row=21,column=5, sticky = tk.W)
+weight_init_mean_l.grid(row=21,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_mean_l, text ='The mean of the normal/gaussian distribution used to select weight attribute values for new connections.')
 
 weight_init_mean = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1)
-weight_init_mean.grid(row=21,column=6, sticky = tk.W)
+weight_init_mean.grid(row=21,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_mean, text ='The mean of the normal/gaussian distribution used to select weight attribute values for new connections.')
 
 #weight_init_stdev
 weight_init_stdev_l = tk.Label(tab1, text = "Standard weight:")
-weight_init_stdev_l.grid(row=22,column=5, sticky = tk.W)
+weight_init_stdev_l.grid(row=22,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_stdev_l, text ='The standard deviation of the normal/gaussian distribution used to select weight values for new connections.')
 
 weight_init_stdev = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1)
-weight_init_stdev.grid(row=22,column=6, sticky = tk.W)
+weight_init_stdev.grid(row=22,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_stdev, text ='The standard deviation of the normal/gaussian distribution used to select weight values for new connections.')
 
 #weight_init_type
 weight_init_type_L = tk.Label(tab1, text = "Weight Type")
-weight_init_type_L.grid(row=23,column=5, sticky = tk.W)
+weight_init_type_L.grid(row=23,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_type_L, text ='If set to gaussian or normal, then the initialization is to a normal/gaussian distribution. If set to uniform, a uniform distribution from max(weight_min_value,(weight_init_mean−(weight_init_stdev∗2))) to min(weight_max_value,(weight_init_mean+(weight_init_stdev∗2))). (Note that the standard deviation of a uniform distribution is not range/0.25, as implied by this, but the range divided by a bit over 0.288 (the square root of 12); however, this approximation makes setting the range much easier.) This defaults to “gaussian”.')
 
 weight_init_type = ttk.Combobox(tab1)
 weight_init_type['values'] = ('gaussian', 'normal', 'uniform')
-weight_init_type.grid(row=23,column=6, sticky = tk.W)
+weight_init_type.grid(row=23,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_type, text ='If set to gaussian or normal, then the initialization is to a normal/gaussian distribution. If set to uniform, a uniform distribution from max(weight_min_value,(weight_init_mean−(weight_init_stdev∗2))) to min(weight_max_value,(weight_init_mean+(weight_init_stdev∗2))). (Note that the standard deviation of a uniform distribution is not range/0.25, as implied by this, but the range divided by a bit over 0.288 (the square root of 12); however, this approximation makes setting the range much easier.) This defaults to “gaussian”.')
 
 #weight_max_value
 weight_max_value_l = tk.Label(tab1, text = "Max weight:")
-weight_max_value_l.grid(row=22,column=5, sticky = tk.W)
+weight_max_value_l.grid(row=22,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_max_value_l, text ='The maximum allowed weight value. Weights above this value will be clamped to this value.')
 
 weight_max_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1)
@@ -810,7 +814,7 @@ CreateHelpMessage.CreateToolTip(weight_max_value, text ='The maximum allowed wei
 
 #weight_min_value
 weight_min_value_l = tk.Label(tab1, text = "Min weight:")
-weight_min_value_l.grid(row=23,column=5, sticky = tk.W)
+weight_min_value_l.grid(row=23,column=5, sticky = tk.W, ipady= 2)
 CreateHelpMessage.CreateToolTip(weight_min_value_l, text ='The minimum allowed weight value. Weights below this value will be clamped to this value.')
 
 weight_min_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1)
@@ -819,40 +823,40 @@ CreateHelpMessage.CreateToolTip(weight_min_value_l, text ='The minimum allowed w
 
 #weight_mutate_power
 weight_mutate_power_l = tk.Label(tab1, text = "Weight Mutate power:")
-weight_mutate_power_l.grid(row=24,column=5, sticky = tk.W)
+weight_mutate_power_l.grid(row=24,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_power_l, text ='The standard deviation of the zero-centered normal/gaussian distribution from which a weight value mutation is drawn.')
 
 weight_mutate_power = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1)
-weight_mutate_power.grid(row=24,column=6, sticky = tk.W)
+weight_mutate_power.grid(row=24,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_power, text ='The standard deviation of the zero-centered normal/gaussian distribution from which a weight value mutation is drawn.')
 
 #weight_mutate_rate
 weight_mutate_rate_l = tk.Label(tab1, text = "Weight Mutate rate:")
-weight_mutate_rate_l.grid(row=25,column=5, sticky = tk.W)
+weight_mutate_rate_l.grid(row=25,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_rate_l, text ='The probability that mutation will change the weight of a connection by adding a random value.')
 
 weight_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1)
-weight_mutate_rate.grid(row=25,column=6, sticky = tk.W)
+weight_mutate_rate.grid(row=25,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_rate, text ='The probability that mutation will change the weight of a connection by adding a random value.')
 
 #weight_replace_rate
 weight_replace_rate_l = tk.Label(tab1, text = "Weight replace rate:")
-weight_replace_rate_l.grid(row=26,column=5, sticky = tk.W)
+weight_replace_rate_l.grid(row=26,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_replace_rate_l, text ='The probability that mutation will replace the weight of a connection with a newly chosen random value (as if it were a new connection).')
 
 weight_replace_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1)
-weight_replace_rate.grid(row=26,column=6, sticky = tk.W)
+weight_replace_rate.grid(row=26,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_replace_rate, text ='The probability that mutation will replace the weight of a connection with a newly chosen random value (as if it were a new connection).')
 
 tabControl.grid(row=0, column=0)
 
 #Editor
-frame2 = tk.Frame(master=root, width=500, height=500)
+frame2 = tk.Frame(master=root, width=500, height=600)
 frame2.grid(row=0, column=2)
 
 
 frame2.rowconfigure(0, minsize=800, weight=1)
-frame2.columnconfigure(1, minsize=800, weight=1)
+frame2.columnconfigure(1, minsize=900, weight=1)
 
 txt_edit = tk.Text(frame2)
 
