@@ -162,7 +162,7 @@ def switch():
         for label in labels_list: # Loop though Labels
             exec(label + '.config(fg = "white smoke", bg = "grey35")')
         for button in buttons_list:
-            exec(button + ".configure(bg = 'dark slate gray')")
+            exec(button + ".configure(bg = 'dark slate gray', fg = 'white smoke')")
         fr_buttons.configure(bg="gray18")
         on_button.configure(bg="gray18")
         root.config(bg='gray24')
@@ -173,9 +173,9 @@ def switch():
         #style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
         style.configure("TFrame", background="grey35", borderwidth=5)
-        style.configure("TCombobox", fieldbackground="dark slate gray", background="dark red")
-        style.configure("TSpinbox", fieldbackground="dark slate gray", background="dark red")
-        style.configure("TCheckbutton", fieldbackground="dark slate gray", background="grey35")
+        style.configure("TCombobox", fieldbackground="dark slate gray", background="dark red", foreground = "white smoke")
+        style.configure("TSpinbox", fieldbackground="dark slate gray", background="dark red", foreground = "white smoke")
+        style.configure("TCheckbutton", fieldbackground="dark slate gray", background="grey35", foreground = "white smoke")
         # this changes the background colour of the 2nd item
         for options in range(len(aggregation_options)):
             listbox_aggregation_options.itemconfig(options, {'bg': 'gray77'})
@@ -855,8 +855,8 @@ frame2 = tk.Frame(master=root, width=500, height=600)
 frame2.grid(row=0, column=2)
 
 
-frame2.rowconfigure(0, minsize=900, weight=1)
-frame2.columnconfigure(1, minsize=900, weight=1)
+frame2.rowconfigure(0, minsize=900, weight=1) # row where buttons are
+frame2.columnconfigure(1, minsize=900, weight=1) # column where buttons are
 
 txt_edit = tk.Text(frame2)
 
