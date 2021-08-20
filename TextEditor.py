@@ -855,7 +855,7 @@ frame2 = tk.Frame(master=root, width=500, height=600)
 frame2.grid(row=0, column=2)
 
 
-frame2.rowconfigure(0, minsize=800, weight=1)
+frame2.rowconfigure(0, minsize=900, weight=1)
 frame2.columnconfigure(1, minsize=900, weight=1)
 
 txt_edit = tk.Text(frame2)
