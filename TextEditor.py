@@ -163,6 +163,7 @@ def switch():
             exec(label + '.config(fg = "white smoke", bg = "grey35")')
         for button in buttons_list:
             exec(button + ".configure(bg = 'dark slate gray', fg = 'white smoke')")
+        txt_edit.config(bg = "gray12", fg = "gray84")
         fr_buttons.configure(bg="gray18")
         on_button.configure(bg="gray18")
         root.config(bg='gray24')
