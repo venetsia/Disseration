@@ -154,8 +154,34 @@ def switch():
     if is_on:
         on_button.config(image=off)
         is_on = False
+        #on_button.config(image=on)
+        is_on = True
+        # Labels
+        for label in labels_list:  # Loop though Labels
+            exec(label + '.config(fg = "gray1", bg = "grey75")')
+        for button in buttons_list:
+            exec(button + ".configure(bg = 'purple4')")
+        txt_edit.config(bg="light grey", fg="gray1")
+        fr_buttons.configure(bg="red4")
+        on_button.configure(bg="red4")
+        root.config(bg='red4')
+        # Tab Style
+        style.theme_use('default')
+        style.configure('TNotebook.Tab', background="gray47")
+        style.configure("TNotebook", background="gray24", borderwidth=0)
+        # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
+        # Style of form (background), no foreground
+        style.configure("TFrame", background="grey75", borderwidth=5)
+        style.configure("TCombobox", fieldbackground="MediumPurple1", background="red4", foreground="white smoke")
+        style.configure("TSpinbox", fieldbackground="MediumPurple1", background="red4", foreground="white smoke")
+        style.configure("TCheckbutton", fieldbackground="MediumPurple1", background="grey35",
+                        foreground="white smoke")
+        # this changes the background colour of the 2nd item
+        for options in range(len(aggregation_options)):
+            listbox_aggregation_options.itemconfig(options, {'bg': 'gray77'})
+        for activation_option in range(len(activation_options)):
+            listbox.itemconfig(activation_option, {'bg': "gray77"})
     else:
-
         on_button.config(image=on)
         is_on = True
         #Labels
@@ -405,7 +431,7 @@ CreateHelpMessage.CreateToolTip(feed_forward, text = 'feed_forward\nIf this eval
 
 # Network Parameters
 activation_n_aggregation_o = tk.Label(tab1, text='Node act & aggr opt:', font='Helvetica 12 bold', anchor = "e")
-activation_n_aggregation_o.grid(row=0, column =3, pady = 5, ipadx = 15, sticky = tk.W)
+activation_n_aggregation_o.grid(row=0, column =3, pady = 5, sticky = tk.W)
 
 #activation_default
 activation_default_L = tk.Label(tab1, text = "Default Activation Func:")
