@@ -6,7 +6,7 @@ from tkinter.messagebox import showinfo
 import CreateHelpMessage
 from ttkthemes import ThemedStyle
 
-labels_list = ["neat_section_L", "fitness_Criterion_l", "fitness_threshold_l", "no_fitness_termination_l", "pop_size_l",
+labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "no_fitness_termination_l", "pop_size_l",
                "reset_on_extinction_L", "default_stagnation_l", "species_fitness_func_l", "max_stagnation_l",
                "species_elitism_l",
                "default_reproduction_l", "elitism_l", "survival_threshold_l", "min_species_size_l", "genome_Section_l",
@@ -33,6 +33,18 @@ labels_list = ["neat_section_L", "fitness_Criterion_l", "fitness_threshold_l", "
                "weight_replace_rate_l"]
 buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
 
+form_values_list = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction",
+                   "species_fitness_func", "max_stagnation", "species_elitism", "elitism", "survival_threshold", "min_species_size"
+                    ,"num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
+                   "activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
+                   "aggregation_options_selected", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
+                   "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate", "compatibility_threshold", "compatibility_disjoint_coefficient",
+                   "compatibility_weight_coefficient", "conn_add_prob", "conn_delete_prob", "enabled_default", "enabled_mutate_rate",
+                   "enabled_rate_to_false_add", "enabled_rate_to_true_add", "node_add_prob", "node_delete_prob", "response_init_mean",
+                   "response_init_stdev", "response_init_type", "response_max_value", "response_min_value", "response_mutate_power",
+                   "response_mutate_power", "response_replace_rate", "single_structural_mutation", "structural_mutation_surer", "weight_init_mean",
+                   "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
+                   "weight_replace_rate"]
 
 def open_file():
     """Open a file for editing."""
@@ -134,27 +146,18 @@ def default_config():
                             "weight_replace_rate = ")
 
 def update_editor():
-    if (fitness_Criterion.get() != ""):
-        txt_edit.delete("2.0", "3.0")
-        txt_edit.insert('2.0', "fitness_criterion = " + fitness_Criterion.get() + "\n")
-    if(fitness_threshold.get() != ""):
-        txt_edit.delete("3.0", "4.0")
-        txt_edit.insert('3.0', "fitness_threshold = " + fitness_threshold.get() + "\n")
-   # if (no_termination_value.get() == 1):
-        txt_edit.delete("4.0", "5.0")
-        txt_edit.insert('4.0', "no_fitness_termination = True\n")
-    else:
-        txt_edit.delete("4.0", "5.0")
-        txt_edit.insert('4.0', "no_fitness_termination = False\n")
-    if(pop_size.get() != ""):
-        txt_edit.delete("5.0", "6.0")
-        txt_edit.insert('5.0', "pop_size = " + pop_size.get() + "\n")
-    #if (reset_on_extinction_value.get() == 1):
-        txt_edit.delete("6.0", "7.0")
-        txt_edit.insert('6.0', "reset_on_extinction = True\n")
-    else:
-        txt_edit.delete("6.0", "7.0")
-        txt_edit.insert('6.0', "reset_on_extinction = False\n")
+    thetext = txt_edit.get("1.0", 'end')
+    print(thetext)
+
+    for form_input in form_values_list:
+        num_line = 0
+        for line in thetext.split("\n"):
+            num_line += 1
+            if form_input in line:
+                print(line + " is on " + str(num_line))
+                txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                    #txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
+                txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
 
 # Define our switch function
 def switch():
@@ -253,14 +256,14 @@ neat_section_L.grid(row=0,column=0,ipadx=32, pady = 1)
 
 
 #Fitness Criterion
-fitness_Criterion_l = tk.Label(tab1, text = "Fitness Criterion", justify=LEFT, anchor="w")
-fitness_Criterion_l.grid(row=1,column=0,ipadx=37, pady=2)
-CreateHelpMessage.CreateToolTip(fitness_Criterion_l, text = 'The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
+fitness_criterion_l = tk.Label(tab1, text = "Fitness Criterion", justify=LEFT, anchor="w")
+fitness_criterion_l.grid(row=1,column=0,ipadx=37, pady=2)
+CreateHelpMessage.CreateToolTip(fitness_criterion_l, text = 'The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
 
-fitness_Criterion = ttk.Combobox(tab1)
-fitness_Criterion['values'] = ('min','max', 'mean')
-fitness_Criterion.grid(row=1,column=1)
-CreateHelpMessage.CreateToolTip(fitness_Criterion, text = 'The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
+fitness_criterion = ttk.Combobox(tab1)
+fitness_criterion['values'] = ('min','max', 'mean')
+fitness_criterion.grid(row=1,column=1)
+CreateHelpMessage.CreateToolTip(fitness_criterion, text = 'The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
 
 # Fitness Threshhold
 fitness_threshold_l = tk.Label(tab1, text = "Fitness Threshold", justify=LEFT, anchor="w")
@@ -478,7 +481,7 @@ langs_var = tk.StringVar(value=activation_options)
 listbox = tk.Listbox(tab1,height = 3, listvariable = langs_var, selectmode='extended')
 listbox.grid(row=3,column=4, pady = 2, sticky = tk.W)
 activation_options_selected = listbox.bind('<<ListboxSelect>>', items_selected)
-print(activation_options_selected)
+#print(activation_options_selected)
 # link a scrollbar to a list
 scrollbar = ttk.Scrollbar(
     root,
