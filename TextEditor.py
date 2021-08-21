@@ -151,11 +151,11 @@ def switch():
                    "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l", "weight_replace_rate_l"]
     buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
     # DarkMode is on or off
-    if is_on:
+    if is_on == True :
         on_button.config(image=off)
         is_on = False
         #on_button.config(image=on)
-        is_on = True
+        #is_on = True
         # Labels
         for label in labels_list:  # Loop though Labels
             exec(label + '.config(fg = "gray1", bg = "grey75")')
