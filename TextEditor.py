@@ -6,6 +6,33 @@ from tkinter.messagebox import showinfo
 import CreateHelpMessage
 from ttkthemes import ThemedStyle
 
+labels_list = ["neat_section_L", "fitness_Criterion_l", "fitness_threshold_l", "no_fitness_termination_l", "pop_size_l",
+               "reset_on_extinction_L", "default_stagnation_l", "species_fitness_func_l", "max_stagnation_l",
+               "species_elitism_l",
+               "default_reproduction_l", "elitism_l", "survival_threshold_l", "min_species_size_l", "genome_Section_l",
+               "network_Parameters_l",
+               "num_inputs_l", "num_outputs_l", "num_hidden_l", "initial_connection_L", "initial_conection_value_l",
+               "feed_forward_L",
+               "activation_n_aggregation_o", "activation_default_L", "activation_mutate_rate_L", "activation_options_L",
+               "aggregation_mutate_rate_L", "aggregation_default_L", "aggregation_options_L", "node_bias_o",
+               "bias_init_mean_l", "bias_init_stdev_l"
+    , "bias_init_type_l", "bias_max_value_l", "bias_min_value_l", "bias_mutate_power_l", "bias_mutate_rate_l",
+               "bias_replace_rate_l",
+               "genome_compatibility_o", "compatibility_threshold_l", "compatibility_disjoint_coefficient_l",
+               "compatibility_weight_coefficient_l", "connection_options_l", "conn_add_prob_l", "conn_delete_prob_l",
+               "enabled_default_L",
+               "enabled_mutate_rate_l", "enabled_rate_to_false_add_l", "enabled_rate_to_true_add_l", "node_add_prob_l",
+               "node_delete_prob_l",
+               "response_l", "response_init_mean_l", "response_init_stdev_l", "response_init_type_L",
+               "response_max_value_l",
+               "response_min_value_l", "response_mutate_power_l", "response_mutate_rate_l", "response_replace_rate_l",
+               "single_structural_mutation_L",
+               "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l",
+               "weight_init_type_L",
+               "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
+               "weight_replace_rate_l"]
+buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
+
 
 def open_file():
     """Open a file for editing."""
@@ -135,22 +162,7 @@ def switch():
     #colors found at: http://tephra.smith.edu/dftwiki/images/3/3d/TkInterColorCharts.png
     global is_on
 
-    labels_list = ["neat_section_L", "fitness_Criterion_l","fitness_threshold_l","no_fitness_termination_l", "pop_size_l",
-                   "reset_on_extinction_L", "default_stagnation_l", "species_fitness_func_l", "max_stagnation_l", "species_elitism_l",
-                   "default_reproduction_l", "elitism_l", "survival_threshold_l", "min_species_size_l", "genome_Section_l", "network_Parameters_l",
-                   "num_inputs_l", "num_outputs_l", "num_hidden_l", "initial_connection_L", "initial_conection_value_l", "feed_forward_L",
-                   "activation_n_aggregation_o", "activation_default_L", "activation_mutate_rate_L", "activation_options_L",
-                   "aggregation_mutate_rate_L", "aggregation_default_L", "aggregation_options_L", "node_bias_o", "bias_init_mean_l", "bias_init_stdev_l"
-                    , "bias_init_type_l", "bias_max_value_l", "bias_min_value_l", "bias_mutate_power_l", "bias_mutate_rate_l", "bias_replace_rate_l",
-                   "genome_compatibility_o", "compatibility_threshold_l", "compatibility_disjoint_coefficient_l",
-                   "compatibility_weight_coefficient_l", "connection_options_l", "conn_add_prob_l", "conn_delete_prob_l", "enabled_default_L",
-                   "enabled_mutate_rate_l", "enabled_rate_to_false_add_l", "enabled_rate_to_true_add_l", "node_add_prob_l", "node_delete_prob_l",
-                   "response_l", "response_init_mean_l", "response_init_stdev_l", "response_init_type_L", "response_max_value_l",
-                   "response_min_value_l", "response_mutate_power_l", "response_mutate_rate_l", "response_replace_rate_l", "single_structural_mutation_L",
-                   "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l", "weight_init_type_L",
-                   "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l", "weight_replace_rate_l"]
-    buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
-    # DarkMode is on or off
+     # DarkMode is on or off
     if is_on == True :
         on_button.config(image=off)
         is_on = False
@@ -160,7 +172,7 @@ def switch():
         for label in labels_list:  # Loop though Labels
             exec(label + '.config(fg = "gray1", bg = "grey75")')
         for button in buttons_list:
-            exec(button + ".configure(bg = 'purple4')")
+            exec(button + ".configure(bg = 'purple4', fg= 'gray99')")
         txt_edit.config(bg="light grey", fg="gray1")
         fr_buttons.configure(bg="red4")
         on_button.configure(bg="red4")
@@ -172,15 +184,15 @@ def switch():
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
         style.configure("TFrame", background="grey75", borderwidth=5)
-        style.configure("TCombobox", fieldbackground="MediumPurple1", background="red4", foreground="white smoke")
-        style.configure("TSpinbox", fieldbackground="MediumPurple1", background="red4", foreground="white smoke")
+        style.configure("TCombobox", fieldbackground="grey85", background="red4", foreground="gray1")
+        style.configure("TSpinbox", fieldbackground="grey85", background="red4", foreground="gray1")
         style.configure("TCheckbutton", fieldbackground="MediumPurple1", background="grey35",
                         foreground="white smoke")
         # this changes the background colour of the 2nd item
         for options in range(len(aggregation_options)):
-            listbox_aggregation_options.itemconfig(options, {'bg': 'gray77'})
+            listbox_aggregation_options.itemconfig(options, {'bg': 'grey85'})
         for activation_option in range(len(activation_options)):
-            listbox.itemconfig(activation_option, {'bg': "gray77"})
+            listbox.itemconfig(activation_option, {'bg': "grey85"})
     else:
         on_button.config(image=on)
         is_on = True
@@ -918,6 +930,31 @@ fr_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
 on_button.grid(row =5, column = 0, sticky="ne")
 
+# Color LightMode program
+for label in labels_list:  # Loop though Labels
+    exec(label + '.config(fg = "gray1", bg = "grey75")')
+for button in buttons_list:
+    exec(button + ".configure(bg = 'purple4', fg= 'gray99')")
+txt_edit.config(bg="light grey", fg="gray1")
+fr_buttons.configure(bg="red4")
+on_button.configure(bg="red4")
+root.config(bg='red4')
+# Tab Style
+style.theme_use('default')
+style.configure('TNotebook.Tab', background="gray47")
+style.configure("TNotebook", background="gray24", borderwidth=0)
+# style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
+# Style of form (background), no foreground
+style.configure("TFrame", background="grey75", borderwidth=5)
+style.configure("TCombobox", fieldbackground="grey85", background="red4", foreground="gray1")
+style.configure("TSpinbox", fieldbackground="grey85", background="red4", foreground="gray1")
+style.configure("TCheckbutton", fieldbackground="MediumPurple1", background="grey35",
+                foreground="white smoke")
+# this changes the background colour of the 2nd item
+for options in range(len(aggregation_options)):
+    listbox_aggregation_options.itemconfig(options, {'bg': 'grey85'})
+for activation_option in range(len(activation_options)):
+    listbox.itemconfig(activation_option, {'bg': "grey85"})
 
 root.mainloop()
 
