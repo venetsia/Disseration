@@ -45,7 +45,12 @@ form_values_list = ["fitness_criterion", "fitness_threshold","no_fitness_termina
                    "response_mutate_power", "response_replace_rate", "single_structural_mutation", "structural_mutation_surer", "weight_init_mean",
                    "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
                    "weight_replace_rate"]
-
+form_Main_label_list = ["neat_section_L", "default_stagnation_l",
+                        "default_reproduction_l", "genome_Section_l"]
+form_sublabels_label_list = ["network_Parameters_l", "activation_n_aggregation_o",
+                             "node_bias_o", "genome_compatibility_o",
+                             "connection_options_l", "response_l",
+                             "weight_l"]
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
@@ -174,6 +179,8 @@ def switch():
         # Labels
         for label in labels_list:  # Loop though Labels
             exec(label + '.config(fg = "gray1", bg = "grey75")')
+            if label in form_Main_label_list:
+                exec(label + '.config(fg = "gray1", bg = "grey75")')
         for button in buttons_list:
             exec(button + ".configure(bg = 'purple4', fg= 'gray99')")
         txt_edit.config(bg="light grey", fg="gray1")
@@ -380,8 +387,8 @@ genome_Section_l = tk.Label(tab1, text='Genome Section', font='Helvetica 12 bold
 genome_Section_l.grid(row=14, column =0, pady = 5, ipadx = 15)
 
 # Network Parameters
-network_Parameters_l = tk.Label(tab1, text='Network Parameters', font='Helvetica 12 bold', anchor = "w" )
-network_Parameters_l.grid(row=15, column =0, pady = 2, ipadx = 3)
+network_Parameters_l = tk.Label(tab1, text='Network Parameters', justify=LEFT, font='Helvetica 11 bold', anchor = "w" )
+network_Parameters_l.grid(row=15, column =0, pady = 2, sticky = tk.W)
 
 #num_inputs
 num_inputs_l = tk.Label(tab1, text = "Number of input nodes:", anchor = "w")
@@ -445,7 +452,7 @@ CreateHelpMessage.CreateToolTip(feed_forward, text = 'feed_forward\nIf this eval
 #Node Activation and Aggregation options
 
 # Network Parameters
-activation_n_aggregation_o = tk.Label(tab1, text='Node act & aggr opt:', font='Helvetica 12 bold', anchor = "e")
+activation_n_aggregation_o = tk.Label(tab1, text='Node act & aggr opt:', font='Helvetica 11 bold', anchor = "e")
 activation_n_aggregation_o.grid(row=0, column =3, pady = 5, sticky = tk.W)
 
 #activation_default
@@ -531,7 +538,7 @@ scrollbar_aggregation_option = ttk.Scrollbar(
 listbox_aggregation_options['yscrollcommand'] = scrollbar_aggregation_option.set
 
 # Node Bian Options
-node_bias_o = tk.Label(tab1, text='Node Bias options', font='Helvetica 12 bold')
+node_bias_o = tk.Label(tab1, text='Node Bias options', font='Helvetica 11 bold')
 node_bias_o.grid(row=7, column =3, pady = 5, sticky = tk.W)
 
 #bias_init_mean
@@ -608,7 +615,7 @@ bias_replace_rate.grid(row=15,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_replace_rate, text ='bias_replace_rate\nThe probability that mutation will replace the bias of a node with a newly chosen random value (as if it were a new node).')
 
 # Genome Compatibility Options
-genome_compatibility_o = tk.Label(tab1, text='Genome Comp. Options', font='Helvetica 12 bold')
+genome_compatibility_o = tk.Label(tab1, text='Genome Comp. Options', font='Helvetica 11 bold')
 genome_compatibility_o.grid(row=16, column =3, pady = 5, sticky = tk.W)
 
 #compatibility_threshold
@@ -639,7 +646,7 @@ compatibility_weight_coefficient.grid(row=19,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_weight_coefficient, text ='compatibility_weight_coefficient\nThe coefficient for each weight, bias, or response multiplier difference’s contribution to the\ngenomic distance (for homologous nodes or connections). This is also used as the value to\nadd for differences in activation functions, aggregation functions, or enabled/disabled status.')
 
 # Connection options
-connection_options_l = tk.Label(tab1, text='Connection options', font='Helvetica 12 bold')
+connection_options_l = tk.Label(tab1, text='Connection options', font='Helvetica 11 bold')
 connection_options_l.grid(row=0, column =5, pady = 5, sticky = tk.W)
 
 #conn_add_prob
@@ -716,7 +723,7 @@ node_delete_prob.grid(row=8,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(node_delete_prob, text ='node_delete_prob\nThe probability that mutation will delete an existing node (and all connections to it). Valid values are in [0.0, 1.0].')
 
 # Response
-response_l = tk.Label(tab1, text='Response options', font='Helvetica 12 bold')
+response_l = tk.Label(tab1, text='Response options', font='Helvetica 11 bold')
 response_l.grid(row=9, column =5, pady = 5, sticky = tk.W)
 
 #response_init_mean
@@ -814,7 +821,7 @@ structural_mutation_surer.grid(row=19,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(structural_mutation_surer_L, text ='f this evaluates to True, then an attempt to add a node to a genome lacking connections will result in adding a connection instead; furthermore, if an attempt to add a connection tries to add a connection that already exists, that connection will be enabled. If this is set to default, then it acts as if it had the same value as single_structural_mutation (above). This defaults to “default”.')
 
 # Weight Values
-weight_l = tk.Label(tab1, text='Weight Values', font='Helvetica 12 bold')
+weight_l = tk.Label(tab1, text='Weight Values', font='Helvetica 11 bold')
 weight_l.grid(row=20, column =5, pady = 5, sticky = tk.W)
 
 #weight_init_mean
