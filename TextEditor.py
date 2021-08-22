@@ -166,7 +166,7 @@ def switch():
     global is_on
 
      # DarkMode is on or off
-    if is_on == True :
+    if is_on == True : #Light Mode
         on_button.config(image=off)
         is_on = False
         #on_button.config(image=on)
@@ -178,7 +178,7 @@ def switch():
             exec(button + ".configure(bg = 'purple4', fg= 'gray99')")
         txt_edit.config(bg="light grey", fg="gray1")
         fr_buttons.configure(bg="red4")
-        on_button.configure(bg="red4")
+        on_button.configure(bg="red4", activebackground = 'red4')
         root.config(bg='red4')
         # Tab Style
         style.theme_use('default')
@@ -196,7 +196,7 @@ def switch():
             listbox_aggregation_options.itemconfig(options, {'bg': 'grey85'})
         for activation_option in range(len(activation_options)):
             listbox.itemconfig(activation_option, {'bg': "grey85"})
-    else:
+    else: #Dark Mode
         on_button.config(image=on)
         is_on = True
         #Labels
@@ -206,7 +206,7 @@ def switch():
             exec(button + ".configure(bg = 'dark slate gray', fg = 'white smoke')")
         txt_edit.config(bg = "gray12", fg = "gray84")
         fr_buttons.configure(bg="gray18")
-        on_button.configure(bg="gray18")
+        on_button.configure(bg="gray18", activebackground='gray18')
         root.config(bg='gray24')
         #Tab Style
         style.theme_use('default')
@@ -940,7 +940,7 @@ for button in buttons_list:
     exec(button + ".configure(bg = 'purple4', fg= 'gray99')")
 txt_edit.config(bg="light grey", fg="gray1")
 fr_buttons.configure(bg="red4")
-on_button.configure(bg="red4")
+on_button.configure(bg="red4", activebackground='red4')
 root.config(bg='red4')
 # Tab Style
 style.theme_use('default')
