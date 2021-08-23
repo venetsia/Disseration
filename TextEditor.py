@@ -51,6 +51,34 @@ form_sublabels_label_list = ["network_Parameters_l", "activation_n_aggregation_o
                              "node_bias_o", "genome_compatibility_o",
                              "connection_options_l", "response_l",
                              "weight_l"]
+neat_selection = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction"]
+default_stagnation = ["species_fitness_func", "max_stagnation", "species_elitism"]
+default_reproduction = ["elitism", "survival_threshold", "min_species_size"]
+genome_section = ["num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
+                   "activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
+                   "aggregation_options_selected", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
+                   "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate", "compatibility_threshold", "compatibility_disjoint_coefficient",
+                   "compatibility_weight_coefficient", "conn_add_prob", "conn_delete_prob", "enabled_default", "enabled_mutate_rate",
+                   "enabled_rate_to_false_add", "enabled_rate_to_true_add", "node_add_prob", "node_delete_prob", "response_init_mean",
+                   "response_init_stdev", "response_init_type", "response_max_value", "response_min_value", "response_mutate_power",
+                   "response_mutate_power", "response_replace_rate", "single_structural_mutation", "structural_mutation_surer", "weight_init_mean",
+                   "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
+                   "weight_replace_rate"]
+network_parameters = ["num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward"]
+activation_aggregation_section = ["activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
+                   "aggregation_options_selected"]
+node_bias_section = ["bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
+                   "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate"]
+genome_comp_option = ["compatibility_threshold", "compatibility_disjoint_coefficient",
+                   "compatibility_weight_coefficient"]
+connection_options = [ "conn_add_prob", "conn_delete_prob", "enabled_default", "enabled_mutate_rate",
+                   "enabled_rate_to_false_add", "enabled_rate_to_true_add", "node_add_prob", "node_delete_prob"]
+response_options = ["response_init_mean",
+                   "response_init_stdev", "response_init_type", "response_max_value", "response_min_value", "response_mutate_power",
+                   "response_mutate_power", "response_replace_rate", "single_structural_mutation", "structural_mutation_surer"]
+weight_values = ["weight_init_mean",
+                   "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
+                   "weight_replace_rate"]
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
@@ -131,7 +159,7 @@ def default_config():
                             "[DefaultStagnation]\nspecies_fitness_func = \n"
                             "max_stagnation = \nspecies_elitism = \n\n"
                             "[DefaultReproduction]\n"
-                            "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
+                            "elitism = \nsurvival_threshold = \nmin_species_size = \n\n"
                             "[DefaultGenome]\n"
                             "activation_default = \n"
                             "activation_mutate_rate = \nactivation_options = \n\naggregation_default = \n"
@@ -148,21 +176,29 @@ def default_config():
                             "response_mutate_rate = \nresponse_replace_rate = \n\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
                             "weight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
                             "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
-                            "weight_replace_rate = ")
+                            "weight_replace_rate = \n")
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
     print(thetext)
-
+    non_added_values = []
     for form_input in form_values_list:
         num_line = 0
-        for line in thetext.split("\n"):
-            num_line += 1
-            if form_input in line:
-                print(line + " is on " + str(num_line))
-                txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                    #txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
-                txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
+        if form_input != "":
+            for line in thetext.split("\n"):
+                num_line += 1
+                if form_input in line:
+                    if line.endswith('= '):
+                        txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                            #txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
+                        txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
+                    else:
+                        txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                        txt_edit.insert(float(num_line), form_input + " = " + eval(str(form_input) + ".get()") + "\n")
+                else:
+                    non_added_values.append(form_input)
+
+
 
 # Define our switch function
 def switch():
