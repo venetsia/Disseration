@@ -180,34 +180,45 @@ def default_config():
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
-    print(thetext)
     non_added_values = []
     added_values = []
-    for form_input in form_values_list:
-        num_line = 0
-        if len(eval(str(form_input) + ".get()")) != 0:
-            for line in thetext.split("\n"):
-                num_line += 1
-                if form_input in line:
-                    if form_input not in added_values:
-                        if line.endswith('= '):
-                            txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                                #txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
-                            txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
+    try:
+        for form_input in form_values_list:
+            num_line = 0
+            #print(form_input)
+            if form_input is not "activation_options_selected":
+                #print(len(eval(str(form_input) + ".get()")) if len(eval(str(form_input) + ".get()")) != 0 else 0)
+                if len(eval(str(form_input) + ".get()")) != 0:
+                    for line in thetext.split("\n"):
+                        num_line += 1
+                        if form_input in line:
+                            if form_input not in added_values:
+                                if line.endswith('= '):
+                                    txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                                        #txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
+                                    txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
+                                else:
+                                    txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                                    txt_edit.insert(float(num_line), form_input + " = " + eval(str(form_input) + ".get()") + "\n")
+                            added_values.append(form_input)
+                            if form_input in non_added_values:
+                                non_added_values.remove(form_input)
+                            break
                         else:
-                            txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                            txt_edit.insert(float(num_line), form_input + " = " + eval(str(form_input) + ".get()") + "\n")
-                    added_values.append(form_input)
-                    break
-    #list(set(non_added_values) - set(added_values))
-   # if len(non_added_values):
-     #   for non_added_value in non_added_values:
-      #      if non_added_value in neat_selection:
-      #          num_line_0 = 0
-       #         for line in thetext.split("\n"):
-       #             num_line_0 += 1
-        #            if line.endswith("[NEAT]"):
-        #                txt_edit.insert(float(num_line_0) + 1.0, non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
+                            if form_input not in non_added_values:
+                                non_added_values.append(form_input)
+    except AttributeError:
+        pass
+    list(set(non_added_values) - set(added_values))
+    print(len(non_added_values))
+    if len(non_added_values):
+        for non_added_value in non_added_values:
+            if non_added_value in neat_selection:
+                num_line_0 = 0
+                for line in thetext.split("\n"):
+                    num_line_0 += 1
+                    if line.endswith("[NEAT]"):
+                        txt_edit.insert(float(num_line_0) + 1.0, non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
 
 # Define our switch function
 def switch():
