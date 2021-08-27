@@ -6,6 +6,36 @@ from tkinter.messagebox import showinfo
 import CreateHelpMessage
 from ttkthemes import ThemedStyle
 
+text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
+                            "pop_size = \nreset_on_extinction = \n\n"
+                            "[DefaultStagnation]\nspecies_fitness_func = \n"
+                            "max_stagnation = \nspecies_elitism = \n\n"
+                            "[DefaultReproduction]\n"
+                            "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
+                            "[DefaultGenome]\n"
+                            "# activation_options\n"
+                            "activation_default = \n"
+                            "activation_mutate_rate = \nactivation_options = \n"
+                            "\n# aggregation_options\naggregation_default = \n"
+                            "aggregation_mutate_rate = \naggregation_options = \n\n"
+                            "# bias_options\nbias_init_mean = \n"
+                            "bias_init_stdev = \nbias_init_type = \nbias_max_value = \n"
+                            "bias_min_value = \nbias_mutate_rate = \nbias_replace_rate = \n\n"
+                            "# compatibility_options\n"
+                            "compatibility_threshold = \ncompatibility_disjoint_coefficient = \n"
+                            "compatibility_weight_coefficient = \n\n"
+                            "# connection_options\nconn_add_prob = \n"
+                            "conn_delete_prob = \nenabled_default = \nenabled_mutate_rate = \n"
+                            "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \nnode_add_prob = \n"
+                            "node_delete_prob =\n\n"
+                            "# network_parameters\nfeed_forward = \n"
+                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = "
+                            "\n\n# response_options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
+                            "response_max_value = \nresponse_min_value = \nresponse_mutate_power = \n"
+                            "response_mutate_rate = \nresponse_replace_rate = \n\n# structure_options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
+                            "# weight_options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
+                            "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
+                            "weight_replace_rate = \n")
 labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "no_fitness_termination_l", "pop_size_l",
                "reset_on_extinction_L", "default_stagnation_l", "species_fitness_func_l", "max_stagnation_l",
                "species_elitism_l",
@@ -34,10 +64,9 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
 buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction",
-                   "species_fitness_func", "max_stagnation", "species_elitism", "elitism", "survival_threshold", "min_species_size"
+                   "species_fitness_func", "max_stagnation", "species_elitism", "survival_threshold", "min_species_size"
                     ,"num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
-                   "activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
-                   "aggregation_options_selected", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
+                   "activation_default", "activation_mutate_rate", "aggregation_mutate_rate", "aggregation_default", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
                    "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate", "compatibility_threshold", "compatibility_disjoint_coefficient",
                    "compatibility_weight_coefficient", "conn_add_prob", "conn_delete_prob", "enabled_default", "enabled_mutate_rate",
                    "enabled_rate_to_false_add", "enabled_rate_to_true_add", "node_add_prob", "node_delete_prob", "response_init_mean",
@@ -53,7 +82,7 @@ form_sublabels_label_list = ["network_Parameters_l", "activation_n_aggregation_o
                              "weight_l"]
 neat_selection = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction"]
 default_stagnation = ["species_fitness_func", "max_stagnation", "species_elitism"]
-default_reproduction = ["elitism", "survival_threshold", "min_species_size"]
+default_reproduction = ["elitism_v", "survival_threshold", "min_species_size"]
 genome_section = ["num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
                    "activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
                    "aggregation_options_selected", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
@@ -65,7 +94,8 @@ genome_section = ["num_inputs", "num_outputs", "num_hidden", "initial_connection
                    "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
                    "weight_replace_rate"]
 network_parameters = ["num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward"]
-activation_aggregation_section = ["activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
+activation_section = ["activation_default", "activation_mutate_rate", "activation_options_selected"]
+aggregation_options = ["aggregation_mutate_rate", "aggregation_default",
                    "aggregation_options_selected"]
 node_bias_section = ["bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
                    "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate"]
@@ -130,68 +160,15 @@ def items_selected(event):
         return selected_langs_aggregation
 def reset_Editor():
     txt_edit.delete("1.0", "end")
-    txt_edit.insert(INSERT, "[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
-                            "pop_size = \nreset_on_extinction = \n\n"
-                            "[DefaultStagnation]\nspecies_fitness_func = \n"
-                            "max_stagnation = \nspecies_elitism = \n\n"
-                            "[DefaultReproduction]\n"
-                            "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
-                            "[DefaultGenome]\n"
-                            "# activation_options\n"
-                            "activation_default = \n"
-                            "activation_mutate_rate = \nactivation_options = \n"
-                            "\n# aggregation_options\naggregation_default = \n"
-                            "aggregation_mutate_rate = \naggregation_options = \n\n"
-                            "# bias_options\nbias_init_mean = \n"
-                            "bias_init_stdev = \nbias_init_type = \nbias_max_value = \n"
-                            "bias_min_value = \nbias_mutate_rate = \nbias_replace_rate = \n\n"
-                            "# compatibility_options\n"
-                            "compatibility_threshold = \ncompatibility_disjoint_coefficient = \n"
-                            "compatibility_weight_coefficient = \n\n"
-                            "# connectio_options\nconn_add_prob = \n"
-                            "conn_delete_prob = \nenabled_default = \nenabled_mutate_rate = \n"
-                            "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \nnode_add_prob = \n"
-                            "node_delete_prob =\n\n"
-                            "# network_parameters\nfeed_forward = \n"
-                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = "
-                            "\n\n# response_options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
-                            "response_max_value = \nresponse_min_value = \nresponse_mutate_power = \n"
-                            "response_mutate_rate = \nresponse_replace_rate = \n\n# structure_options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
-                            "# weight_options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
-                            "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
-                            "weight_replace_rate")
+    txt_edit.insert(INSERT, text_editor)
 
 def default_config():
-    txt_edit.insert(INSERT, "[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
-                            "pop_size = \nreset_on_extinction = \n\n"
-                            "[DefaultStagnation]\nspecies_fitness_func = \n"
-                            "max_stagnation = \nspecies_elitism = \n\n"
-                            "[DefaultReproduction]\n"
-                            "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
-                            "[DefaultGenome]\n"
-                            "# activation_options\n"
-                            "activation_default = \n"
-                            "activation_mutate_rate = \nactivation_options = \n"
-                            "\n# aggregation_options\naggregation_default = \n"
-                            "aggregation_mutate_rate = \naggregation_options = \n\n"
-                            "# bias_options\nbias_init_mean = \n"
-                            "bias_init_stdev = \nbias_init_type = \nbias_max_value = \n"
-                            "bias_min_value = \nbias_mutate_rate = \nbias_replace_rate = \n\n"
-                            "# compatibility_options\n"
-                            "compatibility_threshold = \ncompatibility_disjoint_coefficient = \n"
-                            "compatibility_weight_coefficient = \n\n"
-                            "# connectio_options\nconn_add_prob = \n"
-                            "conn_delete_prob = \nenabled_default = \nenabled_mutate_rate = \n"
-                            "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \nnode_add_prob = \n"
-                            "node_delete_prob =\n\n"
-                            "# network_parameters\nfeed_forward = \n"
-                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = "
-                            "\n\n# response_options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
-                            "response_max_value = \nresponse_min_value = \nresponse_mutate_power = \n"
-                            "response_mutate_rate = \nresponse_replace_rate = \n\n# structure_options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
-                            "# weight_options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
-                            "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
-                            "weight_replace_rate")
+    txt_edit.insert(INSERT, text_editor)
+
+def insert(line, value_to_be_added):
+    txt_edit.insert(float(line) + 1.0,
+                    value_to_be_added + " = " + eval(str(value_to_be_added) + ".get()") + "\n")
+
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
@@ -201,30 +178,28 @@ def update_editor():
         for form_input in form_values_list:
             num_line = 0
             #print(form_input)
-            if form_input is not "activation_options_selected":
-                #print(len(eval(str(form_input) + ".get()")) if len(eval(str(form_input) + ".get()")) != 0 else 0)
-                if len(eval(str(form_input) + ".get()")) != 0:
-                    for line in thetext.split("\n"):
-                        num_line += 1
-                        if form_input in line:
-                            if form_input not in added_values:
-                                if line.endswith('= '):
-                                    txt_edit.delete(float(num_line), float(num_line) + 1.0)
+            #print(len(eval(str(form_input) + ".get()")) if len(eval(str(form_input) + ".get()")) != 0 else 0)
+            if len(eval(str(form_input) + ".get()")) != 0:
+                for line in thetext.split("\n"):
+                    num_line += 1
+                    if form_input in line:
+                        if form_input not in added_values:
+                            if line.endswith('= '):
+                                txt_edit.delete(float(num_line), float(num_line) + 1.0)
                                         #txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
-                                    txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
-                                else:
-                                    txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                                    txt_edit.insert(float(num_line), form_input + " = " + eval(str(form_input) + ".get()") + "\n")
-                            added_values.append(form_input)
-                            if form_input in non_added_values:
-                                non_added_values.remove(form_input)
-                            break
-                        else:
-                            if form_input not in non_added_values:
-                                non_added_values.append(form_input)
+                                txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
+                            else:
+                                txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                                txt_edit.insert(float(num_line), form_input + " = " + eval(str(form_input) + ".get()") + "\n")
+                        added_values.append(form_input)
+                        if form_input in non_added_values:
+                            non_added_values.remove(form_input)
+                        break
+                    else:
+                        if form_input not in non_added_values:
+                            non_added_values.append(form_input)
     except AttributeError:
         pass
-    list(set(non_added_values) - set(added_values))
     print(len(non_added_values))
     non_added_values.reverse()
     while len(non_added_values) != 0:
@@ -234,34 +209,50 @@ def update_editor():
                 for line in thetext.split("\n"):
                     num_line_0 += 1
                     if line.endswith("[NEAT]"):
-                        txt_edit.insert(float(num_line_0) + 1.0, non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
-                    print("Neat " + non_added_value)
+                        insert(num_line_0,non_added_value)
             elif non_added_value in default_stagnation:
                 num_line_0 = 0
                 for line in thetext.split("\n"):
                     num_line_0 += 1
                     if line.endswith("[DefaultStagnation]"):
-                        txt_edit.insert(float(num_line_0) + 1.0,
-                                        non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
-                        print("Default Stagnation: " + non_added_value)
+                        insert(num_line_0,non_added_value)
             elif non_added_value in default_reproduction:
                 num_line_0 = 0
                 for line in thetext.split("\n"):
                     num_line_0 += 1
                     if line.endswith("[DefaultReproduction]"):
-                        txt_edit.insert(float(num_line_0) + 1.0,
-                                        non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
-                        print("Default Reproduction " + non_added_value)
+                        if form_input == "elitism_v":
+                            txt_edit.delete(float(num_line_0), float(num_line_0) + 1.0)
+                            # txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
+                            txt_edit.insert(float(num_line_0), "elitism = " + eval(str(non_added_value) + ".get()") + "\n")
+                        else:
+                            insert(num_line_0,non_added_value)
             elif non_added_value in genome_section:
                 num_line_0 = 0
                 for line in thetext.split("\n"):
                     num_line_0 += 1
-                    if line.endswith("[DefaultGenome]"):
-                        txt_edit.insert(float(num_line_0) + 1.0,
-                                        non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
-                        print("Default Genome: " + non_added_value)
+                    #if line.endswith("[DefaultGenome]"):
+                    if line.endswith("# activation_options") and non_added_value in activation_section:
+                        insert(num_line_0, non_added_value)
+                    elif line.endswith("# aggregation_options") and non_added_value in aggregation_options:
+                         insert(num_line_0, non_added_value)
+                    elif line.endswith("# bias_options") and non_added_value in node_bias_section:
+                        insert(num_line_0,non_added_value)
+                    elif line.endswith("# compatibility_options") and non_added_value in genome_comp_option:
+                        insert(num_line_0,non_added_value)
+                    elif line.endswith("# connection_options") and non_added_value in connection_options:
+                        insert(num_line_0,non_added_value)
+                    elif line.endswith("# network_parameters") and non_added_value in network_parameters:
+                          insert(num_line_0, non_added_value)
+                    elif line.endswith("# response_options") and non_added_value in response_options:
+                          insert(num_line_0,non_added_value)
+                    elif line.endswith("# structure_options") and non_added_value in structure_options:
+                        insert(num_line_0, non_added_value)
+                    elif line.endswith("# weight_options") and non_added_value in weight_values:
+                         insert(num_line_0,non_added_value)
+                       # break
             non_added_values.remove(non_added_value)
-            print("Not in list: " + non_added_value)
+            print(non_added_value)
             break
 # Define our switch function
 def switch():
@@ -452,9 +443,9 @@ elitism_l = tk.Label(tab1, text = "Elitism",  justify=LEFT, anchor="w")
 elitism_l.grid(row=11,column=0, ipadx=63, pady= 2)
 CreateHelpMessage.CreateToolTip(elitism_l, text ='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
 
-elitism = ttk.Spinbox(tab1, from_= 0, to = 100000000)
-elitism.grid(row=11,column=1)
-CreateHelpMessage.CreateToolTip(elitism, text ='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
+elitism_v= ttk.Spinbox(tab1, from_= 0, to = 100000000)
+elitism_v.grid(row=11,column=1)
+CreateHelpMessage.CreateToolTip(elitism_v, text ='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
 
 # survival_threshold
 survival_threshold_l = tk.Label(tab1, text = "Survival Threshold",  justify=LEFT, anchor="w")
