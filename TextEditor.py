@@ -211,6 +211,7 @@ def update_editor():
         pass
     list(set(non_added_values) - set(added_values))
     print(len(non_added_values))
+    non_added_values.reverse()
     if len(non_added_values):
         for non_added_value in non_added_values:
             if non_added_value in neat_selection:
