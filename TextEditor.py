@@ -212,7 +212,7 @@ def update_editor():
     list(set(non_added_values) - set(added_values))
     print(len(non_added_values))
     non_added_values.reverse()
-    if len(non_added_values):
+    while len(non_added_values) != 0:
         for non_added_value in non_added_values:
             if non_added_value in neat_selection:
                 num_line_0 = 0
@@ -220,7 +220,34 @@ def update_editor():
                     num_line_0 += 1
                     if line.endswith("[NEAT]"):
                         txt_edit.insert(float(num_line_0) + 1.0, non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
-
+                    print("Neat " + non_added_value)
+            elif non_added_value in default_stagnation:
+                num_line_0 = 0
+                for line in thetext.split("\n"):
+                    num_line_0 += 1
+                    if line.endswith("[DefaultStagnation]"):
+                        txt_edit.insert(float(num_line_0) + 1.0,
+                                        non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
+                        print("Default Stagnation: " + non_added_value)
+            elif non_added_value in default_reproduction:
+                num_line_0 = 0
+                for line in thetext.split("\n"):
+                    num_line_0 += 1
+                    if line.endswith("[DefaultReproduction]"):
+                        txt_edit.insert(float(num_line_0) + 1.0,
+                                        non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
+                        print("Default Reproduction " + non_added_value)
+            elif non_added_value in genome_section:
+                num_line_0 = 0
+                for line in thetext.split("\n"):
+                    num_line_0 += 1
+                    if line.endswith("[DefaultGenome]"):
+                        txt_edit.insert(float(num_line_0) + 1.0,
+                                        non_added_value + " = " + eval(str(non_added_value) + ".get()") + "\n")
+                        print("Default Genome: " + non_added_value)
+            non_added_values.remove(non_added_value)
+            print("Not in list: " + non_added_value)
+            break
 # Define our switch function
 def switch():
 
