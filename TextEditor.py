@@ -16,7 +16,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "activation_n_aggregation_o", "activation_default_L", "activation_mutate_rate_L", "activation_options_L",
                "aggregation_mutate_rate_L", "aggregation_default_L", "aggregation_options_L", "node_bias_o",
                "bias_init_mean_l", "bias_init_stdev_l"
-    , "bias_init_type_l", "bias_max_value_l", "bias_min_value_l", "bias_mutate_power_l", "bias_mutate_rate_l",
+               , "bias_init_type_l", "bias_max_value_l", "bias_min_value_l", "bias_mutate_power_l", "bias_mutate_rate_l",
                "bias_replace_rate_l",
                "genome_compatibility_o", "compatibility_threshold_l", "compatibility_disjoint_coefficient_l",
                "compatibility_weight_coefficient_l", "connection_options_l", "conn_add_prob_l", "conn_delete_prob_l",
@@ -75,10 +75,11 @@ connection_options = [ "conn_add_prob", "conn_delete_prob", "enabled_default", "
                    "enabled_rate_to_false_add", "enabled_rate_to_true_add", "node_add_prob", "node_delete_prob"]
 response_options = ["response_init_mean",
                    "response_init_stdev", "response_init_type", "response_max_value", "response_min_value", "response_mutate_power",
-                   "response_mutate_power", "response_replace_rate", "single_structural_mutation", "structural_mutation_surer"]
+                   "response_mutate_power", "response_replace_rate"]
 weight_values = ["weight_init_mean",
                    "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
                    "weight_replace_rate"]
+structure_options =["single_structural_mutation", "structural_mutation_surer"]
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
@@ -136,20 +137,27 @@ def reset_Editor():
                             "[DefaultReproduction]\n"
                             "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
                             "[DefaultGenome]\n"
+                            "# activation_options\n"
                             "activation_default = \n"
-                            "activation_mutate_rate = \nactivation_options = \n\naggregation_default = \n"
-                            "aggregation_mutate_rate = \naggregation_options = \n\nbias_init_mean = \n"
+                            "activation_mutate_rate = \nactivation_options = \n"
+                            "\n# aggregation_options\naggregation_default = \n"
+                            "aggregation_mutate_rate = \naggregation_options = \n\n"
+                            "# bias_options\nbias_init_mean = \n"
                             "bias_init_stdev = \nbias_init_type = \nbias_max_value = \n"
                             "bias_min_value = \nbias_mutate_rate = \nbias_replace_rate = \n\n"
+                            "# compatibility_options\n"
                             "compatibility_threshold = \ncompatibility_disjoint_coefficient = \n"
-                            "compatibility_weight_coefficient = \n\nconn_add_prob = \n"
-                            "conn_delete_prob = \n\nenabled_default = \nenabled_mutate_rate = \n"
-                            "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \n\nfeed_forward = \n"
-                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = \n\nnode_add_prob = \n"
-                            "node_delete_prob = \n\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
+                            "compatibility_weight_coefficient = \n\n"
+                            "# connectio_options\nconn_add_prob = \n"
+                            "conn_delete_prob = \nenabled_default = \nenabled_mutate_rate = \n"
+                            "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \nnode_add_prob = \n"
+                            "node_delete_prob =\n\n"
+                            "# network_parameters\nfeed_forward = \n"
+                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = "
+                            "\n\n# response_options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
                             "response_max_value = \nresponse_min_value = \nresponse_mutate_power = \n"
-                            "response_mutate_rate = \nresponse_replace_rate = \n\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
-                            "weight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
+                            "response_mutate_rate = \nresponse_replace_rate = \n\n# structure_options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
+                            "# weight_options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
                             "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
                             "weight_replace_rate")
 
@@ -159,24 +167,31 @@ def default_config():
                             "[DefaultStagnation]\nspecies_fitness_func = \n"
                             "max_stagnation = \nspecies_elitism = \n\n"
                             "[DefaultReproduction]\n"
-                            "elitism = \nsurvival_threshold = \nmin_species_size = \n\n"
+                            "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
                             "[DefaultGenome]\n"
+                            "# activation_options\n"
                             "activation_default = \n"
-                            "activation_mutate_rate = \nactivation_options = \n\naggregation_default = \n"
-                            "aggregation_mutate_rate = \naggregation_options = \n\nbias_init_mean = \n"
+                            "activation_mutate_rate = \nactivation_options = \n"
+                            "\n# aggregation_options\naggregation_default = \n"
+                            "aggregation_mutate_rate = \naggregation_options = \n\n"
+                            "# bias_options\nbias_init_mean = \n"
                             "bias_init_stdev = \nbias_init_type = \nbias_max_value = \n"
                             "bias_min_value = \nbias_mutate_rate = \nbias_replace_rate = \n\n"
+                            "# compatibility_options\n"
                             "compatibility_threshold = \ncompatibility_disjoint_coefficient = \n"
-                            "compatibility_weight_coefficient = \n\nconn_add_prob = \n"
-                            "conn_delete_prob = \n\nenabled_default = \nenabled_mutate_rate = \n"
-                            "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \n\nfeed_forward = \n"
-                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = \n\nnode_add_prob = \n"
-                            "node_delete_prob = \n\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
+                            "compatibility_weight_coefficient = \n\n"
+                            "# connectio_options\nconn_add_prob = \n"
+                            "conn_delete_prob = \nenabled_default = \nenabled_mutate_rate = \n"
+                            "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \nnode_add_prob = \n"
+                            "node_delete_prob =\n\n"
+                            "# network_parameters\nfeed_forward = \n"
+                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = "
+                            "\n\n# response_options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
                             "response_max_value = \nresponse_min_value = \nresponse_mutate_power = \n"
-                            "response_mutate_rate = \nresponse_replace_rate = \n\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
-                            "weight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
+                            "response_mutate_rate = \nresponse_replace_rate = \n\n# structure_options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
+                            "# weight_options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
                             "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
-                            "weight_replace_rate = \n")
+                            "weight_replace_rate")
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
