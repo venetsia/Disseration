@@ -6,6 +6,8 @@ from tkinter.messagebox import showinfo
 import CreateHelpMessage
 from ttkthemes import ThemedStyle
 
+from ValidateInput import ValidatedSpinbox
+
 text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
                             "pop_size = \nreset_on_extinction = \n\n"
                             "[DefaultStagnation]\nspecies_fitness_func = \n"
@@ -382,10 +384,12 @@ fitness_criterion_l = tk.Label(tab1, text = "Fitness Criterion", justify=LEFT, a
 fitness_criterion_l.grid(row=1,column=0,ipadx=37, pady=2)
 CreateHelpMessage.CreateToolTip(fitness_criterion_l, text = 'The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
 
+
 fitness_criterion = ttk.Combobox(tab1)
 fitness_criterion['values'] = ('min','max', 'mean')
 fitness_criterion.grid(row=1,column=1)
 CreateHelpMessage.CreateToolTip(fitness_criterion, text = 'The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
+
 
 # Fitness Threshhold
 fitness_threshold_l = tk.Label(tab1, text = "Fitness Threshold", justify=LEFT, anchor="w")
