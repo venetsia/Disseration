@@ -64,7 +64,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
 buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction",
-                   "species_fitness_func", "max_stagnation", "species_elitism", "survival_threshold", "min_species_size"
+                   "species_fitness_func", "max_stagnation", "species_elitism", "survival_threshold", "elitism_v", "min_species_size"
                     ,"num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
                    "activation_default", "activation_mutate_rate", "aggregation_mutate_rate", "aggregation_default", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
                    "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate", "compatibility_threshold", "compatibility_disjoint_coefficient",
@@ -110,6 +110,9 @@ weight_values = ["weight_init_mean",
                    "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
                    "weight_replace_rate"]
 structure_options =["single_structural_mutation", "structural_mutation_surer"]
+
+
+
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
@@ -179,7 +182,20 @@ def update_editor():
             num_line = 0
             #print(form_input)
             #print(len(eval(str(form_input) + ".get()")) if len(eval(str(form_input) + ".get()")) != 0 else 0)
-            if len(eval(str(form_input) + ".get()")) != 0:
+            if form_input == "elitism_v" and eval(str(form_input) + ".get()") != 0: # if statement created for elitism
+                for line in thetext.split("\n"):
+                    num_line += 1
+                    if line.find("elitism = ") == 0:
+                        txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                        txt_edit.insert(float(num_line), "elitism = " + elitism_v.get() + "\n")
+                        added_values.append(form_input)
+                        if form_input in non_added_values:
+                            non_added_values.remove(form_input)
+                        break
+                    else:
+                        if form_input not in non_added_values:
+                            non_added_values.append(form_input)
+            if len(eval(str(form_input) + ".get()")) != 0 and form_input != "elitism_v":
                 for line in thetext.split("\n"):
                     num_line += 1
                     if form_input in line:
