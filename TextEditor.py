@@ -64,7 +64,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
 buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction",
-                   "species_fitness_func", "max_stagnation", "species_elitism", "survival_threshold", "elitism_v", "min_species_size"
+                   "species_fitness_func", "max_stagnation", "species_elitism", "survival_threshold", "elitism", "min_species_size"
                     ,"num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
                    "activation_default", "activation_mutate_rate", "aggregation_mutate_rate", "aggregation_default", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
                    "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate", "compatibility_threshold", "compatibility_disjoint_coefficient",
@@ -82,7 +82,7 @@ form_sublabels_label_list = ["network_Parameters_l", "activation_n_aggregation_o
                              "weight_l"]
 neat_selection = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction"]
 default_stagnation = ["species_fitness_func", "max_stagnation", "species_elitism"]
-default_reproduction = ["elitism_v", "survival_threshold", "min_species_size"]
+default_reproduction = ["elitism", "survival_threshold", "min_species_size"]
 genome_section = ["num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
                    "activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
                    "aggregation_options_selected", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
@@ -182,12 +182,25 @@ def update_editor():
             num_line = 0
             #print(form_input)
             #print(len(eval(str(form_input) + ".get()")) if len(eval(str(form_input) + ".get()")) != 0 else 0)
-            if form_input == "elitism_v" and eval(str(form_input) + ".get()") != 0: # if statement created for elitism
+            if form_input == "elitism" and eval(str(form_input) + ".get()") != 0: # if statement created for elitism
                 for line in thetext.split("\n"):
                     num_line += 1
                     if line.find("elitism = ") == 0:
                         txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                        txt_edit.insert(float(num_line), "elitism = " + elitism_v.get() + "\n")
+                        txt_edit.insert(float(num_line), "elitism = " + elitism.get() + "\n")
+                        added_values.append(form_input)
+                        if form_input in non_added_values:
+                            non_added_values.remove(form_input)
+                        break
+                    else:
+                        if form_input not in non_added_values:
+                           non_added_values.append(form_input)
+            if form_input == "species_elitism" and eval(str(form_input) + ".get()") != 0:  # if statement created for elitism
+                for line in thetext.split("\n"):
+                    num_line += 1
+                    if line.find("species_elitism = ") == 0:
+                        txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                        txt_edit.insert(float(num_line), "species_elitism = " + elitism.get() + "\n")
                         added_values.append(form_input)
                         if form_input in non_added_values:
                             non_added_values.remove(form_input)
@@ -195,18 +208,14 @@ def update_editor():
                     else:
                         if form_input not in non_added_values:
                             non_added_values.append(form_input)
-            if len(eval(str(form_input) + ".get()")) != 0 and form_input != "elitism_v":
+            if len(eval(str(form_input) + ".get()")) != 0 and form_input != "elitism":
                 for line in thetext.split("\n"):
                     num_line += 1
                     if form_input in line:
                         if form_input not in added_values:
-                            if line.endswith('= '):
+                            if line.find(form_input + " = ") == 0:
                                 txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                                        #txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
-                                txt_edit.insert(float(num_line), line + eval(str(form_input) + ".get()") + "\n")
-                            else:
-                                txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                                txt_edit.insert(float(num_line), form_input + " = " + eval(str(form_input) + ".get()") + "\n")
+                                txt_edit.insert(float(num_line),form_input + " = " + eval(str(form_input) + ".get()") + "\n")
                         added_values.append(form_input)
                         if form_input in non_added_values:
                             non_added_values.remove(form_input)
@@ -459,9 +468,9 @@ elitism_l = tk.Label(tab1, text = "Elitism",  justify=LEFT, anchor="w")
 elitism_l.grid(row=11,column=0, ipadx=63, pady= 2)
 CreateHelpMessage.CreateToolTip(elitism_l, text ='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
 
-elitism_v= ttk.Spinbox(tab1, from_= 0, to = 100000000)
-elitism_v.grid(row=11,column=1)
-CreateHelpMessage.CreateToolTip(elitism_v, text ='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
+elitism = ttk.Spinbox(tab1, from_= 0, to = 100000000)
+elitism.grid(row=11,column=1)
+CreateHelpMessage.CreateToolTip(elitism, text ='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
 
 # survival_threshold
 survival_threshold_l = tk.Label(tab1, text = "Survival Threshold",  justify=LEFT, anchor="w")
