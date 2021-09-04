@@ -224,6 +224,54 @@ class Validate(object):
             else:
                 text.set("")
                 label.config(fg="red")
+        elif text._name == "initial_connection":
+            if value == "unconnected" or value == "fs_neat_nohidden"\
+                    or value == "fs_neat_hidden" or value == "full_nodirect" \
+                    or value == "full_direct" or  value == "partial_direct" or  value == "partial_nodirect":
+                if str(bg) == "grey75":
+                    label.config(fg="black")
+                else:
+                    print(bg)
+                    label.config(fg="white")
+            else:
+                text.set("unconnected")
+        elif text._name == "initial_connection_value":
+            print(text._name)
+            value = text.get()
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            print(value + " Not in try")
+            try:
+                print("In try statement")
+                if float(value):
+                    print("In first if")
+                    value = float(value)
+                    if isinstance(value, float) and (1.0 >= value >= 0.0):
+                        print("In second if")
+                        text.set(float(value))
+                        if str(bg) == "grey75":
+                            print("In third if")
+                            label.config(fg="black")
+                        else:
+                            print(bg)
+                            label.config(fg="white")
+                    else:
+                        text.set("")
+                        label.config(fg="red")
+                elif value.find("0.0"):
+                    text.set("0.0")
+                    if str(bg) == "grey75":
+                        print("In third if")
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("")
+                    label.config(fg="red")
+            except ValueError:
+                text.set("")
+                label.config(fg="red")
         else:
             print("not digit")
             print(text)

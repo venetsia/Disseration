@@ -563,17 +563,20 @@ initial_connection['values'] = ('unconnected', 'fs_neat_nohidden', 'fs_neat_hidd
                                 'partial_nodirect','partial_direct' )
 initial_connection.grid(row=19,column=1)
 CreateHelpMessage.CreateToolTip(initial_connection, text ='initial_connection\nSpecifies the initial connectivity of newly-created genomes. (Note the effects on settings other than unconnected of the enabled_default parameter.)\nThere are seven allowed values:\nunconnected - No connections are initially present. This is the default.\nfs_neat_nohidden - One randomly-chosen input node has one connection to each output node. (This is one version of the FS-NEAT scheme; “FS” stands for “Feature Selection”.)\nfs_neat_hidden - One randomly-chosen input node has one connection to each hidden and output node. (This is another version of the FS-NEAT scheme. If there are no hidden nodes, it is the same as fs_neat_nohidden.)\nfull_nodirect - Each input node is connected to all hidden nodes, if there are any, and each hidden node is connected to all output nodes; otherwise, each input node is connected to all output nodes. Genomes with feed_forward set to False will also have recurrent (loopback, in this case) connections from each hidden or output node to itself.\nfull_direct - Each input node is connected to all hidden and output nodes, and each hidden node is connected to all output nodes. Genomes with feed_forward set to False will also have recurrent (loopback, in this case) connections from each hidden or output node to itself.\npartial_nodirect # - As for full_nodirect, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).\npartial_direct # - as for full_direct, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).')
+initial_connection.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(initial_connection,initial_connection, initial_connection_L, style), "%P"))
+
 
 # initial_conection
 initial_conection_value_l = tk.Label(tab1, text = "Initial Connection probability:", anchor = "w")
 initial_conection_value_l.grid(row=20,column=0, ipadx = 3)
 CreateHelpMessage.CreateToolTip(initial_conection_value_l, text ='initial_conection #\npartial_nodirect # - As for full_nodirect, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).\npartial_direct # - as for full_direct, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).')
 
-initial_connection_value = ttk.Spinbox(tab1, from_= 0.0, to = 1.0, increment=0.1)
+initial_connection_value = ttk.Spinbox(tab1, from_= 0.0, to = 1.0, increment=0.1, name = "initial_connection_value")
 initial_connection_value.grid(row=20,column=1)
 CreateHelpMessage.CreateToolTip(initial_connection_value, text ='initial_conection #\npartial_nodirect # - As for full_nodirect, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).\npartial_direct # - as for full_direct, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).')
 initial_connection_value.config(state= 'disabled')
 CreateHelpMessage.Validate(initial_connection,initial_connection_value)
+initial_connection_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(initial_connection_value,initial_connection_value, initial_conection_value_l, style), "%P"))
 
 #feed_forward
 feed_forward_L= tk.Label(tab1,text ="Feed Forward?", anchor = "w")
