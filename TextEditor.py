@@ -486,6 +486,7 @@ CreateHelpMessage.CreateToolTip(elitism_l, text ='The number of most-fit individ
 elitism = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = 'elitism')
 elitism.grid(row=11,column=1)
 CreateHelpMessage.CreateToolTip(elitism, text ='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
+elitism.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(elitism,elitism, elitism_l, style), "%P"))
 
 # survival_threshold
 survival_threshold_l = tk.Label(tab1, text = "Survival Threshold",  justify=LEFT, anchor="w")
@@ -495,6 +496,7 @@ CreateHelpMessage.CreateToolTip(survival_threshold_l, text ='The fraction for ea
 survival_threshold = ttk.Spinbox(tab1, from_= 0.0, to = 100000000.0, increment=0.1, name ="survival_threshold")
 survival_threshold.grid(row=12,column=1) #ipady = 2)
 CreateHelpMessage.CreateToolTip(survival_threshold, text ='The fraction for each species allowed to reproduce each generation. This defaults to 0.2.')
+survival_threshold.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(survival_threshold,survival_threshold, survival_threshold_l, style), "%P"))
 
 # min_species_size
 min_species_size_l = tk.Label(tab1, text = "Min N of genomes per species" ,justify=LEFT, anchor="w")
@@ -504,6 +506,7 @@ CreateHelpMessage.CreateToolTip(min_species_size_l, text ='The minimum number of
 min_species_size = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = "min_species_size")
 min_species_size.grid(row=13,column=1)
 CreateHelpMessage.CreateToolTip(min_species_size, text ='The minimum number of genomes per species after reproduction. This defaults to 2.')
+min_species_size.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(min_species_size,min_species_size, min_species_size_l, style), "%P"))
 
 #Default Genome
 tabControl.add(tab2, text='Default Genome')

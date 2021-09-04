@@ -123,6 +123,56 @@ class Validate(object):
                     text.set("0")
             else:
                 text.set("0")
+        elif text._name == "elitism":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            if value.isdigit():
+                if int(value) > 0:
+                    text.set(int(value))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("0")
+            else:
+                text.set("0")
+        elif text._name == "survival_threshold":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            print(value)
+            try:
+                if float(value):
+                    value = float(value)
+                    if isinstance(value, float):
+                        text.set(float(value))
+                        if str(bg) == "grey75":
+                            label.config(fg="black")
+                        else:
+                            print(bg)
+                            label.config(fg="white")
+                    else:
+                        text.set("0.2")
+            except ValueError:
+                text.set("0.2")
+            else:
+                text.set("0.2")
+        elif text._name == "min_species_size":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            if value.isdigit():
+                if int(value) > 0:
+                    text.set(int(value))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("2")
+            else:
+                text.set("2")
         else:
             print("not digit")
             print(text)
