@@ -26,6 +26,35 @@ class Validate(object):
             else:
                 text.set("")
                 label.config(fg="red")
+        elif text._name == "fitness_threshold":
+            value = text.get()
+            print(value.isdigit())
+            print(len(value) if len(value) > 0 else "no")
+            if value.find('0') == 0 and len(value) > 1:
+                value = value.replace("0", "", 1)
+                text.set(value)
+            if value.find("-") == 0:
+                temp_value = value.replace("-", "")
+                if temp_value.isdigit():
+                    if str(bg) == "grey75":
+                        print(bg)
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("")
+                    label.config(fg="red")
+            elif value.isdigit():
+                if str(bg) == "grey75":
+                    print(bg)
+                    label.config(fg="black")
+                else:
+                    print(bg)
+                    label.config(fg="white")
+            else:
+                text.set("")
+                label.config(fg="red")
         else:
             print("not digit")
             print(text)

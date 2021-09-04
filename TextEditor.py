@@ -399,7 +399,7 @@ fitness_threshold_l = tk.Label(tab1, text = "Fitness Threshold", justify=LEFT, a
 fitness_threshold_l.grid(row=2,column=0, ipadx=35, pady = 1)
 CreateHelpMessage.CreateToolTip(fitness_threshold_l, text ='When the fitness computed by fitness_criterion meets or exceeds this threshold, the evolution process will terminate, with a call to any registered reporting class’ found_solution method.')
 
-fitness_threshold = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = "fitness_threshold")
+fitness_threshold = ttk.Spinbox(tab1, from_= -100000000, to = 100000000, name = "fitness_threshold")
 fitness_threshold.grid(row=2,column=1)
 CreateHelpMessage.CreateToolTip(fitness_threshold, text ='When the fitness computed by fitness_criterion meets or exceeds this threshold, the evolution process will terminate, with a call to any registered reporting class’ found_solution method.')
 fitness_threshold.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(fitness_threshold,fitness_threshold, fitness_threshold_l, style), "%P"))
