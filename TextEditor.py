@@ -414,6 +414,7 @@ no_fitness_termination = ttk.Combobox(tab1, name = "no_fitness_termination")
 no_fitness_termination['values'] = ('True','False')
 no_fitness_termination.grid(row=3, column =1)
 CreateHelpMessage.CreateToolTip(no_fitness_termination, text ='If this evaluates to True, then the fitness_criterion and fitness_threshold are ignored for termination;\n only valid if termination by a maximum number of generations passed to population.Population.run() is enabled,\n and the found_solution method is called upon generation number termination. If it evaluates to False, then fitness is used to determine termination. This defaults to “False”.')
+no_fitness_termination.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(no_fitness_termination,no_fitness_termination, no_fitness_termination_l, style), "%P"))
 
 # Pop Size
 pop_size_l =tk.Label(tab1, text="Population Size", justify=LEFT, anchor="w")
@@ -423,6 +424,7 @@ CreateHelpMessage.CreateToolTip(pop_size_l, text = 'The number of individuals in
 pop_size = ttk.Spinbox(tab1, from_=0, to=100000000, name = "pop_size")
 pop_size.grid(row=4, column =1)
 CreateHelpMessage.CreateToolTip(pop_size, text = 'The number of individuals in each generation.')
+pop_size.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(pop_size,pop_size, pop_size_l, style), "%P"))
 
 #reset_on_extinction
 reset_on_extinction_L= tk.Label(tab1,text ="Reset on extinction?", justify=LEFT, anchor="w")
