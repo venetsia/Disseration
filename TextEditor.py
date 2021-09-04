@@ -320,6 +320,7 @@ def switch():
             listbox_aggregation_options.itemconfig(options, {'bg': 'grey85'})
         for activation_option in range(len(activation_options)):
             listbox.itemconfig(activation_option, {'bg': "grey85"})
+        print(is_on)
     else: #Dark Mode
         on_button.config(image=on)
         is_on = True
@@ -347,12 +348,14 @@ def switch():
             listbox_aggregation_options.itemconfig(options, {'bg': 'gray77'})
         for activation_option in range(len(activation_options)):
             listbox.itemconfig(activation_option, {'bg': "gray77"})
-
+        print(is_on)
+    print(is_on)
+    return is_on
 root = tk.Tk()
 
 
 style = ttk.Style()
-
+is_on = False
 
 #Easy Input
 
@@ -389,7 +392,7 @@ fitness_criterion = ttk.Combobox(tab1, name = "fitness_criterion")
 fitness_criterion['values'] = ('min','max', 'mean')
 fitness_criterion.grid(row=1,column=1)
 CreateHelpMessage.CreateToolTip(fitness_criterion, text = 'The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
-fitness_criterion.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(fitness_criterion,fitness_criterion), "%P"))
+fitness_criterion.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(fitness_criterion,fitness_criterion, fitness_criterion_l, style), "%P"))
 
 # Fitness Threshhold
 fitness_threshold_l = tk.Label(tab1, text = "Fitness Threshold", justify=LEFT, anchor="w")
@@ -399,6 +402,8 @@ CreateHelpMessage.CreateToolTip(fitness_threshold_l, text ='When the fitness com
 fitness_threshold = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = "fitness_threshold")
 fitness_threshold.grid(row=2,column=1)
 CreateHelpMessage.CreateToolTip(fitness_threshold, text ='When the fitness computed by fitness_criterion meets or exceeds this threshold, the evolution process will terminate, with a call to any registered reporting class’ found_solution method.')
+fitness_threshold.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(fitness_threshold,fitness_threshold, fitness_threshold_l, style), "%P"))
+
 
 # No fitness Termination
 no_fitness_termination_l = tk.Label(tab1,text ="No Termination?", justify=LEFT, anchor="w")
@@ -1037,7 +1042,7 @@ update_btn = tk.Button(fr_buttons, text="Update Config", command=update_editor)
 
 # Keep track of the button state on/off
 #global is_on
-is_on = False
+
 
 # Define Our Images
 on = tk.PhotoImage(file="on.png")
