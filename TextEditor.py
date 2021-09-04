@@ -531,6 +531,7 @@ CreateHelpMessage.CreateToolTip(num_inputs_l, text ='num_inputs\nThe number of i
 num_inputs = ttk.Spinbox(tab1, from_= 1, to =1000000000, increment=1, name = "num_inputs")
 num_inputs.grid(row=16,column=1)
 CreateHelpMessage.CreateToolTip(num_inputs, text ='num_inputs\nThe number of input nodes, through which the network receives inputs.')
+num_inputs.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(num_inputs,num_inputs, num_inputs_l, style), "%P"))
 
 #num_outputs
 num_outputs_l = tk.Label(tab1, text = "Number of output nodes:", anchor = "w")
@@ -540,6 +541,7 @@ CreateHelpMessage.CreateToolTip(num_outputs_l, text ='num_outputs\nThe number of
 num_outputs = ttk.Spinbox(tab1, from_= 1, to =1000000000, increment=1, name = "num_outputs")
 num_outputs.grid(row=17,column=1)
 CreateHelpMessage.CreateToolTip(num_outputs, text ='num_outputs\nThe number of output nodes, to which the network delivers outputs.')
+num_outputs.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(num_outputs,num_outputs, num_outputs_l, style), "%P"))
 
 #num_hidden
 num_hidden_l = tk.Label(tab1, text = "Number of hidden nodes:", anchor = "w")
@@ -549,6 +551,7 @@ CreateHelpMessage.CreateToolTip(num_hidden_l, text ='num_hidden\nThe number of h
 num_hidden = ttk.Spinbox(tab1, from_= 1, to =1000000000, increment=1, name = "num_hidden")
 num_hidden.grid(row=18,column=1)
 CreateHelpMessage.CreateToolTip(num_hidden_l, text ='num_hidden\nThe number of hidden nodes to add to each genome in the initial population.')
+num_hidden.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(num_hidden,num_hidden, num_hidden_l, style), "%P"))
 
 #initial_connection
 initial_connection_L = tk.Label(tab1, text = "Initial connection:", anchor = "w")

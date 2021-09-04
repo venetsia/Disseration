@@ -173,6 +173,57 @@ class Validate(object):
                     text.set("2")
             else:
                 text.set("2")
+        elif text._name == "num_inputs":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            if value.isdigit():
+                if int(value) > 0:
+                    text.set(int(value))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("")
+                    label.config(fg="red")
+            else:
+                text.set("")
+                label.config(fg="red")
+        elif text._name == "num_outputs":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            if value.isdigit():
+                if int(value) > 0:
+                    text.set(int(value))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("")
+                    label.config(fg="red")
+            else:
+                text.set("")
+                label.config(fg="red")
+        elif text._name == "num_hidden":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            if value.isdigit():
+                if int(value) > 0:
+                    text.set(int(value))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("")
+                    label.config(fg="red")
+            else:
+                text.set("")
+                label.config(fg="red")
         else:
             print("not digit")
             print(text)
