@@ -30,12 +30,24 @@ class Validate(object):
             # value = text.get()
             print(value.isdigit())
             print(len(value) if len(value) > 0 else "no")
-            if value.find('0') == 0 and len(value) > 1:
-                value = value.replace("0", "", 1)
-                text.set(value)
             if value.find("-") == 0:
                 temp_value = value.replace("-", "")
-                if temp_value.isdigit():
+                if int(temp_value):
+                    if temp_value.isdigit():
+                        temp_value = int(temp_value)
+                        text.set("-" + str(temp_value))
+                        if str(bg) == "grey75":
+                            print(bg)
+                            label.config(fg="black")
+                        else:
+                            print(bg)
+                            label.config(fg="white")
+                    else:
+                        text.set("")
+                        label.config(fg="red")
+            elif value.isdigit():
+                if int(value):
+                    text.set(int(value))
                     if str(bg) == "grey75":
                         print(bg)
                         label.config(fg="black")
@@ -45,13 +57,6 @@ class Validate(object):
                 else:
                     text.set("")
                     label.config(fg="red")
-            elif value.isdigit():
-                if str(bg) == "grey75":
-                    print(bg)
-                    label.config(fg="black")
-                else:
-                    print(bg)
-                    label.config(fg="white")
         elif text._name == "no_fitness_termination":
             if value == "True" or value == "False":
                 if str(bg) == "grey75":
