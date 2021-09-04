@@ -435,6 +435,7 @@ reset_on_extinction = ttk.Combobox(tab1, name = "reset_on_extinction")
 reset_on_extinction['values'] = ('True','False')
 reset_on_extinction.grid(row=5, column =1)
 CreateHelpMessage.CreateToolTip(reset_on_extinction, text = 'If this evaluates to True, when all species simultaneously become extinct due to stagnation,\n a new random population will be created. If False, a CompleteExtinctionException will be thrown.')
+reset_on_extinction.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(reset_on_extinction,reset_on_extinction, reset_on_extinction_L, style), "%P"))
 
 
 #Default Stagnation section
@@ -450,6 +451,7 @@ species_fitness_func = ttk.Combobox(tab1, name = "species_fitness_func")
 species_fitness_func['values'] = ('min','max', 'mean', 'median')
 species_fitness_func.grid(row=7,column=1, pady = 1)
 CreateHelpMessage.CreateToolTip(species_fitness_func, text ='The function used to compute species fitness. This defaults to ``mean``. Allowed values are: max, min, mean, and median')
+species_fitness_func.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(species_fitness_func,species_fitness_func, species_fitness_func_l, style), "%P"))
 
 # max_stagnation
 max_stagnation_l = tk.Label(tab1, text = "Max Stagination", justify=LEFT, anchor="w")
@@ -459,6 +461,7 @@ CreateHelpMessage.CreateToolTip(max_stagnation_l, text ='Species that have not s
 max_stagnation = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = "max_stagnation")
 max_stagnation.grid(row=8,column=1, pady = 1)
 CreateHelpMessage.CreateToolTip(max_stagnation, text ='Species that have not shown improvement in more than this number of generations will be considered stagnant and removed. This defaults to 15.')
+max_stagnation.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(max_stagnation,max_stagnation, max_stagnation_l, style), "%P"))
 
 # species_elitism
 species_elitism_l = tk.Label(tab1, text = "Num Protected Species",  justify=LEFT, anchor="w")
@@ -468,6 +471,7 @@ CreateHelpMessage.CreateToolTip(max_stagnation, text ='The number of species tha
 species_elitism = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = "species_elitism")
 species_elitism.grid(row=9,column=1, pady = 2)
 CreateHelpMessage.CreateToolTip(species_elitism, text ='The number of species that will be protected from stagnation;\n mainly intended to prevent total extinctions caused by all species becoming stagnant before new species arise.\n For example, a species_elitism setting of 3 will prevent the 3 species with\n the highest species fitness from being removed for stagnation regardless of the amount of time they have not shown improvement. This defaults to 0.')
+species_elitism.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(species_elitism,species_elitism, species_elitism_l, style), "%P"))
 
 # Default Reproduction
 default_reproduction_l = tk.Label(tab1, text='Default Reproduction', font='Helvetica 12 bold underline')

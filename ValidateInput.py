@@ -57,7 +57,7 @@ class Validate(object):
                 else:
                     text.set("")
                     label.config(fg="red")
-        elif text._name == "no_fitness_termination":
+        elif text._name == "no_fitness_termination" or text._name == "reset_on_extinction":
             if value == "True" or value == "False":
                 if str(bg) == "grey75":
                     label.config(fg="black")
@@ -84,6 +84,45 @@ class Validate(object):
             else:
                 text.set("")
                 label.config(fg="red")
+        elif text._name == "species_fitness_func":
+            if value == "max" or value == "min" or value == "mean" or  value == "median":
+                if str(bg) == "grey75":
+                    label.config(fg="black")
+                else:
+                    print(bg)
+                    label.config(fg="white")
+            else:
+                text.set("mean")
+        elif text._name == "max_stagnation":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            if value.isdigit():
+                if int(value) > 0:
+                    text.set(int(value))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("15")
+            else:
+                text.set("15")
+        elif text._name == "species_elitism":
+            if value.find("-") == 0:
+                value = value.replace("-", "")
+            if value.isdigit():
+                if int(value) > 0:
+                    text.set(int(value))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("0")
+            else:
+                text.set("0")
         else:
             print("not digit")
             print(text)
