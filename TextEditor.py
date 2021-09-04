@@ -550,7 +550,7 @@ CreateHelpMessage.CreateToolTip(num_hidden_l, text ='num_hidden\nThe number of h
 
 num_hidden = ttk.Spinbox(tab1, from_= 1, to =1000000000, increment=1, name = "num_hidden")
 num_hidden.grid(row=18,column=1)
-CreateHelpMessage.CreateToolTip(num_hidden_l, text ='num_hidden\nThe number of hidden nodes to add to each genome in the initial population.')
+CreateHelpMessage.CreateToolTip(num_hidden, text ='num_hidden\nThe number of hidden nodes to add to each genome in the initial population.')
 num_hidden.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(num_hidden,num_hidden, num_hidden_l, style), "%P"))
 
 #initial_connection
