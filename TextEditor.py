@@ -62,7 +62,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l",
                "weight_init_type_L",
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
-               "weight_replace_rate_l"]
+               "weight_replace_rate_l", "random_from_form_l"]
 buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold","no_fitness_termination", "pop_size", "reset_on_extinction",
@@ -73,7 +73,7 @@ form_values_list = ["fitness_criterion", "fitness_threshold","no_fitness_termina
                    "compatibility_weight_coefficient", "conn_add_prob", "conn_delete_prob", "enabled_default", "enabled_mutate_rate",
                    "enabled_rate_to_false_add", "enabled_rate_to_true_add", "node_add_prob", "node_delete_prob", "response_init_mean",
                    "response_init_stdev", "response_init_type", "response_max_value", "response_min_value", "response_mutate_power",
-                   "response_mutate_power", "response_replace_rate", "single_structural_mutation", "structural_mutation_surer", "weight_init_mean",
+                   "response_mutate_rate", "response_replace_rate", "single_structural_mutation", "structural_mutation_surer", "weight_init_mean",
                    "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
                    "weight_replace_rate"]
 form_Main_label_list = ["neat_section_L", "default_stagnation_l",
@@ -399,7 +399,7 @@ fitness_threshold_l = tk.Label(tab1, text = "Fitness Threshold", justify=LEFT, a
 fitness_threshold_l.grid(row=2,column=0, ipadx=35, pady = 1)
 CreateHelpMessage.CreateToolTip(fitness_threshold_l, text ='When the fitness computed by fitness_criterion meets or exceeds this threshold, the evolution process will terminate, with a call to any registered reporting class’ found_solution method.')
 
-fitness_threshold = ttk.Spinbox(tab1, from_= -100000000, to = 100000000, name = "fitness_threshold")
+fitness_threshold = ttk.Spinbox(tab1, from_= -100000000, to = 100000000,increment=1, name = "fitness_threshold")
 fitness_threshold.grid(row=2,column=1)
 CreateHelpMessage.CreateToolTip(fitness_threshold, text ='When the fitness computed by fitness_criterion meets or exceeds this threshold, the evolution process will terminate, with a call to any registered reporting class’ found_solution method.')
 fitness_threshold.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(fitness_threshold,fitness_threshold, fitness_threshold_l, style), "%P"))
@@ -421,7 +421,7 @@ pop_size_l =tk.Label(tab1, text="Population Size", justify=LEFT, anchor="w")
 pop_size_l.grid(row=4, column=0,ipadx=39, pady = 1)
 CreateHelpMessage.CreateToolTip(pop_size_l, text = 'The number of individuals in each generation.')
 
-pop_size = ttk.Spinbox(tab1, from_=0, to=100000000, name = "pop_size")
+pop_size = ttk.Spinbox(tab1, from_=0, to=100000000,increment=1, name = "pop_size")
 pop_size.grid(row=4, column =1)
 CreateHelpMessage.CreateToolTip(pop_size, text = 'The number of individuals in each generation.')
 pop_size.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(pop_size,pop_size, pop_size_l, style), "%P"))
@@ -458,7 +458,7 @@ max_stagnation_l = tk.Label(tab1, text = "Max Stagination", justify=LEFT, anchor
 max_stagnation_l.grid(row=8,column=0, ipadx = 36, pady = 1)
 CreateHelpMessage.CreateToolTip(max_stagnation_l, text ='Species that have not shown improvement in more than this number of generations will be considered stagnant and removed. This defaults to 15.')
 
-max_stagnation = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = "max_stagnation")
+max_stagnation = ttk.Spinbox(tab1, from_= 0, to = 100000000,increment=1, name = "max_stagnation")
 max_stagnation.grid(row=8,column=1, pady = 1)
 CreateHelpMessage.CreateToolTip(max_stagnation, text ='Species that have not shown improvement in more than this number of generations will be considered stagnant and removed. This defaults to 15.')
 max_stagnation.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(max_stagnation,max_stagnation, max_stagnation_l, style), "%P"))
@@ -468,7 +468,7 @@ species_elitism_l = tk.Label(tab1, text = "Num Protected Species",  justify=LEFT
 species_elitism_l.grid(row=9,column=0, ipadx=18, pady = 1)
 CreateHelpMessage.CreateToolTip(max_stagnation, text ='The number of species that will be protected from stagnation;\n mainly intended to prevent total extinctions caused by all species becoming stagnant before new species arise.\n For example, a species_elitism setting of 3 will prevent the 3 species with\n the highest species fitness from being removed for stagnation regardless of the amount of time they have not shown improvement. This defaults to 0.')
 
-species_elitism = ttk.Spinbox(tab1, from_= 0, to = 100000000, name = "species_elitism")
+species_elitism = ttk.Spinbox(tab1, from_= 0, to = 100000000,increment=1, name = "species_elitism")
 species_elitism.grid(row=9,column=1, pady = 2)
 CreateHelpMessage.CreateToolTip(species_elitism, text ='The number of species that will be protected from stagnation;\n mainly intended to prevent total extinctions caused by all species becoming stagnant before new species arise.\n For example, a species_elitism setting of 3 will prevent the 3 species with\n the highest species fitness from being removed for stagnation regardless of the amount of time they have not shown improvement. This defaults to 0.')
 species_elitism.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(species_elitism,species_elitism, species_elitism_l, style), "%P"))
@@ -493,7 +493,7 @@ survival_threshold_l = tk.Label(tab1, text = "Survival Threshold",  justify=LEFT
 survival_threshold_l.grid(row=12,column=0, ipadx=32, pady = 2)
 CreateHelpMessage.CreateToolTip(survival_threshold_l, text ='The fraction for each species allowed to reproduce each generation. This defaults to 0.2.')
 
-survival_threshold = ttk.Spinbox(tab1, from_= 0.0, to = 100000000.0, increment=0.1, name ="survival_threshold")
+survival_threshold = ttk.Spinbox(tab1, from_= 0.00, to = 100000000.00, increment=0.01, name ="survival_threshold")
 survival_threshold.grid(row=12,column=1) #ipady = 2)
 CreateHelpMessage.CreateToolTip(survival_threshold, text ='The fraction for each species allowed to reproduce each generation. This defaults to 0.2.')
 survival_threshold.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(survival_threshold,survival_threshold, survival_threshold_l, style), "%P"))
@@ -587,37 +587,50 @@ feed_forward = ttk.Combobox(tab1, name = 'feed_forward')
 feed_forward['values'] = ('True','False')
 feed_forward.grid(row=21, column =1)
 CreateHelpMessage.CreateToolTip(feed_forward, text = 'feed_forward\nIf this evaluates to True, generated networks will not be\nallowed to have recurrent connections (they will be feedforward).\nOtherwise they may be (but are not forced to be) recurrent.')
+feed_forward.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(feed_forward,feed_forward, feed_forward_L, style), "%P"))
 
 #Node Activation and Aggregation options
 
+#activation_default
+random_from_form_l = tk.Label(tab1, text = "Enable random selector:", font='Helvetica 9 italic')
+random_from_form_l.grid(row=0,column=3, sticky = tk.W)
+CreateHelpMessage.CreateToolTip(random_from_form_l, text ='Enabling this will allow the user to see assign random choices if none selected directly on form so can see later which one is used')
+
+random_from_form = ttk.Combobox(tab1, name = 'random_from_form')
+random_from_form['values'] = ('True','False')
+random_from_form.grid(row=0, column =4)
+CreateHelpMessage.CreateToolTip(random_from_form, text ='Enabling this will allow the user to see assign random choices if none selected directly on form so can see later which one is used')
+
 # Network Parameters
 activation_n_aggregation_o = tk.Label(tab1, text='Node act & aggr opt:', font='Helvetica 11 bold', anchor = "e")
-activation_n_aggregation_o.grid(row=0, column =3, pady = 5, sticky = tk.W)
+activation_n_aggregation_o.grid(row=1, column =3, pady = 5, sticky = tk.W)
 
 #activation_default
 activation_default_L = tk.Label(tab1, text = "Default Activation Func:")
-activation_default_L.grid(row=1,column=3, sticky = tk.W)
+activation_default_L.grid(row=2,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(activation_default_L, text ='activation_default\nThe default activation function attribute assigned to new nodes.\n If none is given, or “random” is specified, one of the activation_options will be chosen at random.')
 
 activation_default = ttk.Combobox(tab1, name = "activation_default")
 activation_default['values'] = ('abs', 'clamped', 'cube','exp', 'gauss',
                                 'hat','identity', 'inv', 'log','relu','elu',
                                 'lelu','selu', 'sigmoid','sin', 'softplus', 'square', 'tanh')
-activation_default.grid(row=1,column=4, sticky = tk.W)
+activation_default.grid(row=2,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(activation_default, text ='activation_default\nThe default activation function attribute assigned to new nodes.\n If none is given, or “random” is specified, one of the activation_options will be chosen at random.')
+activation_default.config(validate ="key", validatecommand =(ValidateInput.ValidateInputWithRandom(activation_default,activation_default, activation_default_L, style, random_from_form), "%P"))
 
 #Activation Mutate rate
 activation_mutate_rate_L = tk.Label(tab1, text = "Activation Mutate rate:", anchor = "w")
-activation_mutate_rate_L.grid(row=2,column=3, ipadx = 1, sticky = tk.W)
+activation_mutate_rate_L.grid(row=3,column=3, ipadx = 1, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(activation_mutate_rate_L, text ='activation_mutate_rate\nThe probability that mutation will replace the node’s activation\n function with a randomly-determined member of the activation_options. Valid values are in [0.0, 1.0].')
 
 activation_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "activation_mutate_rate")
-activation_mutate_rate.grid(row=2,column=4, sticky = tk.W)
+activation_mutate_rate.grid(row=3,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(activation_mutate_rate, text ='activation_mutate_rate\nThe probability that mutation will replace the node’s activation\n function with a randomly-determined member of the activation_options. Valid values are in [0.0, 1.0].')
+activation_mutate_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(activation_mutate_rate,activation_mutate_rate, activation_mutate_rate_L, style), "%P"))
 
 #Activation Option
 activation_options_L = tk.Label(tab1, text = "Activation Func:", anchor = "w")
-activation_options_L.grid(row=3,column=3, ipadx=18, sticky = tk.W)
+activation_options_L.grid(row=4,column=3, ipadx=18, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(activation_options_L, text ='activation_options\nA space-separated list of the activation functions that may be used by nodes. This defaults to sigmoid.\n The built-in available functions can be found in Overview of builtin activation functions; more can be added as described in Customizing Behavior.')
 
 activation_options = ('abs', 'clamped', 'cube','exp', 'gauss',
@@ -625,7 +638,7 @@ activation_options = ('abs', 'clamped', 'cube','exp', 'gauss',
                                 'lelu','selu', 'sigmoid','sin', 'softplus', 'square', 'tanh')
 langs_var = tk.StringVar(value=activation_options)
 listbox = tk.Listbox(tab1,height = 3, listvariable = langs_var, selectmode='extended', name ="activation_options")
-listbox.grid(row=3,column=4, pady = 2, sticky = tk.W)
+listbox.grid(row=4,column=4, pady = 2, sticky = tk.W)
 activation_options_selected = listbox.bind('<<ListboxSelect>>', items_selected)
 #print(activation_options_selected)
 # link a scrollbar to a list
@@ -639,32 +652,34 @@ listbox['yscrollcommand'] = scrollbar.set
 
 #Aggregation_mutate_rate
 aggregation_mutate_rate_L = tk.Label(tab1, text = "Aggregation mutate rate:", anchor = "e")
-aggregation_mutate_rate_L.grid(row=4,column=3, sticky = tk.W)
+aggregation_mutate_rate_L.grid(row=5,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(aggregation_mutate_rate_L, text ='aggregation_mutate_rate\nThe probability that mutation will replace the node’s aggregation\n function with a randomly-determined member of the aggregation_options. Valid values are in [0.0, 1.0].')
 
 aggregation_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "aggregation_mutate_rate")
-aggregation_mutate_rate.grid(row=4,column=4, sticky = tk.W)
+aggregation_mutate_rate.grid(row=5,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(aggregation_mutate_rate, text ='aggregation_mutate_rate\nThe probability that mutation will replace the node’s aggregation\n function with a randomly-determined member of the aggregation_options. Valid values are in [0.0, 1.0].')
+aggregation_mutate_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(aggregation_mutate_rate,aggregation_mutate_rate, aggregation_mutate_rate_L, style), "%P"))
 
 #aggregation_default
 aggregation_default_L = tk.Label(tab1, text = "Aggregation default:", anchor = "w")
-aggregation_default_L.grid(row=5,column=3, ipadx = 8, pady= 2, sticky = tk.W)
+aggregation_default_L.grid(row=6,column=3, ipadx = 8, pady= 2, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(aggregation_default_L, text ='aggregation_default\nThe default aggregation function attribute assigned to new nodes. If none is given, or “random” is specified, one of the aggregation_options will be chosen at random.')
 
 aggregation_default = ttk.Combobox(tab1, name ="aggregation_default")
 aggregation_default['values'] = ('sum','product', 'min', 'max', 'mean', 'median', 'maxabs')
-aggregation_default.grid(row=5,column=4, sticky = tk.W)
+aggregation_default.grid(row=6,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(aggregation_default_L, text ='aggregation_default\nThe default aggregation function attribute assigned to new nodes. If none is given, or “random” is specified, one of the aggregation_options will be chosen at random.')
+aggregation_default.config(validate ="key", validatecommand =(ValidateInput.ValidateInputWithRandom(aggregation_default,aggregation_default, aggregation_default_L, style, random_from_form), "%P"))
 
 #aggregation_options
 aggregation_options_L = tk.Label(tab1, text = "Aggregatrions Func/s:", anchor = "w")
-aggregation_options_L.grid(row=6,column=3, ipadx = 3, sticky = tk.W)
+aggregation_options_L.grid(row=7,column=3, ipadx = 3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(aggregation_options_L, text ='aggregation_options\nA space-separated list of the aggregation functions that may be used by nodes. This defaults to “sum”. The available functions (defined in aggregations) are: sum, product, min, max, mean, median, and maxabs (which returns the input value with the greatest absolute value; the returned value may be positive or negative). New aggregation functions can be defined similarly to new activation functions. (Note that the function needs to take a list or other iterable; the reduce function, as in aggregations, may be of use in this.)')
 
 aggregation_options = ('sum', 'product', 'min','max', 'mean', 'median','maxads')
 langs_var_aggregation_options = tk.StringVar(value=aggregation_options)
 listbox_aggregation_options = tk.Listbox(tab1,height = 4, listvariable = langs_var_aggregation_options, selectmode='extended',name = "aggregation_options")
-listbox_aggregation_options.grid(row=6,column=4, sticky = tk.W)
+listbox_aggregation_options.grid(row=7,column=4, sticky = tk.W)
 aggregation_options_selected = listbox_aggregation_options.bind('<<ListboxSelect>>', items_selected)
 print(aggregation_options_selected)
 # link a scrollbar to a list
@@ -678,110 +693,118 @@ listbox_aggregation_options['yscrollcommand'] = scrollbar_aggregation_option.set
 
 # Node Bian Options
 node_bias_o = tk.Label(tab1, text='Node Bias options', font='Helvetica 11 bold')
-node_bias_o.grid(row=7, column =3, pady = 5, sticky = tk.W)
+node_bias_o.grid(row=8, column =3, pady = 5, sticky = tk.W)
 
 #bias_init_mean
 bias_init_mean_l = tk.Label(tab1, text = "Bias init mean:")
-bias_init_mean_l.grid(row=8,column=3, sticky = tk.W)
+bias_init_mean_l.grid(row=9,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_mean_l, text ='bias_init_mean\nThe mean of the normal/gaussian distribution, if it is used to select bias attribute values for new nodes.')
 
 bias_init_mean = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_init_mean")
-bias_init_mean.grid(row=8,column=4, sticky = tk.W)
+bias_init_mean.grid(row=9,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_mean, text ='bias_init_mean\nThe mean of the normal/gaussian distribution, if it is used to select bias attribute values for new nodes.')
+bias_init_mean.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_init_mean,bias_init_mean, bias_init_mean_l, style), "%P"))
 
 #bias_init_stdev
 bias_init_stdev_l = tk.Label(tab1, text = "Bias init standard:")
-bias_init_stdev_l.grid(row=9,column=3, sticky = tk.W)
+bias_init_stdev_l.grid(row=10,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_stdev_l, text ='bias_init_stdev\nThe standard deviation of the normal/gaussian distribution, if it is used to select bias values for new nodes.')
 
 bias_init_stdev = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_init_stdev")
-bias_init_stdev.grid(row=9,column=4, sticky = tk.W)
+bias_init_stdev.grid(row=10,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_stdev, text ='bias_init_stdev\nThe standard deviation of the normal/gaussian distribution, if it is used to select bias values for new nodes.')
+bias_init_stdev.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_init_stdev,bias_init_stdev, bias_init_stdev_l, style), "%P"))
 
 #bias_init_type
 bias_init_type_l = tk.Label(tab1, text = "Bias init type:")
-bias_init_type_l.grid(row=10,column=3, sticky = tk.W)
+bias_init_type_l.grid(row=11,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_type_l, text ='bias_init_type\nIf set to gaussian or normal, then the initialization is to\n a normal/gaussian distribution. If set to uniform, a uniform distribution from max(bias_min_value,\n(bias_init_mean−(bias_init_stdev∗2))) to min(bias_max_value,(bias_init_mean+(bias_init_stdev∗2))).\n (Note that the standard deviation of a uniform distribution is not range/0.25, as implied by this, but the range divided by a bit over 0.288\n (the square root of 12); however, this approximation makes setting the range much easier.) This defaults to “gaussian”.')
 
 bias_init_type = ttk.Combobox(tab1, name = "bias_init_type")
 bias_init_type['values'] = ('gaussian', 'normal', 'uniform')
-bias_init_type.grid(row=10,column=4, sticky = tk.W)
+bias_init_type.grid(row=11,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_type, text ='bias_init_type\nIf set to gaussian or normal, then the initialization is to\n a normal/gaussian distribution. If set to uniform, a uniform distribution from max(bias_min_value,\n(bias_init_mean−(bias_init_stdev∗2))) to min(bias_max_value,(bias_init_mean+(bias_init_stdev∗2))).\n (Note that the standard deviation of a uniform distribution is not range/0.25, as implied by this, but the range divided by a bit over 0.288\n (the square root of 12); however, this approximation makes setting the range much easier.) This defaults to “gaussian”.')
+bias_init_type.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_init_type,bias_init_type, bias_init_type_l, style), "%P"))
 
 #bias_max_value
 bias_max_value_l = tk.Label(tab1, text = "Bias Maximum allowed bias value:")
-bias_max_value_l.grid(row=11,column=3, sticky = tk.W)
+bias_max_value_l.grid(row=12,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_max_value_l, text ='bias_max_value\nThe maximum allowed bias value. Biases above this value will be clamped to this value.')
 
 bias_max_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_max_value")
-bias_max_value.grid(row=11,column=4, sticky = tk.W)
+bias_max_value.grid(row=12,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_max_value, text ='bias_max_value\nThe maximum allowed bias value. Biases above this value will be clamped to this value.')
+bias_max_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_max_value,bias_max_value, bias_max_value_l, style), "%P"))
 
 #bias_min_value
 bias_min_value_l = tk.Label(tab1, text = "Bias Minimum allowed bias value:")
-bias_min_value_l.grid(row=12,column=3, sticky = tk.W)
+bias_min_value_l.grid(row=13,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_min_value_l, text ='bias_min_value\nThe minimum  allowed bias value. Biases above this value will be clamped to this value.')
 
 bias_min_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_min_value")
-bias_min_value.grid(row=12,column=4, sticky = tk.W)
+bias_min_value.grid(row=13,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_min_value, text ='The minimum  allowed bias value. Biases above this value will be clamped to this value.')
+bias_min_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_min_value,bias_min_value, bias_min_value_l, style), "%P"))
 
 #bias_mutate_power
 bias_mutate_power_l = tk.Label(tab1, text = "Bias mutation power:")
-bias_mutate_power_l.grid(row=13,column=3, sticky = tk.W)
+bias_mutate_power_l.grid(row=14,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_min_value_l, text ='bias_mutate_power\nThe standard deviation of the zero-centered normal/gaussian distribution from which a bias value mutation is drawn.')
 
 bias_mutate_power = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_mutate_power")
-bias_mutate_power.grid(row=13,column=4, sticky = tk.W)
+bias_mutate_power.grid(row=14,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_mutate_power, text ='bias_mutate_power\nThe standard deviation of the zero-centered normal/gaussian distribution from which a bias value mutation is drawn.')
+bias_mutate_power.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_mutate_power,bias_mutate_power, bias_mutate_power_l, style), "%P"))
 
 #bias_mutate_rate
 bias_mutate_rate_l = tk.Label(tab1, text = "Bias mutation rate:")
-bias_mutate_rate_l.grid(row=14,column=3, sticky = tk.W)
+bias_mutate_rate_l.grid(row=15,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_mutate_rate_l, text ='bias_mutate_rate\The probability that mutation will change the bias of a node by adding a random value.')
 
 bias_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_mutate_rate")
-bias_mutate_rate.grid(row=14,column=4, sticky = tk.W)
+bias_mutate_rate.grid(row=15,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_mutate_rate, text ='bias_mutate_rate\nThe probability that mutation will change the bias of a node by adding a random value.')
+bias_mutate_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_mutate_rate,bias_mutate_rate, bias_mutate_rate_l, style), "%P"))
 
 #bias_replace_rate
 bias_replace_rate_l = tk.Label(tab1, text = "Bias replace rate:")
-bias_replace_rate_l.grid(row=15,column=3, sticky = tk.W)
+bias_replace_rate_l.grid(row=16,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_replace_rate_l, text ='bias_replace_rate\nThe probability that mutation will replace the bias of a node with a newly chosen random value (as if it were a new node).')
 
 bias_replace_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_replace_rate")
-bias_replace_rate.grid(row=15,column=4, sticky = tk.W)
+bias_replace_rate.grid(row=16,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_replace_rate, text ='bias_replace_rate\nThe probability that mutation will replace the bias of a node with a newly chosen random value (as if it were a new node).')
+bias_replace_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_replace_rate,bias_replace_rate, bias_replace_rate_l, style), "%P"))
 
 # Genome Compatibility Options
 genome_compatibility_o = tk.Label(tab1, text='Genome Comp. Options', font='Helvetica 11 bold')
-genome_compatibility_o.grid(row=16, column =3, pady = 5, sticky = tk.W)
+genome_compatibility_o.grid(row=17, column =3, pady = 5, sticky = tk.W)
 
 #compatibility_threshold
 compatibility_threshold_l = tk.Label(tab1, text = "Compatibility Threshold:")
-compatibility_threshold_l.grid(row=17,column=3, sticky = tk.W)
+compatibility_threshold_l.grid(row=8,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_threshold_l, text ='compatibility_threshold\nIndividuals whose genomic distance is less than this threshold are considered to be in the same species.')
 
 compatibility_threshold = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "compatibility_threshold")
-compatibility_threshold.grid(row=17,column=4, sticky = tk.W)
+compatibility_threshold.grid(row=18,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_threshold, text ='compatibility_threshold\nIndividuals whose genomic distance is less than this threshold are considered to be in the same species.')
 
 #compatibility_disjoint_coefficient
 compatibility_disjoint_coefficient_l = tk.Label(tab1, text = "Compatibility Disjoint coefficient:")
-compatibility_disjoint_coefficient_l.grid(row=18,column=3, sticky = tk.W)
+compatibility_disjoint_coefficient_l.grid(row=19,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_disjoint_coefficient_l, text ='compatibility_disjoint_coefficient\nThe coefficient for the disjoint and excess gene counts’ contribution to the genomic distance.')
 
 compatibility_disjoint_coefficient = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "compatibility_disjoint_coefficient")
-compatibility_disjoint_coefficient.grid(row=18,column=4, sticky = tk.W)
+compatibility_disjoint_coefficient.grid(row=19,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_disjoint_coefficient, text ='compatibility_disjoint_coefficient\nThe coefficient for the disjoint and excess gene counts’ contribution to the genomic distance.')
 
 #compatibility_weight_coefficient
 compatibility_weight_coefficient_l = tk.Label(tab1, text = "Compatibility weight coefficient:")
-compatibility_weight_coefficient_l.grid(row=19,column=3, sticky = tk.W)
+compatibility_weight_coefficient_l.grid(row=20,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_weight_coefficient_l, text ='compatibility_weight_coefficient\nThe coefficient for each weight, bias, or response multiplier difference’s contribution to the\ngenomic distance (for homologous nodes or connections). This is also used as the value to\nadd for differences in activation functions, aggregation functions, or enabled/disabled status.')
 
 compatibility_weight_coefficient = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "compatibility_weight_coefficient")
-compatibility_weight_coefficient.grid(row=19,column=4, sticky = tk.W)
+compatibility_weight_coefficient.grid(row=20,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_weight_coefficient, text ='compatibility_weight_coefficient\nThe coefficient for each weight, bias, or response multiplier difference’s contribution to the\ngenomic distance (for homologous nodes or connections). This is also used as the value to\nadd for differences in activation functions, aggregation functions, or enabled/disabled status.')
 
 # Connection options
@@ -873,6 +896,7 @@ CreateHelpMessage.CreateToolTip(response_init_mean_l, text ='The mean of the nor
 response_init_mean = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_init_mean")
 response_init_mean.grid(row=10,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_init_mean, text ='The mean of the normal/gaussian distribution, if it is used to select response multiplier attribute values for new nodes.')
+response_init_mean.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_init_mean,response_init_mean, response_init_mean_l, style), "%P"))
 
 #response_init_stdev
 response_init_stdev_l = tk.Label(tab1, text = "Standard response deviation:")
@@ -882,6 +906,7 @@ CreateHelpMessage.CreateToolTip(response_init_stdev_l, text ='The standard devia
 response_init_stdev = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_init_stdev")
 response_init_stdev.grid(row=11,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_init_stdev, text ='The standard deviation of the normal/gaussian distribution, if it is used to select response multipliers for new nodes.')
+response_init_stdev.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_init_stdev,response_init_stdev, response_init_stdev_l, style), "%P"))
 
 #response_init_type
 response_init_type_L = tk.Label(tab1, text = "Response type:")
@@ -892,8 +917,9 @@ response_init_type = ttk.Combobox(tab1, name = "response_init_type")
 response_init_type['values'] = ('normal', 'uniform', 'gaussian')
 response_init_type.grid(row=12,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_init_type, text ='If set to gaussian or normal, then the initialization is to a normal/gaussian distribution. If set to uniform, a uniform distribution from max(response_min_value,(response_init_mean−(response_init_stdev∗2))) to min(response_max_value,(response_init_mean+(response_init_stdev∗2))). (Note that the standard deviation of a uniform distribution is not range/0.25, as implied by this, but the range divided by a bit over 0.288 (the square root of 12); however, this approximation makes setting the range much easier.) This defaults to “gaussian”.')
+response_init_type.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_init_type,response_init_type, response_init_type_L, style), "%P"))
 
-#response_max_value
+# response_max_value
 response_max_value_l = tk.Label(tab1, text = "Max response value:")
 response_max_value_l.grid(row=13,column=5, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_max_value_l, text ='The maximum allowed response multiplier. Response multipliers above this value will be clamped to this value.')
@@ -901,6 +927,7 @@ CreateHelpMessage.CreateToolTip(response_max_value_l, text ='The maximum allowed
 response_max_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_max_value")
 response_max_value.grid(row=13,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_max_value, text ='The maximum allowed response multiplier. Response multipliers above this value will be clamped to this value.')
+response_max_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_max_value,response_max_value, response_max_value_l, style), "%P"))
 
 #response_min_value
 response_min_value_l = tk.Label(tab1, text = "Min response value:")
@@ -910,6 +937,7 @@ CreateHelpMessage.CreateToolTip(response_min_value_l, text ='The minimum allowed
 response_min_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_min_value")
 response_min_value.grid(row=14,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_min_value, text ='The minimum allowed response multiplier. Response multipliers below this value will be clamped to this value.')
+response_min_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_min_value,response_min_value, response_min_value_l, style), "%P"))
 
 #response_mutate_power
 response_mutate_power_l = tk.Label(tab1, text = "Mutate response power:")
@@ -919,15 +947,17 @@ CreateHelpMessage.CreateToolTip(response_mutate_power_l, text ='The standard dev
 response_mutate_power = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_mutate_power")
 response_mutate_power.grid(row=15,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_mutate_power, text ='The standard deviation of the zero-centered normal/gaussian distribution from which a response multiplier mutation is drawn.')
+response_mutate_power.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_mutate_power,response_mutate_power, response_mutate_power_l, style), "%P"))
 
 #response_mutate_rate
 response_mutate_rate_l = tk.Label(tab1, text = "Mutate response rate:")
 response_mutate_rate_l.grid(row=16,column=5, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_mutate_rate_l, text ='The probability that mutation will change the response multiplier of a node by adding a random value.')
 
-response_mutate_power = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_mutate_power")
-response_mutate_power.grid(row=16,column=6, sticky = tk.W)
+response_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_mutate_rate")
+response_mutate_rate.grid(row=16,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_mutate_power, text ='The probability that mutation will change the response multiplier of a node by adding a random value.')
+response_mutate_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_mutate_rate,response_mutate_rate, response_mutate_rate_l, style), "%P"))
 
 #response_replace_rate
 response_replace_rate_l = tk.Label(tab1, text = "Response response rate:")
@@ -937,6 +967,7 @@ CreateHelpMessage.CreateToolTip(response_replace_rate_l, text ='The probability 
 response_replace_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "response_replace_rate")
 response_replace_rate.grid(row=17,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(response_replace_rate, text ='The probability that mutation will change the response multiplier of a node by adding a random value.')
+response_replace_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(response_replace_rate,response_replace_rate, response_replace_rate_l, style), "%P"))
 
 #single_structural_mutation
 single_structural_mutation_L = tk.Label(tab1, text = "Singe structural mutation?")
@@ -971,6 +1002,7 @@ CreateHelpMessage.CreateToolTip(weight_init_mean_l, text ='The mean of the norma
 weight_init_mean = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "weight_init_mean")
 weight_init_mean.grid(row=21,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_mean, text ='The mean of the normal/gaussian distribution used to select weight attribute values for new connections.')
+weight_init_mean.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_init_mean,weight_init_mean, weight_init_mean_l, style), "%P"))
 
 #weight_init_stdev
 weight_init_stdev_l = tk.Label(tab1, text = "Standard weight:")
@@ -980,6 +1012,7 @@ CreateHelpMessage.CreateToolTip(weight_init_stdev_l, text ='The standard deviati
 weight_init_stdev = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "weight_init_stdev")
 weight_init_stdev.grid(row=22,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_stdev, text ='The standard deviation of the normal/gaussian distribution used to select weight values for new connections.')
+weight_init_stdev.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_init_stdev,weight_init_stdev, weight_init_stdev_l, style), "%P"))
 
 #weight_init_type
 weight_init_type_L = tk.Label(tab1, text = "Weight Type")
@@ -990,51 +1023,57 @@ weight_init_type = ttk.Combobox(tab1, name = "weight_init_type")
 weight_init_type['values'] = ('gaussian', 'normal', 'uniform')
 weight_init_type.grid(row=23,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_init_type, text ='If set to gaussian or normal, then the initialization is to a normal/gaussian distribution. If set to uniform, a uniform distribution from max(weight_min_value,(weight_init_mean−(weight_init_stdev∗2))) to min(weight_max_value,(weight_init_mean+(weight_init_stdev∗2))). (Note that the standard deviation of a uniform distribution is not range/0.25, as implied by this, but the range divided by a bit over 0.288 (the square root of 12); however, this approximation makes setting the range much easier.) This defaults to “gaussian”.')
+weight_init_type.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_init_type,weight_init_type, weight_init_type_L, style), "%P"))
 
 #weight_max_value
 weight_max_value_l = tk.Label(tab1, text = "Max weight:")
-weight_max_value_l.grid(row=22,column=5, sticky = tk.W, pady= 2)
+weight_max_value_l.grid(row=24,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_max_value_l, text ='The maximum allowed weight value. Weights above this value will be clamped to this value.')
 
 weight_max_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "weight_max_value")
-weight_max_value.grid(row=22,column=6, sticky = tk.W)
+weight_max_value.grid(row=24,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(weight_max_value, text ='The maximum allowed weight value. Weights above this value will be clamped to this value.')
+weight_max_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_max_value,weight_max_value, weight_max_value_l, style), "%P"))
 
 #weight_min_value
 weight_min_value_l = tk.Label(tab1, text = "Min weight:")
-weight_min_value_l.grid(row=23,column=5, sticky = tk.W, ipady= 2)
+weight_min_value_l.grid(row=25,column=5, sticky = tk.W, ipady= 2)
 CreateHelpMessage.CreateToolTip(weight_min_value_l, text ='The minimum allowed weight value. Weights below this value will be clamped to this value.')
 
 weight_min_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "weight_min_value")
-weight_min_value.grid(row=23,column=6, sticky = tk.W)
+weight_min_value.grid(row=25,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(weight_min_value_l, text ='The minimum allowed weight value. Weights below this value will be clamped to this value.')
+weight_min_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_min_value,weight_min_value, weight_min_value_l, style), "%P"))
 
 #weight_mutate_power
 weight_mutate_power_l = tk.Label(tab1, text = "Weight Mutate power:")
-weight_mutate_power_l.grid(row=24,column=5, sticky = tk.W, pady= 2)
+weight_mutate_power_l.grid(row=26,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_power_l, text ='The standard deviation of the zero-centered normal/gaussian distribution from which a weight value mutation is drawn.')
 
 weight_mutate_power = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "weight_mutate_power")
-weight_mutate_power.grid(row=24,column=6, sticky = tk.W, pady= 2)
+weight_mutate_power.grid(row=26,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_power, text ='The standard deviation of the zero-centered normal/gaussian distribution from which a weight value mutation is drawn.')
+weight_mutate_power.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_mutate_power,weight_mutate_power, weight_mutate_power_l, style), "%P"))
 
 #weight_mutate_rate
 weight_mutate_rate_l = tk.Label(tab1, text = "Weight Mutate rate:")
-weight_mutate_rate_l.grid(row=25,column=5, sticky = tk.W, pady= 2)
+weight_mutate_rate_l.grid(row=27,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_rate_l, text ='The probability that mutation will change the weight of a connection by adding a random value.')
 
 weight_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "weight_mutate_rate")
-weight_mutate_rate.grid(row=25,column=6, sticky = tk.W, pady= 2)
+weight_mutate_rate.grid(row=27,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_mutate_rate, text ='The probability that mutation will change the weight of a connection by adding a random value.')
+weight_mutate_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_mutate_rate,weight_mutate_rate, weight_mutate_rate_l, style), "%P"))
 
 #weight_replace_rate
 weight_replace_rate_l = tk.Label(tab1, text = "Weight replace rate:")
-weight_replace_rate_l.grid(row=26,column=5, sticky = tk.W, pady= 2)
+weight_replace_rate_l.grid(row=28,column=5, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_replace_rate_l, text ='The probability that mutation will replace the weight of a connection with a newly chosen random value (as if it were a new connection).')
 
 weight_replace_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "weight_replace_rate")
-weight_replace_rate.grid(row=26,column=6, sticky = tk.W, pady= 2)
+weight_replace_rate.grid(row=28,column=6, sticky = tk.W, pady= 2)
 CreateHelpMessage.CreateToolTip(weight_replace_rate, text ='The probability that mutation will replace the weight of a connection with a newly chosen random value (as if it were a new connection).')
+weight_replace_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(weight_replace_rate,weight_replace_rate, weight_replace_rate_l, style), "%P"))
 
 tabControl.grid(row=0, column=0)
 
