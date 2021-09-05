@@ -9,9 +9,9 @@ aggregation_options_list=['sum','product', 'min', 'max', 'mean', 'median', 'maxa
 
 response_weight_bias_types = ['gaussian', 'normal', 'uniform']
 
-list_response_weight_bias = ["bias_init_mean","bias_init_stdev", "bias_max_value", "bias_min_value" ,"bias_mutate_power","bias_mutate_rate" ,"bias_replace_rate","response_init_stdev","response_max_value", "response_min_value",
+list_response_weight_bias = ["enabled_rate_to_true_add","enabled_rate_to_false_add","enabled_rate_to_false_add","compatibility_weight_coefficient","compatibility_threshold","compatibility_disjoint_coefficient","bias_init_mean","bias_init_stdev", "bias_max_value", "bias_min_value" ,"bias_mutate_power","bias_mutate_rate" ,"bias_replace_rate","response_init_stdev","response_max_value", "response_min_value",
                              "response_mutate_power" ,"response_mutate_rate" ,"response_replace_rate", "response_init_mean" , "weight_init_mean","weight_init_stdev",
-                             "weight_max_value" or "weight_min_value"  "weight_mutate_power", "weight_mutate_rate","weight_replace_rate"]
+                             "weight_max_value","weight_min_value" ,"weight_mutate_power", "weight_mutate_rate","weight_replace_rate"]
 class Validate(object):
 
     def __init__(self, widget):
@@ -111,7 +111,27 @@ class Validate(object):
                 else:
                     text.set("")
                     label.config(fg="red")
-        elif text._name == "no_fitness_termination" or text._name == "reset_on_extinction" or text._name == "feed_forward":
+        elif text._name == "no_fitness_termination"  or text._name == "enabled_default" or text._name =="single_structural_mutation":
+            if value == "True" or value == "False":
+                if str(bg) == "grey75":
+                    label.config(fg="black")
+                else:
+                    print(bg)
+                    label.config(fg="white")
+            else:
+                text.set("False")
+                #label.config(fg="red")
+        elif text._name == "structural_mutation_surer":
+            if value == "True" or value == "False":
+                if str(bg) == "grey75":
+                    label.config(fg="black")
+                else:
+                    print(bg)
+                    label.config(fg="white")
+            else:
+                text.set("default")
+                # label.config(fg="red")
+        elif text._name == "reset_on_extinction" or text._name == "feed_forward":
             if value == "True" or value == "False":
                 if str(bg) == "grey75":
                     label.config(fg="black")
@@ -287,22 +307,23 @@ class Validate(object):
             else:
                 text.set("unconnected")
         elif text._name == "initial_connection_value" or text._name == "activation_mutate_rate" \
-                or text._name == "aggregation_mutate_rate":
-            #print(text._name)
+                or text._name == "aggregation_mutate_rate" or text._name =="node_add_prob" or text._name =="node_delete_prob"\
+                or text._name == "enabled_mutate_rate" or text._name == "conn_add_prob" or text._name == "conn_delete_prob":
+            print(text._name)
             value = text.get()
             if value.find("-") == 0:
                 value = value.replace("-", "")
-            #print(value + " Not in try")
+            print(value + " Not in try")
             try:
-                #print("In try statement")
+                print("In try statement")
                 if float(value):
-                    #print("In first if")
+                    print("In first if")
                     value = float(value)
                     if isinstance(value, float) and (1.0 >= value >= 0.0):
-                        #print("In second if")
+                        print("In second if")
                         text.set(float(value))
                         if str(bg) == "grey75":
-                            #print("In third if")
+                            print("In third if")
                             label.config(fg="black")
                         else:
                             print(bg)
@@ -310,7 +331,20 @@ class Validate(object):
                     else:
                         text.set("")
                         label.config(fg="red")
-                elif value.find("0.0"):
+                elif value == "0.0":
+                    text.set("0.0")
+                    if str(bg) == "grey75":
+                        print("In forth if")
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    text.set("")
+                    label.config(fg="red")
+            except ValueError:
+                print("Exception")
+                if  value == "0.0":
                     text.set("0.0")
                     if str(bg) == "grey75":
                         #print("In third if")
@@ -321,15 +355,9 @@ class Validate(object):
                 else:
                     text.set("")
                     label.config(fg="red")
-            except ValueError:
-                text.set("")
-                label.config(fg="red")
                 # make for bias_init_type and response_init_type and weight_init_type
         elif text._name in list_response_weight_bias:
             minus_detected = False
-            print("here")
-            print(value)
-            print(text._name)
             if value.find("-") == 0:
                 tempvalue = value.replace("-", "")
                 minus_detected = True
@@ -337,14 +365,21 @@ class Validate(object):
                 tempvalue = value
             try:
                 if float(tempvalue):
-                    #print("In first if: " + str(float(value)))
-                    #print(minus_detected)
+                    print("In first if: " + str(float(value)))
+                    print(minus_detected)
                     if minus_detected is True:
-                        #print("WTF")
+                        print("WTF")
                         text.set("-" + str(float(tempvalue)))
                     else:
                         #print("WHAT")
                         text.set(float(tempvalue))
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                elif value == "0.0" or  value == "0":
+                    #print("here")
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:

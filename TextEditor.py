@@ -700,7 +700,7 @@ bias_init_mean_l = tk.Label(tab1, text = "Bias init mean:")
 bias_init_mean_l.grid(row=9,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_mean_l, text ='bias_init_mean\nThe mean of the normal/gaussian distribution, if it is used to select bias attribute values for new nodes.')
 
-bias_init_mean = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_init_mean")
+bias_init_mean = ttk.Spinbox(tab1, from_= 0.0, to =100.0, increment=0.1, name = "bias_init_mean")
 bias_init_mean.grid(row=9,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_mean, text ='bias_init_mean\nThe mean of the normal/gaussian distribution, if it is used to select bias attribute values for new nodes.')
 bias_init_mean.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_init_mean,bias_init_mean, bias_init_mean_l, style), "%P"))
@@ -710,7 +710,7 @@ bias_init_stdev_l = tk.Label(tab1, text = "Bias init standard:")
 bias_init_stdev_l.grid(row=10,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_stdev_l, text ='bias_init_stdev\nThe standard deviation of the normal/gaussian distribution, if it is used to select bias values for new nodes.')
 
-bias_init_stdev = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_init_stdev")
+bias_init_stdev = ttk.Spinbox(tab1, from_= 0.0, to =1000.0, increment=0.1, name = "bias_init_stdev")
 bias_init_stdev.grid(row=10,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_init_stdev, text ='bias_init_stdev\nThe standard deviation of the normal/gaussian distribution, if it is used to select bias values for new nodes.')
 bias_init_stdev.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_init_stdev,bias_init_stdev, bias_init_stdev_l, style), "%P"))
@@ -731,7 +731,7 @@ bias_max_value_l = tk.Label(tab1, text = "Bias Maximum allowed bias value:")
 bias_max_value_l.grid(row=12,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_max_value_l, text ='bias_max_value\nThe maximum allowed bias value. Biases above this value will be clamped to this value.')
 
-bias_max_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_max_value")
+bias_max_value = ttk.Spinbox(tab1, from_= 0.0, to =1000.0, increment=0.1, name = "bias_max_value")
 bias_max_value.grid(row=12,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_max_value, text ='bias_max_value\nThe maximum allowed bias value. Biases above this value will be clamped to this value.')
 bias_max_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_max_value,bias_max_value, bias_max_value_l, style), "%P"))
@@ -741,7 +741,7 @@ bias_min_value_l = tk.Label(tab1, text = "Bias Minimum allowed bias value:")
 bias_min_value_l.grid(row=13,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_min_value_l, text ='bias_min_value\nThe minimum  allowed bias value. Biases above this value will be clamped to this value.')
 
-bias_min_value = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_min_value")
+bias_min_value = ttk.Spinbox(tab1, from_= 0.0, to =1000.0, increment=0.1, name = "bias_min_value")
 bias_min_value.grid(row=13,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_min_value, text ='The minimum  allowed bias value. Biases above this value will be clamped to this value.')
 bias_min_value.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_min_value,bias_min_value, bias_min_value_l, style), "%P"))
@@ -751,7 +751,7 @@ bias_mutate_power_l = tk.Label(tab1, text = "Bias mutation power:")
 bias_mutate_power_l.grid(row=14,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_min_value_l, text ='bias_mutate_power\nThe standard deviation of the zero-centered normal/gaussian distribution from which a bias value mutation is drawn.')
 
-bias_mutate_power = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_mutate_power")
+bias_mutate_power = ttk.Spinbox(tab1, from_= 0.0, to =1000.0, increment=0.1, name = "bias_mutate_power")
 bias_mutate_power.grid(row=14,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_mutate_power, text ='bias_mutate_power\nThe standard deviation of the zero-centered normal/gaussian distribution from which a bias value mutation is drawn.')
 bias_mutate_power.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_mutate_power,bias_mutate_power, bias_mutate_power_l, style), "%P"))
@@ -761,7 +761,7 @@ bias_mutate_rate_l = tk.Label(tab1, text = "Bias mutation rate:")
 bias_mutate_rate_l.grid(row=15,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_mutate_rate_l, text ='bias_mutate_rate\The probability that mutation will change the bias of a node by adding a random value.')
 
-bias_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_mutate_rate")
+bias_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1000.0, increment=0.1, name = "bias_mutate_rate")
 bias_mutate_rate.grid(row=15,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_mutate_rate, text ='bias_mutate_rate\nThe probability that mutation will change the bias of a node by adding a random value.')
 bias_mutate_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_mutate_rate,bias_mutate_rate, bias_mutate_rate_l, style), "%P"))
@@ -771,7 +771,7 @@ bias_replace_rate_l = tk.Label(tab1, text = "Bias replace rate:")
 bias_replace_rate_l.grid(row=16,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_replace_rate_l, text ='bias_replace_rate\nThe probability that mutation will replace the bias of a node with a newly chosen random value (as if it were a new node).')
 
-bias_replace_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "bias_replace_rate")
+bias_replace_rate = ttk.Spinbox(tab1, from_= 0.0, to =1000.0, increment=0.1, name = "bias_replace_rate")
 bias_replace_rate.grid(row=16,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(bias_replace_rate, text ='bias_replace_rate\nThe probability that mutation will replace the bias of a node with a newly chosen random value (as if it were a new node).')
 bias_replace_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(bias_replace_rate,bias_replace_rate, bias_replace_rate_l, style), "%P"))
@@ -782,12 +782,13 @@ genome_compatibility_o.grid(row=17, column =3, pady = 5, sticky = tk.W)
 
 #compatibility_threshold
 compatibility_threshold_l = tk.Label(tab1, text = "Compatibility Threshold:")
-compatibility_threshold_l.grid(row=8,column=3, sticky = tk.W)
+compatibility_threshold_l.grid(row=18,column=3, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_threshold_l, text ='compatibility_threshold\nIndividuals whose genomic distance is less than this threshold are considered to be in the same species.')
 
-compatibility_threshold = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "compatibility_threshold")
+compatibility_threshold = ttk.Spinbox(tab1, from_= 0.0, to =100.0, increment=1.0, name = "compatibility_threshold")
 compatibility_threshold.grid(row=18,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_threshold, text ='compatibility_threshold\nIndividuals whose genomic distance is less than this threshold are considered to be in the same species.')
+compatibility_threshold.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(compatibility_threshold,compatibility_threshold, compatibility_threshold_l, style), "%P"))
 
 #compatibility_disjoint_coefficient
 compatibility_disjoint_coefficient_l = tk.Label(tab1, text = "Compatibility Disjoint coefficient:")
@@ -797,6 +798,7 @@ CreateHelpMessage.CreateToolTip(compatibility_disjoint_coefficient_l, text ='com
 compatibility_disjoint_coefficient = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "compatibility_disjoint_coefficient")
 compatibility_disjoint_coefficient.grid(row=19,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_disjoint_coefficient, text ='compatibility_disjoint_coefficient\nThe coefficient for the disjoint and excess gene counts’ contribution to the genomic distance.')
+compatibility_disjoint_coefficient.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(compatibility_disjoint_coefficient,compatibility_disjoint_coefficient, compatibility_disjoint_coefficient_l, style), "%P"))
 
 #compatibility_weight_coefficient
 compatibility_weight_coefficient_l = tk.Label(tab1, text = "Compatibility weight coefficient:")
@@ -806,6 +808,7 @@ CreateHelpMessage.CreateToolTip(compatibility_weight_coefficient_l, text ='compa
 compatibility_weight_coefficient = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "compatibility_weight_coefficient")
 compatibility_weight_coefficient.grid(row=20,column=4, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(compatibility_weight_coefficient, text ='compatibility_weight_coefficient\nThe coefficient for each weight, bias, or response multiplier difference’s contribution to the\ngenomic distance (for homologous nodes or connections). This is also used as the value to\nadd for differences in activation functions, aggregation functions, or enabled/disabled status.')
+compatibility_disjoint_coefficient.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(compatibility_weight_coefficient,compatibility_weight_coefficient, compatibility_weight_coefficient_l, style), "%P"))
 
 # Connection options
 connection_options_l = tk.Label(tab1, text='Connection options', font='Helvetica 11 bold')
@@ -819,6 +822,7 @@ CreateHelpMessage.CreateToolTip(conn_add_prob_l, text ='conn_add_prob\nThe proba
 conn_add_prob = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "conn_add_prob")
 conn_add_prob.grid(row=1,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(conn_add_prob_l, text ='conn_add_prob\nThe probability that mutation will add a connection between existing nodes. Valid values are in [0.0, 1.0].')
+conn_add_prob.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(conn_add_prob,conn_add_prob, conn_add_prob_l, style), "%P"))
 
 #conn_delete_prob
 conn_delete_prob_l = tk.Label(tab1, text = "Connection delete probability:")
@@ -828,6 +832,7 @@ CreateHelpMessage.CreateToolTip(conn_delete_prob_l, text ='conn_delete_prob\nThe
 conn_delete_prob = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "conn_delete_prob")
 conn_delete_prob.grid(row=2,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(conn_delete_prob, text ='conn_delete_prob\nThe probability that mutation will delete an existing connection. Valid values are in [0.0, 1.0].')
+conn_delete_prob.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(conn_delete_prob,conn_delete_prob, conn_delete_prob_l, style), "%P"))
 
 #enabled_default
 enabled_default_L= tk.Label(tab1,text ="Enabled default")
@@ -838,33 +843,37 @@ enabled_default= ttk.Combobox(tab1, name ="enabled_default")
 enabled_default['values'] = ('True','False')
 enabled_default.grid(row=3, column =6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(enabled_default, text = 'enabled_default\nThe default enabled attribute of newly created connections. Valid values are True and False.')
+enabled_default.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(enabled_default,enabled_default, enabled_default_L, style), "%P"))
 
 #enabled_mutate_rate
 enabled_mutate_rate_l = tk.Label(tab1, text = "Enabled Mutate Rate:")
 enabled_mutate_rate_l.grid(row=4,column=5, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(enabled_mutate_rate_l, text ='enabled_mutate_rate\nThe probability that mutation will replace (50/50 chance of True or False)\nthe enabled status of a connection. Valid values are in [0.0, 1.0].')
 
-enabled_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = 'enabled_mutate_rate')
+enabled_mutate_rate = ttk.Spinbox(tab1, from_= 0.0, to =100.0, increment=1.0, name = 'enabled_mutate_rate')
 enabled_mutate_rate.grid(row=4,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(enabled_mutate_rate, text ='enabled_mutate_rate\nThe probability that mutation will replace (50/50 chance of True or False)\nthe enabled status of a connection. Valid values are in [0.0, 1.0].')
+enabled_mutate_rate.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(enabled_mutate_rate,enabled_mutate_rate, enabled_mutate_rate_l, style), "%P"))
 
 #enabled_rate_to_false_add
 enabled_rate_to_false_add_l = tk.Label(tab1, text = "enabled_rate_to_false_add:")
 enabled_rate_to_false_add_l.grid(row=5,column=5, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(enabled_rate_to_false_add_l, text ='enabled_rate_to_false_add\nAdds to the enabled_mutate_rate if the connection is currently enabled.')
 
-enabled_rate_to_false_add = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "enabled_rate_to_false_add")
+enabled_rate_to_false_add = ttk.Spinbox(tab1, from_= 0.0, to =100.0, increment=1.0, name = "enabled_rate_to_false_add")
 enabled_rate_to_false_add.grid(row=5,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(enabled_rate_to_false_add, text ='enabled_rate_to_false_add\nAdds to the enabled_mutate_rate if the connection is currently enabled.')
+enabled_rate_to_false_add.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(enabled_rate_to_false_add,enabled_rate_to_false_add, enabled_rate_to_false_add_l, style), "%P"))
 
 #enabled_rate_to_true_add
 enabled_rate_to_true_add_l = tk.Label(tab1, text = "enabled_rate_to_true_add:")
 enabled_rate_to_true_add_l.grid(row=6,column=5, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(enabled_rate_to_true_add_l, text ='enabled_rate_to_true_add\nAdds to the enabled_mutate_rate if the connection is currently not enabled..')
 
-enabled_rate_to_true_add = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "enabled_rate_to_true_add")
+enabled_rate_to_true_add = ttk.Spinbox(tab1, from_= 0.0, to =100.0, increment=1.0, name = "enabled_rate_to_true_add")
 enabled_rate_to_true_add.grid(row=6,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(enabled_rate_to_true_add, text ='enabled_rate_to_true_add\nAdds to the enabled_mutate_rate if the connection is currently not enabled..')
+enabled_rate_to_true_add.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(enabled_rate_to_true_add,enabled_rate_to_true_add, enabled_rate_to_true_add_l, style), "%P"))
 
 #node_add_prob
 node_add_prob_l = tk.Label(tab1, text = "Add node by mutation probability:")
@@ -874,6 +883,7 @@ CreateHelpMessage.CreateToolTip(node_add_prob_l, text ='node_add_prob\nThe proba
 node_add_prob = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "node_add_prob")
 node_add_prob.grid(row=7,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(node_add_prob, text ='node_add_prob\nThe probability that mutation will add a new node (essentially replacing an existing connection, the enabled status of which will be set to False). Valid values are in [0.0, 1.0].')
+node_add_prob.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(node_add_prob,node_add_prob, node_add_prob_l, style), "%P"))
 
 #node_delete_prob
 node_delete_prob_l = tk.Label(tab1, text = "Delete node by mutation probability:")
@@ -883,6 +893,7 @@ CreateHelpMessage.CreateToolTip(node_delete_prob_l, text ='node_delete_prob\nThe
 node_delete_prob = ttk.Spinbox(tab1, from_= 0.0, to =1.0, increment=0.1, name = "node_delete_prob")
 node_delete_prob.grid(row=8,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(node_delete_prob, text ='node_delete_prob\nThe probability that mutation will delete an existing node (and all connections to it). Valid values are in [0.0, 1.0].')
+node_delete_prob.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(node_delete_prob,node_delete_prob, node_delete_prob_l, style), "%P"))
 
 # Response
 response_l = tk.Label(tab1, text='Response options', font='Helvetica 11 bold')
@@ -978,6 +989,7 @@ single_structural_mutation = ttk.Combobox(tab1, name = "single_structural_mutati
 single_structural_mutation['values'] = ('True', 'False')
 single_structural_mutation.grid(row=18,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(single_structural_mutation, text ='If this evaluates to True, only one structural mutation (the addition or removal of a node or connection) will be allowed per genome per generation. (If the probabilities for conn_add_prob, conn_delete_prob, node_add_prob, and node_delete_prob add up to over 1, the chances of each are proportional to the appropriate configuration value.) This defaults to “False”.')
+single_structural_mutation.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(single_structural_mutation,single_structural_mutation, single_structural_mutation_L, style), "%P"))
 
 
 #structural_mutation_surer
@@ -989,6 +1001,7 @@ structural_mutation_surer = ttk.Combobox(tab1, name = "structural_mutation_surer
 structural_mutation_surer['values'] = ('True', 'False', 'default')
 structural_mutation_surer.grid(row=19,column=6, sticky = tk.W)
 CreateHelpMessage.CreateToolTip(structural_mutation_surer_L, text ='f this evaluates to True, then an attempt to add a node to a genome lacking connections will result in adding a connection instead; furthermore, if an attempt to add a connection tries to add a connection that already exists, that connection will be enabled. If this is set to default, then it acts as if it had the same value as single_structural_mutation (above). This defaults to “default”.')
+structural_mutation_surer.config(validate ="key", validatecommand =(ValidateInput.ValidateInput(structural_mutation_surer,structural_mutation_surer, structural_mutation_surer_L, style), "%P"))
 
 # Weight Values
 weight_l = tk.Label(tab1, text='Weight Values', font='Helvetica 11 bold')
