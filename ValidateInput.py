@@ -12,6 +12,7 @@ response_weight_bias_types = ['gaussian', 'normal', 'uniform']
 list_response_weight_bias = ["enabled_rate_to_true_add","enabled_rate_to_false_add","enabled_rate_to_false_add","compatibility_weight_coefficient","compatibility_threshold","compatibility_disjoint_coefficient","bias_init_mean","bias_init_stdev", "bias_max_value", "bias_min_value" ,"bias_mutate_power","bias_mutate_rate" ,"bias_replace_rate","response_init_stdev","response_max_value", "response_min_value",
                              "response_mutate_power" ,"response_mutate_rate" ,"response_replace_rate", "response_init_mean" , "weight_init_mean","weight_init_stdev",
                              "weight_max_value","weight_min_value" ,"weight_mutate_power", "weight_mutate_rate","weight_replace_rate"]
+
 class Validate(object):
 
     def __init__(self, widget):
@@ -22,7 +23,8 @@ class Validate(object):
 
     def validate_spinbox(self, text, label, isLightMode):
         bg = isLightMode.lookup('TFrame', 'background')
-        value = text.get()
+        if text._name != "activation_option":
+            value = text.get()
         if text._name == "fitness_criterion":
             # value = text.get()
             if (value == "max" or value == "min" or value == "mean"):
