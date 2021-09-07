@@ -94,7 +94,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l",
                "weight_init_type_L",
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
-               "weight_replace_rate_l", "random_from_form_l"]
+               "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l"]
 buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termination", "pop_size",
@@ -521,7 +521,7 @@ tab3 = ttk.Frame(tabControl, width=1000, height=700)
 
 ttk.Separator(tab1, orient=VERTICAL).grid(column=2, row=0, rowspan=20, sticky='nse', padx=20)
 
-tabControl.add(tab1, text='Neat Section')
+tabControl.add(tab1, text='Neat Config')
 
 # Neat Section
 neat_section_L = tk.Label(tab1, text='Neat Section', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
@@ -1454,6 +1454,22 @@ update_btn.grid(row=4, column=0, sticky="ew", padx=5)
 fr_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
 on_button.grid(row=5, column=0, sticky="ne")
+
+
+#Tab 2 --- Set up
+tabControl.add(tab2, text = "NEAT Setup")
+
+#Setup label
+setup_neat_l = tk.Label(tab2, text='Setup label', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
+setup_neat_l.grid(row=0, column=0, ipadx=32, pady=1)
+
+#Select game
+game_selection_l = tk.Label(tab2, text="Gym Game:", justify=LEFT, anchor="w")
+game_selection_l.grid(row=1, column=0,ipadx=37, pady=2)
+
+game_selection = ttk.Combobox(tab2, name="no_fitness_termination")
+game_selection['values'] = ('SpaceInvaders-v0', 'False')
+game_selection.grid(row=1, column=1)
 
 # Color LightMode program
 for label in labels_list:  # Loop though Labels
