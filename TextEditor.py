@@ -1398,7 +1398,7 @@ txt_edit = tk.Text(frame2)
 fr_buttons = tk.Frame(frame2, relief=tk.RAISED, bd=2)
 btn_open = tk.Button(fr_buttons, text="Open", command=open_file)
 btn_save = tk.Button(fr_buttons, text="Save As...", command=save_file)
-reset_btn = tk.Button(fr_buttons, text="Reset Config", command=reset_Editor)
+reset_btn = tk.Button(fr_buttons, text="Default Config", command=reset_Editor)
 default_config_btn = tk.Button(fr_buttons, text="Config Layout", command=default_config)
 update_btn = tk.Button(fr_buttons, text="Update Config", command=update_editor)
 
