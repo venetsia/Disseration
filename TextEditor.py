@@ -15,27 +15,28 @@ text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_t
                             "[DefaultReproduction]\n"
                             "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
                             "[DefaultGenome]\n"
-                            "# activation_options\n"
+                            "# Activation options\n"
                             "activation_default = \n"
-                            "activation_mutate_rate = \nactivation_options = \n"
-                            "\n# aggregation_options\naggregation_default = \n"
+                            "activation_mutate_rate = \nactivation_options = \n\n"
+                            "# Aggregation options\naggregation_default = \n"
                             "aggregation_mutate_rate = \naggregation_options = \n\n"
-                            "# bias_options\nbias_init_mean = \n"
+                            "# Bias options\nbias_init_mean = \n"
                             "bias_init_stdev = \nbias_init_type = \nbias_max_value = \n"
                             "bias_min_value = \nbias_mutate_rate = \nbias_replace_rate = \n\n"
-                            "# compatibility_options\n"
+                            "# Compatibility options\n"
                             "compatibility_threshold = \ncompatibility_disjoint_coefficient = \n"
                             "compatibility_weight_coefficient = \n\n"
-                            "# connection_options\nconn_add_prob = \n"
+                            "# Connection options\nconn_add_prob = \n"
                             "conn_delete_prob = \nenabled_default = \nenabled_mutate_rate = \n"
                             "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \nnode_add_prob = \n"
                             "node_delete_prob =\n\n"
-                            "# network_parameters\nfeed_forward = \n"
-                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = "
-                            "\n\n# response_options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
+                            "# Network parameters\nfeed_forward = \n"
+                            "initial_connection = \nnum_hidden = \nnum_inputs = \nnum_outputs = \n\n"
+                            "# Response options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = \n"
                             "response_max_value = \nresponse_min_value = \nresponse_mutate_power = \n"
-                            "response_mutate_rate = \nresponse_replace_rate = \n\n# structure_options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
-                            "# weight_options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
+                            "response_mutate_rate = \nresponse_replace_rate = \n\n"
+                            "# Structure options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
+                            "# Weight options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
                             "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
                             "weight_replace_rate = \n")
 labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "no_fitness_termination_l", "pop_size_l",
@@ -86,8 +87,8 @@ neat_selection = ["fitness_criterion", "fitness_threshold","no_fitness_terminati
 default_stagnation = ["species_fitness_func", "max_stagnation", "species_elitism"]
 default_reproduction = ["elitism", "survival_threshold", "min_species_size"]
 genome_section = ["num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward",
-                   "activation_default", "activation_mutate_rate", "activation_options_selected", "aggregation_mutate_rate", "aggregation_default",
-                   "aggregation_options_selected", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
+                   "activation_default", "activation_mutate_rate", "activation_options", "aggregation_mutate_rate", "aggregation_default",
+                   "aggregation_options", "bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
                    "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate", "compatibility_threshold", "compatibility_disjoint_coefficient",
                    "compatibility_weight_coefficient", "conn_add_prob", "conn_delete_prob", "enabled_default", "enabled_mutate_rate",
                    "enabled_rate_to_false_add", "enabled_rate_to_true_add", "node_add_prob", "node_delete_prob", "response_init_mean",
@@ -96,9 +97,8 @@ genome_section = ["num_inputs", "num_outputs", "num_hidden", "initial_connection
                    "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power", "weight_mutate_rate",
                    "weight_replace_rate"]
 network_parameters = ["num_inputs", "num_outputs", "num_hidden", "initial_connection", "initial_connection_value", "feed_forward"]
-activation_section = ["activation_default", "activation_mutate_rate", "activation_options_selected"]
-aggregation_options = ["aggregation_mutate_rate", "aggregation_default",
-                   "aggregation_options_selected"]
+activation_section = ["activation_default", "activation_mutate_rate", "activation_options"]
+aggregation_section = ["aggregation_mutate_rate", "aggregation_default","aggregation_options"]
 node_bias_section = ["bias_init_mean", "bias_init_stdev", "bias_init_type", "bias_max_value", "bias_min_value",
                    "bias_mutate_power", "bias_mutate_rate", "bias_replace_rate"]
 genome_comp_option = ["compatibility_threshold", "compatibility_disjoint_coefficient",
@@ -143,11 +143,11 @@ def items_selected(event):
     """ handle item selected event
     """
     # get selected indices
-    selected_indices = listbox.curselection()
+    selected_indices = activation_listbox.curselection()
     selected_indices_aggregation = listbox_aggregation_options.curselection()
     if len(selected_indices) != 0:
         # get selected items
-        selected_langs = ",".join([listbox.get(i) for i in selected_indices])
+        selected_langs = ",".join([activation_listbox.get(i) for i in selected_indices])
         msg = f'You selected: {selected_langs}'
 
         showinfo(
@@ -171,14 +171,35 @@ def default_config():
     txt_edit.insert(INSERT, text_editor)
 
 def insert(line, value_to_be_added):
-    txt_edit.insert(float(line) + 1.0,
-                    value_to_be_added + " = " + eval(str(value_to_be_added) + ".get()") + "\n")
+    #print(value_to_be_added)
+    try:
+        txt_edit.insert(float(line) + 1.0,
+                        value_to_be_added + " = " + eval(str(value_to_be_added) + ".get()") + "\n")
+    except AttributeError:
+        if value_to_be_added == "aggregation_options":
+            aggregation_value = [listbox_aggregation_options.get(idx) for idx in
+                                 listbox_aggregation_options.curselection()]
+            aggregation_option_values = ', '.join(aggregation_value)
+            txt_edit.insert(float(line) + 1.0, "aggregation_options = " + aggregation_option_values + "\n")
+        elif value_to_be_added == "activation_options":
+            activation_values = [activation_listbox.get(idx) for idx in activation_listbox.curselection()]
+            activation_option_values = ', '.join(activation_values)
+            txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
     non_added_values = []
     added_values = []
+    #print(listbox.get(listbox.curselection()))
+    activation_values = [activation_listbox.get(idx) for idx in activation_listbox.curselection()]
+    #print(', '.join(activation_values))
+    activation_option_values = ', '.join(activation_values)
+    #print(len(activation_option_values))
+    #print(activation_option_values)
+    aggregation_value = [listbox_aggregation_options.get(idx) for idx in listbox_aggregation_options.curselection()]
+    aggregation_option_values = ', '.join(aggregation_value)
+    #print(len(aggregation_option_values))
     try:
         for form_input in form_values_list:
             num_line = 0
@@ -210,7 +231,7 @@ def update_editor():
                     else:
                         if form_input not in non_added_values:
                             non_added_values.append(form_input)
-            if len(eval(str(form_input) + ".get()")) != 0 and form_input != "elitism":
+            if len(eval(str(form_input) + ".get()")) != 0 and form_input != "elitism" or form_input == "activation_options":
                 for line in thetext.split("\n"):
                     num_line += 1
                     if form_input in line:
@@ -227,7 +248,39 @@ def update_editor():
                             non_added_values.append(form_input)
     except AttributeError:
         pass
-    print(len(non_added_values))
+    if len(activation_option_values) > 0:
+        num_line = 0
+        for line in thetext.split("\n"):
+            num_line += 1
+            if line.find("activation_options = ") == 0:
+                #print("Found in line" + line)
+                if "activation_options" not in added_values:
+                    txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                    txt_edit.insert(float(num_line), "activation_options = " + activation_option_values + "\n")
+                added_values.append("activation_options")
+                if "activation_options" in non_added_values:
+                    non_added_values.remove("activation_options")
+                break
+            else:
+                if "activation_options" not in non_added_values:
+                    non_added_values.append("activation_options")
+    if len(aggregation_option_values) > 0:
+        num_line = 0
+        for line in thetext.split("\n"):
+            num_line += 1
+            if line.find("aggregation_options = ") == 0:
+                if "aggregation_options" not in added_values:
+                    txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                    txt_edit.insert(float(num_line), "aggregation_options = " + aggregation_option_values + "\n")
+                    added_values.append("aggregation_options")
+                    #print("Added to added values")
+                if "aggregation_options" in non_added_values:
+                    non_added_values.remove("aggregation_options")
+                    #print("Added to not added values")
+                break
+            else:
+                if ("aggregation_options" not in non_added_values):
+                    non_added_values.append("aggregation_options")
     non_added_values.reverse()
     while len(non_added_values) != 0:
         for non_added_value in non_added_values:
@@ -259,28 +312,28 @@ def update_editor():
                 for line in thetext.split("\n"):
                     num_line_0 += 1
                     #if line.endswith("[DefaultGenome]"):
-                    if line.endswith("# activation_options") and non_added_value in activation_section:
+                    if line.endswith("# Activation options") and non_added_value in activation_section:
                         insert(num_line_0, non_added_value)
-                    elif line.endswith("# aggregation_options") and non_added_value in aggregation_options:
-                         insert(num_line_0, non_added_value)
-                    elif line.endswith("# bias_options") and non_added_value in node_bias_section:
+                    elif line.endswith("# Aggregation options") and non_added_value in aggregation_section:
+                        insert(num_line_0, non_added_value)
+                    elif line.endswith("# Bias options") and non_added_value in node_bias_section:
                         insert(num_line_0,non_added_value)
-                    elif line.endswith("# compatibility_options") and non_added_value in genome_comp_option:
+                    elif line.endswith("# Compatibility options") and non_added_value in genome_comp_option:
                         insert(num_line_0,non_added_value)
-                    elif line.endswith("# connection_options") and non_added_value in connection_options:
+                    elif line.endswith("# Connection options") and non_added_value in connection_options:
                         insert(num_line_0,non_added_value)
-                    elif line.endswith("# network_parameters") and non_added_value in network_parameters:
+                    elif line.endswith("# Network parameters") and non_added_value in network_parameters:
                           insert(num_line_0, non_added_value)
-                    elif line.endswith("# response_options") and non_added_value in response_options:
+                    elif line.endswith("# Response options") and non_added_value in response_options:
                           insert(num_line_0,non_added_value)
-                    elif line.endswith("# structure_options") and non_added_value in structure_options:
+                    elif line.endswith("# Structure options") and non_added_value in structure_options:
                         insert(num_line_0, non_added_value)
-                    elif line.endswith("# weight_options") and non_added_value in weight_values:
+                    elif line.endswith("# Weight options") and non_added_value in weight_values:
                          insert(num_line_0,non_added_value)
                        # break
             non_added_values.remove(non_added_value)
-            print(non_added_value)
             break
+
 # Define our switch function
 def switch():
 
@@ -319,8 +372,8 @@ def switch():
         for options in range(len(aggregation_options)):
             listbox_aggregation_options.itemconfig(options, {'bg': 'grey85'})
         for activation_option in range(len(activation_options)):
-            listbox.itemconfig(activation_option, {'bg': "grey85"})
-        print(is_on)
+            activation_listbox.itemconfig(activation_option, {'bg': "grey85"})
+        #print(is_on)
     else: #Dark Mode
         on_button.config(image=on)
         is_on = True
@@ -347,9 +400,9 @@ def switch():
         for options in range(len(aggregation_options)):
             listbox_aggregation_options.itemconfig(options, {'bg': 'gray77'})
         for activation_option in range(len(activation_options)):
-            listbox.itemconfig(activation_option, {'bg': "gray77"})
-        print(is_on)
-    print(is_on)
+            activation_listbox.itemconfig(activation_option, {'bg': "gray77"})
+        #print(is_on)
+    #print(is_on)
     return is_on
 root = tk.Tk()
 
@@ -637,18 +690,18 @@ activation_options = ('abs', 'clamped', 'cube','exp', 'gauss',
                                 'hat','identity', 'inv', 'log','relu','elu',
                                 'lelu','selu', 'sigmoid','sin', 'softplus', 'square', 'tanh')
 langs_var = tk.StringVar(value=activation_options)
-listbox = tk.Listbox(tab1,height = 3, listvariable = langs_var, selectmode='extended', name ="activation_options")
-listbox.grid(row=4,column=4, pady = 2, sticky = tk.W)
-activation_options_selected = listbox.bind('<<ListboxSelect>>', items_selected)
+activation_listbox = tk.Listbox(tab1,height = 3, listvariable = langs_var, selectmode='extended', name ="activation_options", exportselection = 0)
+activation_listbox.grid(row=4,column=4, pady = 2, sticky = tk.W)
+activation_options_selected = activation_listbox.bind('<<ListboxSelect>>', items_selected)
 #print(activation_options_selected)
 # link a scrollbar to a list
 scrollbar = ttk.Scrollbar(
     root,
     orient='vertical',
-    command=listbox.yview
+    command=activation_listbox.yview
 )
 
-listbox['yscrollcommand'] = scrollbar.set
+activation_listbox['yscrollcommand'] = scrollbar.set
 
 #Aggregation_mutate_rate
 aggregation_mutate_rate_L = tk.Label(tab1, text = "Aggregation mutate rate:", anchor = "e")
@@ -678,7 +731,7 @@ CreateHelpMessage.CreateToolTip(aggregation_options_L, text ='aggregation_option
 
 aggregation_options = ('sum', 'product', 'min','max', 'mean', 'median','maxads')
 langs_var_aggregation_options = tk.StringVar(value=aggregation_options)
-listbox_aggregation_options = tk.Listbox(tab1,height = 4, listvariable = langs_var_aggregation_options, selectmode='extended',name = "aggregation_options")
+listbox_aggregation_options = tk.Listbox(tab1,height = 4, listvariable = langs_var_aggregation_options, selectmode='extended',name = "aggregation_options", exportselection = 0)
 listbox_aggregation_options.grid(row=7,column=4, sticky = tk.W)
 aggregation_options_selected = listbox_aggregation_options.bind('<<ListboxSelect>>', items_selected)
 print(aggregation_options_selected)
@@ -1155,7 +1208,7 @@ style.configure("TCheckbutton", fieldbackground="MediumPurple1", background="gre
 for options in range(len(aggregation_options)):
     listbox_aggregation_options.itemconfig(options, {'bg': 'grey85'})
 for activation_option in range(len(activation_options)):
-    listbox.itemconfig(activation_option, {'bg': "grey85"})
+    activation_listbox.itemconfig(activation_option, {'bg': "grey85"})
 
 root.mainloop()
 
