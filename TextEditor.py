@@ -13,7 +13,7 @@ text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_t
                "[DefaultStagnation]\nspecies_fitness_func = \n"
                "max_stagnation = \nspecies_elitism = \n\n"
                "[DefaultReproduction]\n"
-               "elitism = \nsurvival_threshold = \nmin_species_size =\n\n"
+               "elitism = \nsurvival_threshold = \nmin_species_size = \n\n"
                "[DefaultGenome]\n"
                "# Activation options\n"
                "activation_default = \n"
@@ -37,6 +37,37 @@ text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_t
                "response_mutate_rate = \nresponse_replace_rate = \n\n"
                "# Structure options\nsingle_structural_mutation = \nstructural_mutation_surer = \n\n"
                "# Weight options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = \nweight_max_value = \n"
+               "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
+               "weight_replace_rate = \n")
+default_text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = False\n"
+               "pop_size = \nreset_on_extinction = \n\n"
+               "[DefaultStagnation]\nspecies_fitness_func = mean\n"
+               "max_stagnation = 15\nspecies_elitism = 0\n\n"
+               "[DefaultReproduction]\n"
+               "elitism = 0\nsurvival_threshold = 0.2\nmin_species_size = 0.2\n\n"
+               "[DefaultGenome]\n"
+               "# Activation options\n"
+               "activation_default = \n"
+               "activation_mutate_rate = \nactivation_options = sigmoid\n\n"
+               "# Aggregation options\naggregation_default = \n"
+               "aggregation_mutate_rate = \naggregation_options = sum\n\n"
+               "# Bias options\nbias_init_mean = \n"
+               "bias_init_stdev = \nbias_init_type = \nbias_max_value = \n"
+               "bias_min_value = \nbias_mutate_rate = \nbias_replace_rate = \n\n"
+               "# Compatibility options\n"
+               "compatibility_threshold = \ncompatibility_disjoint_coefficient = \n"
+               "compatibility_weight_coefficient = \n\n"
+               "# Connection options\nconn_add_prob = \n"
+               "conn_delete_prob = \nenabled_default = \nenabled_mutate_rate = \n"
+               "enabled_rate_to_false_add = \nenabled_rate_to_true_add = \nnode_add_prob = \n"
+               "node_delete_prob =\n\n"
+               "# Network parameters\nfeed_forward = \n"
+               "initial_connection = unconnected\nnum_hidden = \nnum_inputs = \nnum_outputs = \n\n"
+               "# Response options\nresponse_init_mean = \nresponse_init_stdev = \nresponse_init_type = gaussian\n"
+               "response_max_value = \nresponse_min_value = \nresponse_mutate_power = \n"
+               "response_mutate_rate = \nresponse_replace_rate = \n\n"
+               "# Structure options\nsingle_structural_mutation = False\nstructural_mutation_surer = default\n\n"
+               "# Weight options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = gaussian\nweight_max_value = \n"
                "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
                "weight_replace_rate = \n")
 labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "no_fitness_termination_l", "pop_size_l",
@@ -190,10 +221,11 @@ def items_selected(event):
 
 def reset_Editor():
     txt_edit.delete("1.0", "end")
-    txt_edit.insert(INSERT, text_editor)
+    txt_edit.insert(INSERT, default_text_editor)
 
 
 def default_config():
+    txt_edit.delete("1.0", "end")
     txt_edit.insert(INSERT, text_editor)
 
 
