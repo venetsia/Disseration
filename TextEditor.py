@@ -165,7 +165,7 @@ weight_values = ["weight_init_mean",
                  "weight_replace_rate"]
 structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 
-
+# Open File
 def open_file():
     """Open a file for editing."""
     filepath = askopenfilename(
