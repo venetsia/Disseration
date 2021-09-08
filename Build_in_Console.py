@@ -2,6 +2,7 @@ from tkinter import END
 from io import StringIO
 import sys
 
+#This build in console cannot get the variables from TextEditor
 class Build_in_Console(object):
 
     def __init__(self, widget):
@@ -23,6 +24,7 @@ class Build_in_Console(object):
             widget.insert(END,"\n" + message)
         except:
             try:
+                sys.stdout = sys.__stdout__
                 exec(widget.get(1.0, "end-1c"))
             except Exception as e:
                 print("error:", e)
