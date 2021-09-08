@@ -1498,8 +1498,8 @@ game_checkpoint.grid(row=4, column=1)
 console_l = tk.Label(tab2, text="Enter command:", justify=LEFT, anchor="w")
 console_l.grid(row=5, column=0,ipadx=37, pady=2)
 
-build_in_console = tk.Text(tab2, name="build_in_console", height = 10, width =30)
-build_in_console.grid(row=5, column=1)
+build_in_console = tk.Text(tab2, name="build_in_console", height = 10, width =25)
+build_in_console.grid(row=6, column=0)
 build_in_console.bind("<Return>",Build_in_Console.Get_Console_input(build_in_console))
 
 
