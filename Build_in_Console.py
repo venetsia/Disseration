@@ -18,7 +18,6 @@ class Build_in_Console(object):
             pass
         try:
             y = eval(widget.get(1.0, "end-1c"))
-            #message = f"{y}"
             sys.stdout = old_stdout
             message = mystdout.getvalue()
             widget.insert(END,"\n" + message)
