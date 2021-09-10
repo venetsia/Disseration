@@ -172,11 +172,57 @@ def open_file():
     filepath = askopenfilename(
         filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
     )
+    neat_s_list =[]
+    activation_list = []
+    aggregation_list = []
+    node_bias_list = []
+    genome_comp_list = []
+    connection_list = []
+    response_list = []
+    weight_list = []
+    structure_list = []
     if not filepath:
         return
     txt_edit.delete(1.0, tk.END)
     with open(filepath, "r") as input_file:
         text = input_file.read()
+        for form_input in form_values_list:
+            num_line = 0
+            for line in text.split("\n"):
+                num_line += 1
+                if line.find(form_input) == 0:
+                    if form_input in neat_selection:
+                        neat_s_list.append(line)
+                    elif form_input in activation_section:
+                        activation_list.append(line)
+                    elif form_input in aggregation_section:
+                        aggregation_list.append(line)
+                    elif form_input in node_bias_section:
+                        node_bias_list.append(line)
+                    elif form_input in genome_comp_option:
+                        genome_comp_list.append(line)
+                    elif form_input in connection_options:
+                        connection_list.append(line)
+                    elif form_input in response_options:
+                        response_list.append(line)
+                    elif form_input in weight_values:
+                        weight_list.append(line)
+                    elif form_input in structure_options:
+                        structure_list.append(line)
+        neat_s_list.reverse()
+        activation_list.reverse()
+        aggregation_list.reverse()
+        node_bias_list.reverse()
+        genome_comp_list.reverse()
+        connection_list.reverse()
+        response_list.reverse()
+        weight_list.reverse()
+        structure_list.reverse()
+
+        global_list_values = []
+        global_list_values.append("[NEAT]")
+        global_list_values.append(neat_s_list)
+
         txt_edit.insert(tk.END, text)
 
 
