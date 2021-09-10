@@ -23,8 +23,6 @@ class Build_in_Console(object):
             widget.insert(END, "\n" + message)
             return
         env = gym.make(game_selection.get())
-        action_space = str(env.action_space)
-
 
         if widget.get(1.0, "end-1c") == "exit":
             pass
