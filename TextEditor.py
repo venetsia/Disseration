@@ -1502,7 +1502,6 @@ build_in_console = tk.Text(tab2, name="build_in_console", height = 10, width =25
 build_in_console.grid(row=7, column=0)
 build_in_console.bind("<Return>",Build_in_Console.Get_Console_input(build_in_console, game_selection))
 
-
 # Reccurent / FeedForward network
 network_type_l = tk.Label(tab2, text="Network Type:", justify=LEFT, anchor="w")
 network_type_l.grid(row=5, column=0,ipadx=37, pady=2)

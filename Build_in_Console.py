@@ -13,10 +13,18 @@ class Build_in_Console(object):
         self.x = self.y = 0
 
     def console_output(self,widget, game_selection):
-        env = gym.make(game_selection.get())
-        action_space = str(env.action_space)
         old_stdout = sys.stdout
         sys.stdout = mystdout = StringIO()
+        # If game is empty - do not continue with function
+        # just exit function
+        if game_selection.get() == "":
+            print("Game is not selected")
+            message = mystdout.getvalue()
+            widget.insert(END, "\n" + message)
+            return
+        env = gym.make(game_selection.get())
+        action_space = str(env.action_space)
+
 
         if widget.get(1.0, "end-1c") == "exit":
             pass
@@ -32,8 +40,7 @@ class Build_in_Console(object):
             except Exception as e:
                 print("error:", e)
                 message = mystdout.getvalue()
-                widget.insert(END, "\n")
-                widget.insert(message)
+                widget.insert(END,"\n" + message)
 def Get_Console_input(widget, game_selection):
     input_from_widget = Build_in_Console(widget)
 
