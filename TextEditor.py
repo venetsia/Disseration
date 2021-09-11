@@ -5,6 +5,7 @@ from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
 import CreateHelpMessage
 from ttkthemes import ThemedStyle
+import textwrap
 
 import ValidateInput
 import Build_in_Console
@@ -173,7 +174,10 @@ def open_file():
         filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
     )
     neat_s_list =[]
+    default_stagnation_list = []
     activation_list = []
+    default_reproduction_list=[]
+    network_parameters_list = []
     aggregation_list = []
     node_bias_list = []
     genome_comp_list = []
@@ -192,24 +196,33 @@ def open_file():
                 num_line += 1
                 if line.find(form_input) == 0:
                     if form_input in neat_selection:
-                        neat_s_list.append(line)
+                        neat_s_list.append(line + "\n")
+                    elif form_input in default_stagnation:
+                        default_stagnation_list.append(line + "\n")
+                    elif form_input in default_reproduction:
+                        default_reproduction_list.append(line + "\n")
+                    elif form_input in network_parameters:
+                        network_parameters_list.append(line + "\n")
                     elif form_input in activation_section:
-                        activation_list.append(line)
+                        activation_list.append(line + "\n")
                     elif form_input in aggregation_section:
-                        aggregation_list.append(line)
+                        aggregation_list.append(line + "\n")
                     elif form_input in node_bias_section:
-                        node_bias_list.append(line)
+                        node_bias_list.append(line + "\n")
                     elif form_input in genome_comp_option:
-                        genome_comp_list.append(line)
+                        genome_comp_list.append(line + "\n")
                     elif form_input in connection_options:
-                        connection_list.append(line)
+                        connection_list.append(line + "\n")
                     elif form_input in response_options:
-                        response_list.append(line)
+                        response_list.append(line + "\n")
                     elif form_input in weight_values:
-                        weight_list.append(line)
+                        weight_list.append(line + "\n")
                     elif form_input in structure_options:
-                        structure_list.append(line)
+                        structure_list.append(line + "\n")
         neat_s_list.reverse()
+        default_stagnation_list.reverse()
+        default_reproduction_list.reverse()
+        network_parameters_list.reverse()
         activation_list.reverse()
         aggregation_list.reverse()
         node_bias_list.reverse()
@@ -220,10 +233,66 @@ def open_file():
         structure_list.reverse()
 
         global_list_values = []
-        global_list_values.append("[NEAT]")
-        global_list_values.append(neat_s_list)
+        global_list_values.append("[NEAT]\n")
+        # using list comprehension
+        neat_list_string = ' '.join(map(str, neat_s_list))
+        global_list_values.append(neat_list_string)
+        global_list_values.append("\n[DefaultStagnation]\n")
+        # using list comprehension
+        default_stagnation_list_string = ' '.join(map(str, default_stagnation_list))
+        global_list_values.append(default_stagnation_list_string)
+        global_list_values.append("\n[DefaultReproduction]\n")
+        # using list comprehension
+        reproduction_list_string = ' '.join(map(str, default_reproduction_list))
+        global_list_values.append(reproduction_list_string)
+        global_list_values.append("\n[DefaultGenome]\n")
+        global_list_values.append("# Activation options\n")
+        # using list comprehension
+        activation_list_string = ' '.join(map(str, activation_list))
+        global_list_values.append(activation_list_string)
+        global_list_values.append("\n# Aggregation options\n")
+        # using list comprehension
+        aggregation_list_string = ' '.join(map(str, aggregation_list))
+        global_list_values.append(aggregation_list_string)
+        global_list_values.append("\n# Bias options\n")
+        # using list comprehension
+        bias_list_string = ' '.join(map(str, node_bias_list))
+        global_list_values.append(bias_list_string)
+        global_list_values.append("\n# Compatibility options\n")
+        # using list comprehension
+        compatibility_list_string = ' '.join(map(str, genome_comp_list))
+        global_list_values.append(compatibility_list_string)
+        global_list_values.append("\n# Connection options\n")
+        # using list comprehension
+        connection_list_string = ' '.join(map(str, connection_list))
+        global_list_values.append(connection_list_string)
+        global_list_values.append("\n# Network parameters\n")
+        # using list comprehension
+        netowork_list_string = ' '.join(map(str, network_parameters_list))
+        global_list_values.append(netowork_list_string)
+        global_list_values.append("\n# Response options\n")
+        # using list comprehension
+        response_list_string = ' '.join(map(str, response_list))
+        global_list_values.append(response_list_string)
+        global_list_values.append("\n# Structure options\n")
+        # using list comprehension
+        structure_list_string = ' '.join(map(str, structure_list))
+        global_list_values.append(structure_list_string)
+        global_list_values.append("\n# Weight options\n")
+        # using list comprehension
+        weight_list_string = ' '.join(map(str, weight_list))
+        global_list_values.append(weight_list_string)
 
-        txt_edit.insert(tk.END, text)
+        # using list comprehension
+        listToStr = ' '.join(map(str, global_list_values))
+
+        # Remove any whitespaces in the beginning of the line
+        emptylisttostring = ""
+        for line in listToStr.split("\n"):
+            line = line.lstrip()
+            emptylisttostring = emptylisttostring + line + "\n"
+
+        txt_edit.insert(tk.END, emptylisttostring)
 
 
 def save_file():
