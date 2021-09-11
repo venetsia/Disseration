@@ -364,7 +364,7 @@ def insert(line, value_to_be_added):
             activation_option_values = ', '.join(activation_values)
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
-def run_NEAT():
+def run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value):
     print("Test")
 
 def update_editor():
@@ -449,10 +449,8 @@ def update_editor():
                     num_line += 1
                     if form_input in line:
                         if form_input not in added_values:
-                            if line.find(form_input + " = ") == 0:
-                                txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                                txt_edit.insert(float(num_line),
-                                                form_input + " = " + eval(str(form_input) + ".get()") + "\n")
+                            txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                            txt_edit.insert(float(num_line), form_input + " = " + eval(str(form_input) + ".get()") + "\n")
                         added_values.append(form_input)
                         if form_input in non_added_values:
                             non_added_values.remove(form_input)
@@ -1634,11 +1632,6 @@ network_type = ttk.Combobox(tab2, name="network_type")
 network_type['values'] = ("Feed-forward ", "Recurrent")
 network_type.grid(row=5, column=1, sticky=tk.W)
 
-# Run button for Neat
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command=run_NEAT, justify=LEFT, anchor="w")
-btn_run_neat.grid(row=9, column=0, sticky=tk.W, padx=5, pady=5)
-
-
 # Directory path
 directory_value_l = tk.Label(tab2, text="Directory:", justify=LEFT, anchor="w")
 directory_value_l.grid(row=7, column=0, pady=2, sticky=tk.W)
@@ -1656,6 +1649,9 @@ choose_config_file.grid(row=6, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=
 Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
 
+# Run button for Neat
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command=run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value), justify=LEFT, anchor="w")
+btn_run_neat.grid(row=9, column=0, sticky=tk.W, padx=5, pady=5)
 
 # Color LightMode program
 for label in labels_list:  # Loop though Labels

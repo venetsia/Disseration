@@ -38,6 +38,9 @@ class Validate(object):
                 text.set("")
                 label.config(fg="red")
         elif text._name == "fitness_threshold":
+            if value == "":
+                label.config(fg="red")
+                return
             # value = text.get()
             print(value.isdigit())
             print(len(value) if len(value) > 0 else "no")
@@ -100,9 +103,9 @@ class Validate(object):
                         text.set("")
                         label.config(fg="red")
             except ValueError:
-                if float(temp_value):
+                if float(value):
                     print("Float with minus")
-                    temp_value = float(temp_value)
+                    temp_value = float(value)
                     text.set("-" + str(temp_value))
                     if str(bg) == "grey75":
                         print(bg)
