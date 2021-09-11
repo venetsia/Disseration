@@ -99,7 +99,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
                "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l", "winner_file_name_l",
                "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l", "directory_value_l", "directory_value_l"]
-buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn", "btn_run_neat"]
+buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termination", "pop_size",
                     "reset_on_extinction",
@@ -337,17 +337,17 @@ def items_selected(event):
             message=msg)
         return selected_langs_aggregation
 
-
-def reset_Editor():
+# Add Default assigned value to editor (Information gained from NEAT Python website)
+def default_values_config():
     txt_edit.delete("1.0", "end")
     txt_edit.insert(INSERT, default_text_editor)
 
-
-def default_config():
+# Get Editor Config - empty
+def get_empty_config():
     txt_edit.delete("1.0", "end")
     txt_edit.insert(INSERT, text_editor)
 
-
+# values that are not found in Editor are added via this insert function on a specific line (grouped - check the lists)
 def insert(line, value_to_be_added):
     # print(value_to_be_added)
     try:
@@ -365,7 +365,7 @@ def insert(line, value_to_be_added):
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
 def run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value):
-    print("Test")
+    print(game_selection.get())
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
@@ -1553,8 +1553,8 @@ txt_edit = tk.Text(frame2)
 fr_buttons = tk.Frame(frame2, relief=tk.RAISED, bd=2)
 btn_open = tk.Button(fr_buttons, text="Open", command=open_file)
 btn_save = tk.Button(fr_buttons, text="Save As...", command=save_file)
-reset_btn = tk.Button(fr_buttons, text="Default Config", command=reset_Editor)
-default_config_btn = tk.Button(fr_buttons, text="Config Layout", command=default_config)
+default_values_config_btn = tk.Button(fr_buttons, text="Default Config", command=default_values_config)
+get_empty_config_btn = tk.Button(fr_buttons, text="Config Layout", command=get_empty_config)
 update_btn = tk.Button(fr_buttons, text="Update Config", command=update_editor)
 
 # Keep track of the button state on/off
@@ -1571,8 +1571,8 @@ on_button = tk.Button(fr_buttons, image=off, bd=0,
 
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5)
-reset_btn.grid(row=2, column=0, sticky="ew", padx=5)
-default_config_btn.grid(row=3, column=0, sticky="ew", padx=5)
+default_values_config_btn.grid(row=2, column=0, sticky="ew", padx=5)
+get_empty_config_btn.grid(row=3, column=0, sticky="ew", padx=5)
 update_btn.grid(row=4, column=0, sticky="ew", padx=5)
 fr_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
