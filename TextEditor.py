@@ -96,7 +96,8 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l",
                "weight_init_type_L",
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
-               "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l", "winner_file_name_l", "game_evaluation_l", "game_checkpoint_l"]
+               "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l", "winner_file_name_l",
+               "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l"]
 buttons_list = ["btn_open", "btn_save", "reset_btn", "default_config_btn", "update_btn"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termination", "pop_size",
@@ -564,6 +565,8 @@ def switch():
         for button in buttons_list:
             exec(button + ".configure(bg = 'purple4', fg= 'gray99')")
         txt_edit.config(bg="light grey", fg="gray1")
+        winner_file_name.config(bg="light grey", fg="gray1")
+        build_in_console.config(bg="light grey", fg="gray1")
         fr_buttons.configure(bg="red4")
         on_button.configure(bg="red4", activebackground='red4')
         root.config(bg='red4')
@@ -593,6 +596,8 @@ def switch():
         for button in buttons_list:
             exec(button + ".configure(bg = 'dark slate gray', fg = 'white smoke')")
         txt_edit.config(bg="gray12", fg="gray84")
+        winner_file_name.config(bg="gray12", fg="gray84")
+        build_in_console.config(bg="gray12", fg="gray84")
         fr_buttons.configure(bg="gray18")
         on_button.configure(bg="gray18", activebackground='gray18')
         root.config(bg='gray24')
@@ -1577,53 +1582,53 @@ tabControl.add(tab2, text = "NEAT Setup")
 
 # Setup label
 setup_neat_l = tk.Label(tab2, text='Setup label', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
-setup_neat_l.grid(row=0, column=0, ipadx=32, pady=1)
+setup_neat_l.grid(row=0, column=0, ipadx=32, pady=1, sticky=tk.W)
 
 # Select game
 game_selection_l = tk.Label(tab2, text="Gym Game:", justify=LEFT, anchor="w")
-game_selection_l.grid(row=1, column=0,ipadx=37, pady=2)
+game_selection_l.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection = ttk.Combobox(tab2, name="game_selection")
 game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
-game_selection.grid(row=1, column=1)
+game_selection.grid(row=1, column=1, sticky=tk.W)
 
 # Select evalutation
 game_evaluation_l = tk.Label(tab2, text="Evaluate Genomes:", justify=LEFT, anchor="w")
-game_evaluation_l.grid(row=2, column=0,ipadx=37, pady=2)
+game_evaluation_l.grid(row=2, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_evaluation = ttk.Combobox(tab2, name="game_evaluation")
 game_evaluation['values'] = ("Single-Processing", "Multi-Processing")
-game_evaluation.grid(row=2, column=1)
+game_evaluation.grid(row=2, column=1, sticky=tk.W)
 
 # Winner file name
 winner_file_name_l = tk.Label(tab2, text="Winner file name:", justify=LEFT, anchor="w")
-winner_file_name_l.grid(row=3, column=0,ipadx=37, pady=2)
+winner_file_name_l.grid(row=3, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 winner_file_name = tk.Text(tab2, name="winner_file_name", height = 0.5, width =17)
-winner_file_name.grid(row=3, column=1)
+winner_file_name.grid(row=3, column=1, sticky=tk.W)
 
 # Checkpoints
 game_checkpoint_l = tk.Label(tab2, text="Save Checkpoint:", justify=LEFT, anchor="w")
-game_checkpoint_l.grid(row=4, column=0,ipadx=37, pady=2)
+game_checkpoint_l.grid(row=4, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_checkpoint = ttk.Spinbox(tab2, from_=0, to=100000000, increment=1, name = "game_evaluation")
-game_checkpoint.grid(row=4, column=1)
+game_checkpoint.grid(row=4, column=1, sticky=tk.W)
 
 # Console
 console_l = tk.Label(tab2, text="Enter command:", justify=LEFT, anchor="w")
-console_l.grid(row=6, column=0,ipadx=37, pady=2)
+console_l.grid(row=6, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 build_in_console = tk.Text(tab2, name="build_in_console", height = 10, width =25)
-build_in_console.grid(row=7, column=0)
+build_in_console.grid(row=7, column=0, sticky=tk.W)
 build_in_console.bind("<Return>",Build_in_Console.Get_Console_input(build_in_console, game_selection))
 
 # Reccurent / FeedForward network
 network_type_l = tk.Label(tab2, text="Network Type:", justify=LEFT, anchor="w")
-network_type_l.grid(row=5, column=0,ipadx=37, pady=2)
+network_type_l.grid(row=5, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 network_type = ttk.Combobox(tab2, name="network_type")
 network_type['values'] = ("Feed-forward ", "Recurrent")
-network_type.grid(row=5, column=1)
+network_type.grid(row=5, column=1, sticky=tk.W)
 
 # Color LightMode program
 for label in labels_list:  # Loop though Labels
@@ -1631,6 +1636,7 @@ for label in labels_list:  # Loop though Labels
 for button in buttons_list:
     exec(button + ".configure(bg = 'purple4', fg= 'gray99')")
 txt_edit.config(bg="light grey", fg="gray1")
+winner_file_name.config(bg="light grey", fg="gray1")
 fr_buttons.configure(bg="red4")
 on_button.configure(bg="red4", activebackground='red4')
 root.config(bg='red4')
