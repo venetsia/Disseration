@@ -8,6 +8,7 @@ from ttkthemes import ThemedStyle
 import textwrap
 
 import Get_Directory_For_Neat
+import NEAT_Single_Processing
 import ValidateInput
 import Build_in_Console
 
@@ -98,7 +99,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "weight_init_type_L",
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
                "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l", "winner_file_name_l",
-               "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l", "directory_value_l", "directory_value_l"]
+               "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l", "directory_value_l", "directory_value_l", "render_window_l"]
 buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat"]
 
 form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termination", "pop_size",
@@ -364,8 +365,11 @@ def insert(line, value_to_be_added):
             activation_option_values = ', '.join(activation_values)
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
-def run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value):
+def run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
     print(game_selection.get())
+    if game_evaluation.get() == "Single-Processing":
+        NEAT_Single_Processing.run_Program(game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window)
+
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
@@ -1618,10 +1622,10 @@ game_checkpoint.grid(row=4, column=1, sticky=tk.W)
 
 # Console
 console_l = tk.Label(tab2, text="Enter command:", justify=LEFT, anchor="w")
-console_l.grid(row=10, column=0,ipadx=37, pady=2, sticky=tk.W)
+console_l.grid(row=11, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 build_in_console = tk.Text(tab2, name="build_in_console", height = 5, width =45)
-build_in_console.grid(row=11, column=0, sticky=tk.W,columnspan=2)
+build_in_console.grid(row=12, column=0, sticky=tk.W,columnspan=2)
 build_in_console.bind("<Return>",Build_in_Console.Get_Console_input(build_in_console, game_selection))
 
 # Reccurent / FeedForward network
@@ -1629,29 +1633,37 @@ network_type_l = tk.Label(tab2, text="Network Type:", justify=LEFT, anchor="w")
 network_type_l.grid(row=5, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 network_type = ttk.Combobox(tab2, name="network_type")
-network_type['values'] = ("Feed-forward ", "Recurrent")
+network_type['values'] = ("Feed-forward", "Recurrent")
 network_type.grid(row=5, column=1, sticky=tk.W)
 
 # Directory path
 directory_value_l = tk.Label(tab2, text="Directory:", justify=LEFT, anchor="w")
-directory_value_l.grid(row=7, column=0, pady=2, sticky=tk.W)
+directory_value_l.grid(row=8, column=0, pady=2, sticky=tk.W)
 
 directory_value = tk.Text(tab2, name="directory_value", height = 2, width =50,state = "disabled")
-directory_value.grid(row=8, column=0, sticky=tk.W, columnspan=3)
+directory_value.grid(row=9, column=0, sticky=tk.W, columnspan=3)
+
+# Render Window
+render_window_l = tk.Label(tab2, text="Render game?", justify=LEFT, anchor="w")
+render_window_l.grid(row=6, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+render_window = ttk.Combobox(tab2, name="render_window")
+render_window['values'] = ("True", "False")
+render_window.grid(row=6, column=1, sticky=tk.W)
 
 # Choose Config File
 choose_config_file_l = tk.Label(tab2, text="Config File:", justify=LEFT, anchor="w")
-choose_config_file_l.grid(row=6, column=0,ipadx=37, pady=2, sticky=tk.W)
+choose_config_file_l.grid(row=7, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 choose_config_file = ttk.Combobox(tab2, name="choose_config_file")
 choose_config_file['values'] = ("From Text Editor", "Choose file from directory")
-choose_config_file.grid(row=6, column=1, sticky=tk.W)
+choose_config_file.grid(row=7, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=
 Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
 
 # Run button for Neat
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command=run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value), justify=LEFT, anchor="w")
-btn_run_neat.grid(row=9, column=0, sticky=tk.W, padx=5, pady=5)
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command=lambda : run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window), justify=LEFT, anchor="w")
+btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
 
 # Color LightMode program
 for label in labels_list:  # Loop though Labels

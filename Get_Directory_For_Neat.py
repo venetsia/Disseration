@@ -2,6 +2,8 @@ import os
 import tkinter as tk
 from tkinter.filedialog import asksaveasfilename, askopenfilename
 from tkinter import ttk, INSERT
+import os.path
+from os import path
 
 def save_file(txt_edit, path_directory):
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
@@ -33,11 +35,17 @@ def open_file(txt_edit, path_directory):
     )
     print(filepath)
     # Reverse slashes
-    filepath = filepath.replace('/', '\\')
+    #filepath = filepath.replace('/', '\\')
+    #replace_slash = "\\"
+    #res = filepath.rindex(replace_slash)
+    #filepath = filepath[:res] + "/" + filepath[res + 1:]
+    #filepath = os.path.normpath(filepath)
+    print(path.exists(filepath))
     print(filepath)
     path_directory.configure(state='normal')
     path_directory.insert(INSERT, filepath)
     path_directory.configure(state='disabled')
+
 
 class Get_Dir_for_Neat(object):
 
