@@ -1,3 +1,4 @@
+import threading
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
 from tkinter import ttk, INSERT
@@ -6,12 +7,15 @@ from tkinter.messagebox import showinfo
 import CreateHelpMessage
 from ttkthemes import ThemedStyle
 import textwrap
+import multiprocessing
+from multiprocessing.pool import ThreadPool
 
 import Get_Directory_For_Neat
 import NEAT_Single_Processing
 import ValidateInput
 import Build_in_Console
 
+# Create at startup
 text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
                "pop_size = \nreset_on_extinction = \n\n"
                "[DefaultStagnation]\nspecies_fitness_func = \n"
@@ -170,7 +174,7 @@ weight_values = ["weight_init_mean",
                  "weight_replace_rate"]
 structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 
-
+#nested_list = []
 # Open File
 def open_file():
     """Open a file for editing."""
@@ -365,11 +369,18 @@ def insert(line, value_to_be_added):
             activation_option_values = ', '.join(activation_values)
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
-def run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
+def threaded_function_run(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
     print(game_selection.get())
     if game_evaluation.get() == "Single-Processing":
-        NEAT_Single_Processing.run_Program(game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window)
-
+        NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
+                                           network_type,
+                                           directory_value, render_window)
+def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
+    #q = []
+    #global nested_list
+        download_thread = threading.Thread(
+            target=threaded_function_run(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window)).start()
+        #download_thread.start()
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
@@ -627,7 +638,8 @@ def switch():
     # print(is_on)
     return is_on
 
-
+download_thread1 = threading.Thread()
+download_thread1.start()
 root = tk.Tk()
 
 style = ttk.Style()
@@ -1661,8 +1673,15 @@ choose_config_file.grid(row=7, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=
 Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
 
+
+
+# Output console
+Output_Console = tk.Text(tab2, name="output_console", height = 20, width =50)
+Output_Console.grid(row=13, column=0, sticky=tk.W, rowspan =3, columnspan=3, pady = 5)
+Output_Console.bind('<Key>',lambda e: 'break')
+
 # Run button for Neat
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command=lambda : run_NEAT(game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window), justify=LEFT, anchor="w")
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command=lambda : run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window), justify=LEFT, anchor="w")
 btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
 
 # Color LightMode program

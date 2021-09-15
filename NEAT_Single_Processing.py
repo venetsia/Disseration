@@ -1,6 +1,7 @@
 import argparse
 import os
-from tkinter import END
+import threading
+from tkinter import END, INSERT
 from pathlib import Path
 import cv2
 import gym
@@ -11,6 +12,7 @@ import pickle
 import os.path
 from os import path
 import tkinter as tk
+
 
 episodes = 1
 starting_pixel = 114
@@ -119,19 +121,24 @@ def eval_network(net, net_input):
 def raw(text):
     """Returns a raw string representation of text"""
     new_string=''
+    text = text.strip()
     for char in text:
         try: new_string+=escape_dict[char]
         except KeyError: new_string+=char
     new_string = new_string.replace("\\n", "")
+    new_string = new_string.replace("\n", "")
+
     return new_string
 
-def run_Program(game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window):
+def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window):
     # Load configuration.
     #local_dir = os.path.dirname(__file__)
     #config_path = os.path.join(local_dir, 'config-feedforwardFishing.txt')
     # config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
     #                            neat.DefaultSpeciesSet, neat.DefaultStagnation,
     #                            config_path)
+
+
     config_path = directory_value.get("1.0",END)
     print("Path used: " + str(config_path))
 
@@ -149,6 +156,10 @@ def run_Program(game_selection, winner_file_name, game_checkpoint, network_type,
     stats = neat.StatisticsReporter()
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
+    pop.add_reporter(neat.Checkpointer(int(game_checkpoint.get())))
+
+    Output_Console.tag_configure('STDOUT', background='white', foreground='black')
+    Output_Console.tag_configure('STDERR', background='white', foreground='red')
 
     global env_variable
     global network
@@ -161,9 +172,11 @@ def run_Program(game_selection, winner_file_name, game_checkpoint, network_type,
 
     #winner = pop.run(pe.evaluate)
     winner = pop.run(eval_genomes)
-
+    winner_file_raw = raw(winner_file_name.get("1.0",END))
     # Save the winner.
-    with open(winner_file_name.get(), 'wb') as f:
+    with open(winner_file_raw, 'wb') as f:
         pickle.dump(winner, f)
 
     print(winner)
+    return
+
