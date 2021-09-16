@@ -1709,13 +1709,11 @@ choose_config_file.grid(row=7, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=
 Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
 
-
-
 # Output console
 Output_Console = tk.Text(tab2, name="output_console", height = 30, width =80)
 Output_Console.grid(row=13, column=0, sticky=tk.W, rowspan =4, columnspan=4, pady = 5)
 Output_Console.bind('<Key>',lambda e: 'break')
-Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ")
+Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ##")
 
 # Run button for Neat using a thread
 btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start(), justify=LEFT, anchor="w")
