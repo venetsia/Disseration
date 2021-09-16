@@ -1,8 +1,9 @@
+import re
 from multiprocessing import Process
 import threading
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
-from tkinter import ttk, INSERT
+from tkinter import ttk, INSERT, END
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
 import CreateHelpMessage
@@ -182,6 +183,12 @@ weight_values = ["weight_init_mean",
                  "weight_mutate_rate",
                  "weight_replace_rate"]
 structure_options = ["single_structural_mutation", "structural_mutation_surer"]
+
+def Validate_Text_Widget_Neat(event):
+    winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
+    winner_file_name.delete('1.0', END)
+    winner_file_name.insert(END, winner_file_name_text)
+    print(winner_file_name_text)
 
 # Open File
 def open_file():
@@ -411,6 +418,7 @@ def threaded_function_run(Output_Console,game_selection, game_evaluation, winner
                                            directory_value, render_window)
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
     print(game_selection.get())
+
     if game_evaluation.get() == "Single-Processing":
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
@@ -1642,7 +1650,7 @@ game_selection = ttk.Combobox(tab2, name="game_selection")
 game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
 game_selection.grid(row=1, column=1, sticky=tk.W)
 game_selection.config(validate="key", validatecommand=(
-    Validate_Neat_Setup.ValidateInput(game_selection, game_selection_l, style), "%P"))
+    Validate_Neat_Setup.ValidateInputNEAT(game_selection, game_selection_l, style), "%P"))
 
 # Select evalutation
 game_evaluation_l = tk.Label(tab2, text="Evaluate Genomes:", justify=LEFT, anchor="w")
@@ -1652,7 +1660,7 @@ game_evaluation = ttk.Combobox(tab2, name="game_evaluation")
 game_evaluation['values'] = ("Single-Processing", "Multi-Processing")
 game_evaluation.grid(row=2, column=1, sticky=tk.W)
 game_evaluation.config(validate="key", validatecommand=(
-    Validate_Neat_Setup.ValidateInput(game_evaluation, game_evaluation_l, style), "%P"))
+    Validate_Neat_Setup.ValidateInputNEAT(game_evaluation, game_evaluation_l, style), "%P"))
 
 # Winner file name
 winner_file_name_l = tk.Label(tab2, text="Winner file name:", justify=LEFT, anchor="w")
@@ -1660,6 +1668,7 @@ winner_file_name_l.grid(row=3, column=0, ipadx=37, pady=2, sticky=tk.W)
 
 winner_file_name = tk.Text(tab2, name="winner_file_name", height = 0.5, width =17)
 winner_file_name.grid(row=3, column=1, sticky=tk.W)
+winner_file_name.bind('<KeyRelease>',Validate_Text_Widget_Neat)
 
 # Checkpoints
 game_checkpoint_l = tk.Label(tab2, text="Save Checkpoint:", justify=LEFT, anchor="w")
@@ -1667,6 +1676,8 @@ game_checkpoint_l.grid(row=4, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_checkpoint = ttk.Spinbox(tab2, from_=0, to=100000000, increment=1, name = "game_checkpoint")
 game_checkpoint.grid(row=4, column=1, sticky=tk.W)
+game_checkpoint.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(game_checkpoint, game_checkpoint_l, style), "%P"))
 
 # Console
 console_l = tk.Label(tab2, text="Enter command:", justify=LEFT, anchor="w")
@@ -1683,6 +1694,8 @@ network_type_l.grid(row=5, column=0,ipadx=37, pady=2, sticky=tk.W)
 network_type = ttk.Combobox(tab2, name="network_type")
 network_type['values'] = ("Feed-forward", "Recurrent")
 network_type.grid(row=5, column=1, sticky=tk.W)
+network_type.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(network_type, network_type_l, style), "%P"))
 
 # Directory path
 directory_value_l = tk.Label(tab2, text="Directory:", justify=LEFT, anchor="w")
@@ -1698,6 +1711,8 @@ render_window_l.grid(row=6, column=0,ipadx=37, pady=2, sticky=tk.W)
 render_window = ttk.Combobox(tab2, name="render_window")
 render_window['values'] = ("True", "False")
 render_window.grid(row=6, column=1, sticky=tk.W)
+render_window.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(render_window, render_window_l, style), "%P"))
 
 # Choose Config File
 choose_config_file_l = tk.Label(tab2, text="Config File:", justify=LEFT, anchor="w")
@@ -1708,6 +1723,9 @@ choose_config_file['values'] = ("From Text Editor", "Choose file from directory"
 choose_config_file.grid(row=7, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=
 Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
+choose_config_file.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(choose_config_file, choose_config_file_l, style), "%P"))
+
 
 # Output console
 Output_Console = tk.Text(tab2, name="output_console", height = 30, width =80)
