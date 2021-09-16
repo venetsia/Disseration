@@ -160,7 +160,8 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     stats = neat.StatisticsReporter()
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
-    pop.add_reporter(neat.Checkpointer(int(game_checkpoint.get())))
+    if int(game_checkpoint.get()) != 0 or game_checkpoint.get != None:
+        pop.add_reporter(neat.Checkpointer(int(game_checkpoint.get())))
 
     #Output_Console.tag_configure('STDOUT', background='white', foreground='black')
     #Output_Console.tag_configure('STDERR', background='white', foreground='red')
