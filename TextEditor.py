@@ -79,6 +79,8 @@ default_text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_f
                "# Weight options\nweight_init_mean = \nweight_init_stdev = \nweight_init_type = gaussian\nweight_max_value = \n"
                "weight_min_value = \nweight_mutate_power = \nweight_mutate_rate = \n"
                "weight_replace_rate = \n")
+
+# Label list used to modify DarkMode and Light Mode
 labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "no_fitness_termination_l", "pop_size_l",
                "reset_on_extinction_L", "default_stagnation_l", "species_fitness_func_l", "max_stagnation_l",
                "species_elitism_l",
@@ -105,8 +107,10 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
                "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l", "winner_file_name_l",
                "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l", "directory_value_l", "directory_value_l", "render_window_l"]
+# Button list used to modify Dark Mode and Light Mode
 buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat"]
 
+# Used for looping though all Editor form values
 form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termination", "pop_size",
                     "reset_on_extinction",
                     "species_fitness_func", "max_stagnation", "species_elitism", "survival_threshold", "elitism",
@@ -127,6 +131,8 @@ form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termin
                     "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value",
                     "weight_mutate_power", "weight_mutate_rate",
                     "weight_replace_rate"]
+
+# NEAT Sections separated into different List for smarter assignment when values do not exist in Config
 form_Main_label_list = ["neat_section_L", "default_stagnation_l",
                         "default_reproduction_l", "genome_Section_l"]
 form_sublabels_label_list = ["network_Parameters_l", "activation_n_aggregation_o",
@@ -175,13 +181,17 @@ weight_values = ["weight_init_mean",
                  "weight_replace_rate"]
 structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 
-#nested_list = []
 # Open File
 def open_file():
     """Open a file for editing."""
+
+    # Restrict to .txt files
+    # askopenfilename opens a File Dialog (from Tkinter)
     filepath = askopenfilename(
         filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
     )
+    # Lists that are empty prior and will be filled with values existing in config file loaded
+    # Will be compared with lists containing forms so they are assigned correctly to list
     neat_s_list =[]
     default_stagnation_list = []
     activation_list = []
@@ -194,16 +204,28 @@ def open_file():
     response_list = []
     weight_list = []
     structure_list = []
+
+    # If File path does not exist - return
     if not filepath:
         return
+
+    # Delete whatever is in text_edit (Editor Text Widget)
     txt_edit.delete(1.0, tk.END)
+
+    # Open file
     with open(filepath, "r") as input_file:
-        text = input_file.read()
+        text = input_file.read() # Read file
+        # Loop though form values
         for form_input in form_values_list:
             num_line = 0
+            # Split lines in text editor via new line
             for line in text.split("\n"):
                 num_line += 1
+                # If a form input is found in line
                 if line.find(form_input) == 0:
+                    # all of the if and else statement seperate form inputs into a list
+                    # form input is checked whether or not it exists in lists created
+                    # (lists are separated for smarter separation)
                     if form_input in neat_selection:
                         neat_s_list.append(line + "\n")
                     elif form_input in default_stagnation:
@@ -228,6 +250,8 @@ def open_file():
                         weight_list.append(line + "\n")
                     elif form_input in structure_options:
                         structure_list.append(line + "\n")
+
+        # Reverse lists
         neat_s_list.reverse()
         default_stagnation_list.reverse()
         default_reproduction_list.reverse()
@@ -241,58 +265,65 @@ def open_file():
         weight_list.reverse()
         structure_list.reverse()
 
-        global_list_values = []
-        global_list_values.append("[NEAT]\n")
-        # using list comprehension
+        # List that will contain all form inputs and assigned values
+        # (Includes the whole line if form value is found)
+        # This list is filled with the form values and how they are separated
+        # via sections either [] or #
+
+        # NEAT
+        global_list_values = ["[NEAT]\n"]
+        # using list comprehension to combine into a string
         neat_list_string = ' '.join(map(str, neat_s_list))
+        # Add to global list
         global_list_values.append(neat_list_string)
+        # Default Stagnation
         global_list_values.append("\n[DefaultStagnation]\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         default_stagnation_list_string = ' '.join(map(str, default_stagnation_list))
         global_list_values.append(default_stagnation_list_string)
         global_list_values.append("\n[DefaultReproduction]\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         reproduction_list_string = ' '.join(map(str, default_reproduction_list))
         global_list_values.append(reproduction_list_string)
         global_list_values.append("\n[DefaultGenome]\n")
         global_list_values.append("# Activation options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         activation_list_string = ' '.join(map(str, activation_list))
         global_list_values.append(activation_list_string)
         global_list_values.append("\n# Aggregation options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         aggregation_list_string = ' '.join(map(str, aggregation_list))
         global_list_values.append(aggregation_list_string)
         global_list_values.append("\n# Bias options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         bias_list_string = ' '.join(map(str, node_bias_list))
         global_list_values.append(bias_list_string)
         global_list_values.append("\n# Compatibility options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         compatibility_list_string = ' '.join(map(str, genome_comp_list))
         global_list_values.append(compatibility_list_string)
         global_list_values.append("\n# Connection options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         connection_list_string = ' '.join(map(str, connection_list))
         global_list_values.append(connection_list_string)
         global_list_values.append("\n# Network parameters\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         netowork_list_string = ' '.join(map(str, network_parameters_list))
         global_list_values.append(netowork_list_string)
         global_list_values.append("\n# Response options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         response_list_string = ' '.join(map(str, response_list))
         global_list_values.append(response_list_string)
         global_list_values.append("\n# Structure options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         structure_list_string = ' '.join(map(str, structure_list))
         global_list_values.append(structure_list_string)
         global_list_values.append("\n# Weight options\n")
-        # using list comprehension
+        # using list comprehension to combine into a string
         weight_list_string = ' '.join(map(str, weight_list))
         global_list_values.append(weight_list_string)
 
-        # using list comprehension
+        # using list comprehension to combine into a string
         listToStr = ' '.join(map(str, global_list_values))
 
         # Remove any whitespaces in the beginning of the line
