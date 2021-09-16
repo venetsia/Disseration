@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 import threading
 from tkinter import END, INSERT
 from pathlib import Path
@@ -13,6 +14,7 @@ import os.path
 from os import path
 import tkinter as tk
 
+from TextRedirector import TextRedirector
 
 episodes = 1
 starting_pixel = 114
@@ -114,6 +116,7 @@ def eval_genomes(genomes, config) :
         # To immediately stop once it kills all enemies achieving its goal
 
         genome.fitness = fitness
+    return
 def eval_network(net, net_input):
     activation = net.activate(net_input)
     return np.argmax(activation)
@@ -137,7 +140,8 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     # config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
     #                            neat.DefaultSpeciesSet, neat.DefaultStagnation,
     #                            config_path)
-
+    Output_Console.delete('1.0', END)
+    sys.stdout = TextRedirector(Output_Console, "stdout")
     print("Started")
     config_path = directory_value.get("1.0",END)
     print("Path used: " + str(config_path))
@@ -161,6 +165,7 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     #Output_Console.tag_configure('STDOUT', background='white', foreground='black')
     #Output_Console.tag_configure('STDERR', background='white', foreground='red')
 
+    #assign blobal variables
     global env_variable
     global network
     global render_window_variable
