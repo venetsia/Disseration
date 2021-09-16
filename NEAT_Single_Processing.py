@@ -138,7 +138,7 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     #                            neat.DefaultSpeciesSet, neat.DefaultStagnation,
     #                            config_path)
 
-
+    print("Started")
     config_path = directory_value.get("1.0",END)
     print("Path used: " + str(config_path))
 
@@ -158,8 +158,8 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     pop.add_reporter(neat.StdOutReporter(True))
     pop.add_reporter(neat.Checkpointer(int(game_checkpoint.get())))
 
-    Output_Console.tag_configure('STDOUT', background='white', foreground='black')
-    Output_Console.tag_configure('STDERR', background='white', foreground='red')
+    #Output_Console.tag_configure('STDOUT', background='white', foreground='black')
+    #Output_Console.tag_configure('STDERR', background='white', foreground='red')
 
     global env_variable
     global network

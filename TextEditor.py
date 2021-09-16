@@ -1,3 +1,4 @@
+from multiprocessing import Process
 import threading
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
@@ -376,12 +377,11 @@ def threaded_function_run(Output_Console,game_selection, game_evaluation, winner
                                            network_type,
                                            directory_value, render_window)
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
-    #q = []
-    #global nested_list
-        download_thread = threading.Thread(
-            target=threaded_function_run(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window)).start()
-        #download_thread.start()
-
+    print(game_selection.get())
+    if game_evaluation.get() == "Single-Processing":
+        NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
+                                           network_type,
+                                           directory_value, render_window)
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
     non_added_values = []
@@ -638,8 +638,7 @@ def switch():
     # print(is_on)
     return is_on
 
-download_thread1 = threading.Thread()
-download_thread1.start()
+
 root = tk.Tk()
 
 style = ttk.Style()
@@ -1681,7 +1680,7 @@ Output_Console.grid(row=13, column=0, sticky=tk.W, rowspan =3, columnspan=3, pad
 Output_Console.bind('<Key>',lambda e: 'break')
 
 # Run button for Neat
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command=lambda : run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window), justify=LEFT, anchor="w")
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start(), justify=LEFT, anchor="w")
 btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
 
 # Color LightMode program
@@ -1713,4 +1712,6 @@ for options in range(len(aggregation_options)):
 for activation_option in range(len(activation_options_values_sec)):
     activation_listbox.itemconfig(activation_option, {'bg': "grey85"})
 
+
 root.mainloop()
+
