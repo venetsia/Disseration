@@ -23,6 +23,8 @@ search_x_start = 22
 search_x_end = 139
 rock_color = 107
 runs_per_net = 15
+
+# Escape dict to be used for fixing string to raw
 escape_dict={'\a':r'\a',
            '\b':r'\b',
            '\c':r'\c',
@@ -44,18 +46,8 @@ escape_dict={'\a':r'\a',
            '\8':r'\8',
            '\9':r'\9'}
 
-#parameters (priors) we got from analyzing images for faster computation
-#env = gym.make('MsPacman-v0')
-# env = gym.make('KungFuMaster-v0')
-# Games Tested
-# 'Breakout-ram-v0'
-# 'AirRaid-ram-v0'
-# 'SpaceInvaders-ram-v0'
-# 'MsPacman-ram-v0'
-# 'Asterix-ram-v0'
 
-
-
+# Global Vairables to be used in eval_genomes and assigned from RUN_Program
 env_variable =""
 network = ""
 render_window_variable =""
@@ -135,38 +127,38 @@ def raw(text):
 
 def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window):
     # Load configuration.
-    #local_dir = os.path.dirname(__file__)
-    #config_path = os.path.join(local_dir, 'config-feedforwardFishing.txt')
-    # config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
-    #                            neat.DefaultSpeciesSet, neat.DefaultStagnation,
-    #                            config_path)
+
+    # Empty console that will use for print
     Output_Console.delete('1.0', END)
+
+    # Set Text Widget to be Output
     sys.stdout = TextRedirector(Output_Console, "stdout")
-    print("Started")
+
+    # Get path for config file
     config_path = directory_value.get("1.0",END)
-    print("Path used: " + str(config_path))
-
-    print(path.exists(config_path))
-
+    # Fix path string
     path_new = raw(config_path)
-    print(path_new)
-    #print("Converted path: " + path_new)
-    print(path.exists(path_new))
+
+    # From NEAT integration that will be used for population
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
                                neat.DefaultSpeciesSet, neat.DefaultStagnation,
                                path_new)
 
+    # Get Population
     pop = neat.Population(config)
+    # Enable statistic reported
     stats = neat.StatisticsReporter()
     pop.add_reporter(stats)
+
+    # Print evolution of genomes
     pop.add_reporter(neat.StdOutReporter(True))
-    if int(game_checkpoint.get()) != 0 or game_checkpoint.get != None:
+
+    # Make sure game_checkpoint does not execute if 0
+    if int(game_checkpoint.get()) != 0:
         pop.add_reporter(neat.Checkpointer(int(game_checkpoint.get())))
 
-    #Output_Console.tag_configure('STDOUT', background='white', foreground='black')
-    #Output_Console.tag_configure('STDERR', background='white', foreground='red')
 
-    #assign blobal variables
+    # assign global variables that will be used in evolving genomes
     global env_variable
     global network
     global render_window_variable
@@ -177,7 +169,11 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
 
     #winner = pop.run(pe.evaluate)
+
+    # Get winner
     winner = pop.run(eval_genomes)
+
+    # Get winner name that will be used and fix string
     winner_file_raw = raw(winner_file_name.get("1.0",END))
     # Save the winner.
     with open(winner_file_raw, 'wb') as f:

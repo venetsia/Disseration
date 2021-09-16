@@ -1,3 +1,5 @@
+# Class used for redirecting printed statements into widget
+
 class TextRedirector(object):
     def __init__(self, widget, tag="stdout"):
         self.widget = widget
