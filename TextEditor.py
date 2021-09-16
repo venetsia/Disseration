@@ -17,6 +17,8 @@ import ValidateInput
 import Build_in_Console
 
 # Create at startup
+import Validate_Neat_Setup
+
 text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
                "pop_size = \nreset_on_extinction = \n\n"
                "[DefaultStagnation]\nspecies_fitness_func = \n"
@@ -1639,6 +1641,8 @@ game_selection_l.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 game_selection = ttk.Combobox(tab2, name="game_selection")
 game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
 game_selection.grid(row=1, column=1, sticky=tk.W)
+game_selection.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInput(game_selection, game_selection_l, style), "%P"))
 
 # Select evalutation
 game_evaluation_l = tk.Label(tab2, text="Evaluate Genomes:", justify=LEFT, anchor="w")
@@ -1647,6 +1651,8 @@ game_evaluation_l.grid(row=2, column=0,ipadx=37, pady=2, sticky=tk.W)
 game_evaluation = ttk.Combobox(tab2, name="game_evaluation")
 game_evaluation['values'] = ("Single-Processing", "Multi-Processing")
 game_evaluation.grid(row=2, column=1, sticky=tk.W)
+game_evaluation.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInput(game_evaluation, game_evaluation_l, style), "%P"))
 
 # Winner file name
 winner_file_name_l = tk.Label(tab2, text="Winner file name:", justify=LEFT, anchor="w")
