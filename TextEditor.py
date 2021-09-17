@@ -418,7 +418,14 @@ def threaded_function_run(Output_Console,game_selection, game_evaluation, winner
                                            directory_value, render_window)
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
     print(game_selection.get())
-
+    if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.get("1.0", END) == "" or directory_value.get("1.0", END) == "":
+        return
+    if render_window.get() == "":
+        render_window.set("False")
+    if network_type.get() == "":
+        network_type.set("Feed-forward")
+    if game_checkpoint.get() == "":
+        game_checkpoint.set("0")
     if game_evaluation.get() == "Single-Processing":
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
@@ -1721,11 +1728,7 @@ choose_config_file_l.grid(row=7, column=0,ipadx=37, pady=2, sticky=tk.W)
 choose_config_file = ttk.Combobox(tab2, name="choose_config_file")
 choose_config_file['values'] = ("From Text Editor", "Choose file from directory")
 choose_config_file.grid(row=7, column=1, sticky=tk.W)
-choose_config_file.config(validate="key", validatecommand=
-Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
-choose_config_file.config(validate="key", validatecommand=(
-    Validate_Neat_Setup.ValidateInputNEAT(choose_config_file, choose_config_file_l, style), "%P"))
-
+choose_config_file.config(validate="key", validatecommand=Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
 
 # Output console
 Output_Console = tk.Text(tab2, name="output_console", height = 30, width =80)
