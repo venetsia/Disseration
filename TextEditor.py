@@ -1,3 +1,4 @@
+import logging
 import re
 from multiprocessing import Process
 import threading
@@ -19,7 +20,7 @@ import Build_in_Console
 
 # Create at startup
 import Validate_Neat_Setup
-
+number_of_sessions = 0
 text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
                "pop_size = \nreset_on_extinction = \n\n"
                "[DefaultStagnation]\nspecies_fitness_func = \n"
@@ -183,6 +184,7 @@ weight_values = ["weight_init_mean",
                  "weight_mutate_rate",
                  "weight_replace_rate"]
 structure_options = ["single_structural_mutation", "structural_mutation_surer"]
+logging.basicConfig(filename="logfilename.log", level=logging.INFO)
 
 def Validate_Text_Widget_Neat(event):
     winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
@@ -416,8 +418,8 @@ def threaded_function_run(Output_Console,game_selection, game_evaluation, winner
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
                                            directory_value, render_window)
-def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
-    print(game_selection.get())
+def run_NEAT(number_of_sessions,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
+    number_of_sessions = number_of_sessions + 1
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.get("1.0", END) == "" or directory_value.get("1.0", END) == "":
         return
     if render_window.get() == "":
@@ -426,6 +428,12 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
         network_type.set("Feed-forward")
     if game_checkpoint.get() == "":
         game_checkpoint.set("0")
+    logging.info(f'Session is: {number_of_sessions}')
+    logging.info(f'Game selection is: {game_selection.get()}')
+    logging.info(f'Game evaluation is: {game_evaluation.get()}')
+    logging.info(f'Winner file name is: {NEAT_Single_Processing.raw(winner_file_name.get("1.0", END))}')
+    logging.info(f'The network type is: {network_type.get()}')
+    logging.info(f'Config file is located in: {NEAT_Single_Processing.raw(directory_value.get("1.0", END))}\n\n')
     if game_evaluation.get() == "Single-Processing":
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
@@ -868,9 +876,6 @@ ValidateInput.ValidateInput(min_species_size, min_species_size, min_species_size
 
 # Default Genome
 tabControl.add(tab2, text='Default Genome')
-tabControl.add(tab3, text='Default Genome')
-
-tabControl.tab(2, state="disabled")
 
 # Genome
 genome_Section_l = tk.Label(tab1, text='Genome Section', font='Helvetica 12 bold underline', anchor="w")
@@ -1646,7 +1651,7 @@ on_button.grid(row=5, column=0, sticky="ne")
 tabControl.add(tab2, text = "NEAT Setup")
 
 # Setup label
-setup_neat_l = tk.Label(tab2, text='Setup label', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
+setup_neat_l = tk.Label(tab2, text='Setup', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
 setup_neat_l.grid(row=0, column=0, ipadx=32, pady=1, sticky=tk.W)
 
 # Select game
@@ -1736,9 +1741,104 @@ Output_Console.grid(row=13, column=0, sticky=tk.W, rowspan =4, columnspan=4, pad
 Output_Console.bind('<Key>',lambda e: 'break')
 Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ##")
 
+#run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start()
+run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [number_of_sessions,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window])
+
 # Run button for Neat using a thread
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start(), justify=LEFT, anchor="w")
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : run_Neat_thread.start(), justify=LEFT, anchor="w")
 btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
+
+tabControl.add(tab3, text='Load Winner')
+
+# Setup label
+setup_neat_l_Winner = tk.Label(tab3, text='Run Wunner', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
+setup_neat_l_Winner.grid(row=0, column=0, ipadx=32, pady=1, sticky=tk.W)
+
+# Select game
+game_selection_l_Winner = tk.Label(tab3, text="Gym Game:", justify=LEFT, anchor="w")
+game_selection_l_Winner.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+game_selection_winner = ttk.Combobox(tab3, name="game_selection_winner")
+game_selection_winner['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
+game_selection_winner.grid(row=1, column=1, sticky=tk.W)
+game_selection_winner.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(game_selection_winner, game_selection_l_Winner, style), "%P"))
+
+# Select evalutation
+game_evaluation_l_winner = tk.Label(tab3, text="Evaluate Genomes:", justify=LEFT, anchor="w")
+game_evaluation_l_winner.grid(row=2, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+game_evaluation_winner = ttk.Combobox(tab3, name="game_evaluation_winner")
+game_evaluation_winner['values'] = ("Single-Processing", "Multi-Processing")
+game_evaluation_winner.grid(row=2, column=1, sticky=tk.W)
+game_evaluation_winner.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(game_evaluation_winner, game_selection_winner, style), "%P"))
+
+# Winner file name
+winner_file_name_l_winner = tk.Label(tab3, text="Winner file name:", justify=LEFT, anchor="w")
+winner_file_name_l_winner.grid(row=3, column=0, ipadx=37, pady=2, sticky=tk.W)
+
+winner_file_name_winner = tk.Text(tab3, name="winner_file_name_winner", height = 0.5, width =17)
+winner_file_name_winner.grid(row=3, column=1, sticky=tk.W)
+winner_file_name_winner.bind('<KeyRelease>',Validate_Text_Widget_Neat)
+
+# Checkpoints
+game_checkpoint_l_winner = tk.Label(tab3, text="Save Checkpoint:", justify=LEFT, anchor="w")
+game_checkpoint_l_winner.grid(row=4, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+game_checkpoint_winner = ttk.Spinbox(tab3, from_=0, to=100000000, increment=1, name = "game_checkpoint")
+game_checkpoint_winner.grid(row=4, column=1, sticky=tk.W)
+game_checkpoint_winner.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(game_checkpoint_winner, game_checkpoint_l_winner, style), "%P"))
+
+# Console
+console_l_winner = tk.Label(tab3, text="Enter command:", justify=LEFT, anchor="w")
+console_l_winner.grid(row=11, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+build_in_console_winner = tk.Text(tab3, name="build_in_console_winner", height = 5, width =45)
+build_in_console_winner.grid(row=12, column=0, sticky=tk.W,columnspan=2)
+build_in_console_winner.bind("<Return>",Build_in_Console.Get_Console_input(build_in_console, game_selection))
+
+# Reccurent / FeedForward network
+network_type_l_winner = tk.Label(tab3, text="Network Type:", justify=LEFT, anchor="w")
+network_type_l_winner.grid(row=5, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+network_type_winner = ttk.Combobox(tab3, name="network_type_winner")
+network_type_winner['values'] = ("Feed-forward", "Recurrent")
+network_type_winner.grid(row=5, column=1, sticky=tk.W)
+network_type_winner.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(network_type_winner, network_type_l_winner, style), "%P"))
+
+# Directory path
+directory_value_l_winner = tk.Label(tab3, text="Directory:", justify=LEFT, anchor="w")
+directory_value_l_winner.grid(row=8, column=0, pady=2, sticky=tk.W)
+
+directory_value_winner = tk.Text(tab3, name="directory_value_winner", height = 2, width =50,state = "disabled")
+directory_value_winner.grid(row=9, column=0, sticky=tk.W, columnspan=3)
+
+# Render Window
+render_window_l_winner = tk.Label(tab3, text="Render game?", justify=LEFT, anchor="w")
+render_window_l_winner.grid(row=6, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+render_window_winner = ttk.Combobox(tab3, name="render_window_winner", textvariable = "True")
+render_window_winner['values'] = ("True", "False")
+render_window_winner.grid(row=6, column=1, sticky=tk.W)
+render_window_winner.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(render_window_winner, render_window_l_winner, style), "%P"))
+
+# Choose Config File
+choose_config_file_l_winner = tk.Label(tab3, text="Config File:", justify=LEFT, anchor="w")
+choose_config_file_l_winner.grid(row=7, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+choose_config_file_winner = ttk.Combobox(tab3, name="choose_config_file_winner")
+choose_config_file_winner['values'] = ("From Text Editor", "Choose file from directory")
+choose_config_file_winner.grid(row=7, column=1, sticky=tk.W)
+choose_config_file_winner.config(validate="key", validatecommand=Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
+
+
+# Run button for Neat using a thread
+btn_run_neat_winner = tk.Button(tab3, text="Run NEAT", command= lambda : threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start(), justify=LEFT, anchor="w")
+btn_run_neat_winner.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
 
 # Color LightMode program
 for label in labels_list:  # Loop though Labels
