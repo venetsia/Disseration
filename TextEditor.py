@@ -12,15 +12,16 @@ from ttkthemes import ThemedStyle
 import textwrap
 import multiprocessing
 from multiprocessing.pool import ThreadPool
-
+from time import gmtime, strftime
 import Get_Directory_For_Neat
 import NEAT_Single_Processing
 import ValidateInput
 import Build_in_Console
+import datetime
+import Validate_Neat_Setup
 
 # Create at startup
-import Validate_Neat_Setup
-number_of_sessions = 0
+
 text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
                "pop_size = \nreset_on_extinction = \n\n"
                "[DefaultStagnation]\nspecies_fitness_func = \n"
@@ -418,9 +419,9 @@ def threaded_function_run(Output_Console,game_selection, game_evaluation, winner
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
                                            directory_value, render_window)
-def run_NEAT(number_of_sessions,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
-    number_of_sessions = number_of_sessions + 1
-    if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.get("1.0", END) == "" or directory_value.get("1.0", END) == "":
+def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
+
+    if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==", "1.0") or directory_value.get("1.0", END) == "":
         return
     if render_window.get() == "":
         render_window.set("False")
@@ -428,7 +429,7 @@ def run_NEAT(number_of_sessions,Output_Console,game_selection, game_evaluation, 
         network_type.set("Feed-forward")
     if game_checkpoint.get() == "":
         game_checkpoint.set("0")
-    logging.info(f'Session is: {number_of_sessions}')
+    logging.info(f'Time: {strftime("%Y-%m-%d %H:%M:%S", gmtime())}')
     logging.info(f'Game selection is: {game_selection.get()}')
     logging.info(f'Game evaluation is: {game_evaluation.get()}')
     logging.info(f'Winner file name is: {NEAT_Single_Processing.raw(winner_file_name.get("1.0", END))}')
@@ -1742,7 +1743,7 @@ Output_Console.bind('<Key>',lambda e: 'break')
 Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ##")
 
 #run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start()
-run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [number_of_sessions,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window])
+run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window])
 
 # Run button for Neat using a thread
 btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : run_Neat_thread.start(), justify=LEFT, anchor="w")
