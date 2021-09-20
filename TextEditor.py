@@ -13,7 +13,7 @@ import textwrap
 import multiprocessing
 from multiprocessing.pool import ThreadPool
 from time import gmtime, strftime
-
+import ctypes  # An included library with Python install.
 import Education_Tab
 import Get_Directory_For_Neat
 import NEAT_Single_Processing
@@ -23,7 +23,7 @@ import datetime
 import Validate_Neat_Setup
 
 # Create at startup
-
+education_mode = False
 text_editor = ("[NEAT]\nfitness_criterion = \nfitness_threshold = \nno_fitness_termination = \n"
                "pop_size = \nreset_on_extinction = \n\n"
                "[DefaultStagnation]\nspecies_fitness_func = \n"
@@ -194,6 +194,7 @@ def Validate_Text_Widget_Neat(event):
     winner_file_name.delete('1.0', END)
     winner_file_name.insert(END, winner_file_name_text)
     print(winner_file_name_text)
+
 
 # Open File
 def open_file():
@@ -734,14 +735,12 @@ frame1.grid(row=0, column=1)
 frame_Education = tk.Frame(master=root, width=60, height=600)
 frame_Education.grid(row=0, column=0)
 
-txt_edit_test = tk.Text(frame_Education, height = 0.5, width =17)
-txt_edit_test.grid(row=0, column=0, sticky="nsew")
 # Education
 
 education_L = tk.Label(frame_Education, text="Education", anchor="w", width = 30)
 education_L.grid(row=0, column=0, ipadx=18, sticky=tk.W)
 
-eduction_options = ('Introduction', 'clamped', 'cube', 'exp', 'gauss',
+eduction_options = ('Introduction', 'Artificial Intelligence', 'cube', 'exp', 'gauss',
                                  'hat', 'identity', 'inv', 'log', 'relu', 'elu',
                                  'lelu', 'selu', 'sigmoid', 'sin', 'softplus', 'square', 'tanh')
 langs_var = tk.StringVar(value=eduction_options)
@@ -1889,5 +1888,14 @@ for activation_option in range(len(activation_options_values_sec)):
     activation_listbox.itemconfig(activation_option, {'bg': "grey85"})
 
 
-root.mainloop()
+response_from_message_box = ctypes.windll.user32.MessageBoxW(0, "Would you like to launch education mode?", "Options", 4)
+if response_from_message_box == 6: #yes
+    print("In Progress")
+    root.mainloop()
+else:
+    frame_Education.grid_forget()
+    education_L.grid_forget()
+    Education_listbox.grid_forget()
+    tabControl.tab(tab_education, state = "disabled")
+    root.mainloop()
 
