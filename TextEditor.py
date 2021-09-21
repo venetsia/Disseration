@@ -1,4 +1,5 @@
 import logging
+import os
 import re
 from multiprocessing import Process
 import threading
@@ -113,7 +114,10 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "weight_init_type_L",
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
                "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l", "winner_file_name_l",
-               "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l", "directory_value_l", "directory_value_l", "render_window_l"]
+               "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l",
+               "directory_value_l", "directory_value_l", "render_window_l", "setup_neat_l_Winner", "winner_file_name_l_winner", "game_checkpoint_l_winner",
+               "checkpoint_directory_value_l_winner", "network_type_l_winner", "directory_value_l_winner" , "choose_config_file_l_winner",
+               "setup_neat_l_Winner", "game_selection_l_Winner"]
 # Button list used to modify Dark Mode and Light Mode
 buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat"]
 
@@ -443,26 +447,45 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
                                            network_type,
                                            directory_value, render_window)
 
+def load_winner(game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
+    print("test")
+
 def on_tab_change(event):
+    # Load configuration.
+    local_dir = os.path.dirname(__file__)
+    #config_path = os.path.join(local_dir, 'configfeedforwardFishing.txt')
     print(tabControl.select())
     print(tabControl.index(tabControl.select()))
+    checkpoint_directory_value_winner.delete('1.0', END)
     if tabControl.index(tabControl.select()) == 3:
         print("Trying")
         try:
             game_selection_winner.set(game_selection.get())
             network_type_winner.set(network_type.get())
+            game_checkpoint_winner.set(game_checkpoint.get())
+            print(local_dir)
+            arr = os.listdir(local_dir)
+            print(arr)
+            for file in arr:
+                if file.find("neat-checkpoint") == 0:
+                    print("File is: ")
+                    checkpoint_winners = os.path.join(local_dir, file)
+                    print(os.path.join(local_dir, file))
+                    #checkpoint_directory_value_winner.configure(state='normal')
+                    checkpoint_directory_value_winner.insert(END,checkpoint_winners + "\n")
+                    #checkpoint_directory_value_winner.configure(state='disabled')
             choose_config_file_winner.set("Automatic")
-            directory_value.configure(state='normal')
-            directory_value_winner.configure(state='normal')
+            #directory_value.configure(state='normal')
+            #directory_value_winner.configure(state='normal')
             directory_value_winner.insert(INSERT, directory_value.get("1.0",END))
-            directory_value_winner.configure(state='disabled')
-            directory_value.configure(state='disabled')
+            #directory_value_winner.configure(state='disabled')
+            #directory_value.configure(state='disabled')
 
-            winner_file_name.configure(state='normal')
-            winner_file_name_winner.configure(state='normal')
+            #winner_file_name.configure(state='normal')
+            #winner_file_name_winner.configure(state='normal')
             winner_file_name_winner.insert(INSERT, winner_file_name.get("1.0", END))
-            winner_file_name.configure(state='disabled')
-            winner_file_name_winner.configure(state='disabled')
+            #winner_file_name.configure(state='disabled')
+            #winner_file_name_winner.configure(state='disabled')
         except:
             print("An exception occurred")
 
@@ -1766,8 +1789,9 @@ network_type.config(validate="key", validatecommand=(
 directory_value_l = tk.Label(tab2, text="Directory:", justify=LEFT, anchor="w")
 directory_value_l.grid(row=8, column=0, pady=2, sticky=tk.W)
 
-directory_value = tk.Text(tab2, name="directory_value", height = 2, width =50,state = "disabled")
+directory_value = tk.Text(tab2, name="directory_value", height = 2, width =50)
 directory_value.grid(row=9, column=0, sticky=tk.W, columnspan=3)
+directory_value.bind('<Key>',lambda e: 'break')
 
 # Render Window
 render_window_l = tk.Label(tab2, text="Render game?", justify=LEFT, anchor="w")
@@ -1825,36 +1849,54 @@ winner_file_name_winner = tk.Text(tab3, name="winner_file_name_winner", height =
 winner_file_name_winner.grid(row=3, column=1, sticky=tk.W)
 winner_file_name_winner.bind('<KeyRelease>',Validate_Text_Widget_Neat)
 
+# Checkpoints
+game_checkpoint_l_winner = tk.Label(tab3, text="Num of Checkpoints:", justify=LEFT, anchor="w")
+game_checkpoint_l_winner.grid(row=4, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+game_checkpoint_winner = ttk.Spinbox(tab3, from_=0, to=100000000, increment=1, name = "game_checkpoint")
+game_checkpoint_winner.grid(row=4, column=1, sticky=tk.W)
+game_checkpoint_winner.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(game_checkpoint, game_checkpoint_l, style), "%P"))
+
+# Directory path
+checkpoint_directory_value_l_winner = tk.Label(tab3, text="Checkpoint(s) directory:", justify=LEFT, anchor="w")
+checkpoint_directory_value_l_winner.grid(row=5, column=0, pady=2, sticky=tk.W)
+
+checkpoint_directory_value_winner = tk.Text(tab3, name="checkpoint_directory_value_winner", height = 4, width =80)
+checkpoint_directory_value_winner.grid(row=6, column=0, sticky=tk.W, columnspan=4)
+checkpoint_directory_value_winner.bind('<Key>',lambda e: 'break')
+
 # Reccurent / FeedForward network
 network_type_l_winner = tk.Label(tab3, text="Network Type:", justify=LEFT, anchor="w")
-network_type_l_winner.grid(row=5, column=0,ipadx=37, pady=2, sticky=tk.W)
+network_type_l_winner.grid(row=7, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 network_type_winner = ttk.Combobox(tab3, name="network_type_winner")
 network_type_winner['values'] = ("Feed-forward", "Recurrent")
-network_type_winner.grid(row=5, column=1, sticky=tk.W)
+network_type_winner.grid(row=7, column=1, sticky=tk.W)
 network_type_winner.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(network_type_winner, network_type_l_winner, style), "%P"))
 
 # Directory path
 directory_value_l_winner = tk.Label(tab3, text="Directory:", justify=LEFT, anchor="w")
-directory_value_l_winner.grid(row=8, column=0, pady=2, sticky=tk.W)
+directory_value_l_winner.grid(row=9, column=0, pady=2, sticky=tk.W)
 
-directory_value_winner = tk.Text(tab3, name="directory_value_winner", height = 2, width =50,state = "disabled")
-directory_value_winner.grid(row=9, column=0, sticky=tk.W, columnspan=3)
+directory_value_winner = tk.Text(tab3, name="directory_value_winner", height = 2, width =50)
+directory_value_winner.grid(row=10, column=0, sticky=tk.W, columnspan=3)
+directory_value_winner.bind('<Key>',lambda e: 'break')
 
 # Choose Config File
 choose_config_file_l_winner = tk.Label(tab3, text="Config File:", justify=LEFT, anchor="w")
-choose_config_file_l_winner.grid(row=7, column=0,ipadx=37, pady=2, sticky=tk.W)
+choose_config_file_l_winner.grid(row=8, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 choose_config_file_winner = ttk.Combobox(tab3, name="choose_config_file_winner")
 choose_config_file_winner['values'] = ("From Text Editor", "Choose file from directory")
-choose_config_file_winner.grid(row=7, column=1, sticky=tk.W)
+choose_config_file_winner.grid(row=8, column=1, sticky=tk.W)
 choose_config_file_winner.config(validate="key", validatecommand=Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
 
 
 # Run button for Neat using a thread
-btn_run_neat_winner = tk.Button(tab3, text="Run NEAT", command= lambda : threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start(), justify=LEFT, anchor="w")
-btn_run_neat_winner.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
+btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : threading.Thread(target =  load_winner ,args = [game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner]).start(), justify=LEFT, anchor="w")
+btn_run_neat_winner.grid(row=11, column=0, sticky=tk.W, padx=5, pady=5)
 
 
 
