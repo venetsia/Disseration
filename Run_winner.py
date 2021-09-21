@@ -1,3 +1,5 @@
+from tkinter import END
+
 import neat
 import pickle
 import numpy as np
