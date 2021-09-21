@@ -1,6 +1,7 @@
 import logging
 import os
 import re
+import sys
 from multiprocessing import Process
 import threading
 import tkinter as tk
@@ -192,7 +193,7 @@ weight_values = ["weight_init_mean",
                  "weight_replace_rate"]
 structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 logging.basicConfig(filename="logfilename.log", level=logging.INFO)
-
+run_NEAT_thread = ""
 def Validate_Text_Widget_Neat(event):
     winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
     winner_file_name.delete('1.0', END)
@@ -420,14 +421,9 @@ def insert(line, value_to_be_added):
             activation_option_values = ', '.join(activation_values)
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
-def threaded_function_run(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
-    print(game_selection.get())
-    if game_evaluation.get() == "Single-Processing":
-        NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
-                                           network_type,
-                                           directory_value, render_window)
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
-
+    global run_NEAT_thread
+    run_NEAT_thread = threading.current_thread()
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==", "1.0") or directory_value.get("1.0", END) == "":
         return
     if render_window.get() == "":
@@ -441,6 +437,7 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
     logging.info(f'Game evaluation is: {game_evaluation.get()}')
     logging.info(f'Winner file name is: {NEAT_Single_Processing.raw(winner_file_name.get("1.0", END))}')
     logging.info(f'The network type is: {network_type.get()}')
+    logging.info(f'Checkpoints after {str(game_checkpoint.get())} generations')
     logging.info(f'Config file is located in: {NEAT_Single_Processing.raw(directory_value.get("1.0", END))}\n\n')
     if game_evaluation.get() == "Single-Processing":
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
@@ -448,29 +445,36 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
                                            directory_value, render_window)
 
 def load_winner(game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
-    print("test")
+    load_winner_thread = threading.current_thread()
+    if run_NEAT_thread.is_alive():
+        run_NEAT_thread.join()
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
+        if game_selection_winner.get() == ""  or winner_file_name_winner.compare("end-1c", "==", "1.0") or directory_value_winner.get("1.0", END) == "":
+            return
+
 
 def on_tab_change(event):
     # Load configuration.
     local_dir = os.path.dirname(__file__)
     #config_path = os.path.join(local_dir, 'configfeedforwardFishing.txt')
-    print(tabControl.select())
-    print(tabControl.index(tabControl.select()))
+    #print(tabControl.select())
+    #print(tabControl.index(tabControl.select()))
     checkpoint_directory_value_winner.delete('1.0', END)
     if tabControl.index(tabControl.select()) == 3:
-        print("Trying")
+        #print("Trying")
         try:
             game_selection_winner.set(game_selection.get())
             network_type_winner.set(network_type.get())
             game_checkpoint_winner.set(game_checkpoint.get())
-            print(local_dir)
+            #print(local_dir)
             arr = os.listdir(local_dir)
-            print(arr)
+            #print(arr)
             for file in arr:
                 if file.find("neat-checkpoint") == 0:
-                    print("File is: ")
+                    #print("File is: ")
                     checkpoint_winners = os.path.join(local_dir, file)
-                    print(os.path.join(local_dir, file))
+                    #print(os.path.join(local_dir, file))
                     #checkpoint_directory_value_winner.configure(state='normal')
                     checkpoint_directory_value_winner.insert(END,checkpoint_winners + "\n")
                     #checkpoint_directory_value_winner.configure(state='disabled')
@@ -487,7 +491,8 @@ def on_tab_change(event):
             #winner_file_name.configure(state='disabled')
             #winner_file_name_winner.configure(state='disabled')
         except:
-            print("An exception occurred")
+            #print("An exception occurred")
+            pass
 
 def update_editor():
     thetext = txt_edit.get("1.0", 'end')
