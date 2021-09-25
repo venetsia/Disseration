@@ -180,5 +180,11 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
         pickle.dump(winner, f)
 
     print(winner)
+
+    # Call game with only the loaded genome
+    pop = neat.Checkpointer.restore_checkpoint("neat-checkpoint-1")
+    stats = neat.StatisticsReporter()
+    pop.add_reporter(stats)
+    pop.add_reporter(neat.StdOutReporter(True))
     return
 

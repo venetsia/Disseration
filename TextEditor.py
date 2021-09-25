@@ -19,6 +19,7 @@ import ctypes  # An included library with Python install.
 import Education_Tab
 import Get_Directory_For_Neat
 import NEAT_Single_Processing
+import Run_winner
 import ValidateInput
 import Build_in_Console
 import datetime
@@ -424,6 +425,7 @@ def insert(line, value_to_be_added):
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
     global run_NEAT_thread
     run_NEAT_thread = threading.current_thread()
+
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==", "1.0") or directory_value.get("1.0", END) == "":
         return
     if render_window.get() == "":
@@ -446,12 +448,25 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
 
 def load_winner(game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
     load_winner_thread = threading.current_thread()
-    if run_NEAT_thread.is_alive():
-        run_NEAT_thread.join()
+
+    if run_NEAT_thread != "":
+        if run_NEAT_thread.is_alive():
+            run_NEAT_thread.join()
+            print("Alive")
+        else:
+            sys.stdout = sys.__stdout__
+            sys.stderr = sys.__stderr__
+            if game_selection_winner.get() == ""  or winner_file_name_winner.compare("end-1c", "==", "1.0") or directory_value_winner.get("1.0", END) == "":
+                return
+    else:
         sys.stdout = sys.__stdout__
         sys.stderr = sys.__stderr__
-        if game_selection_winner.get() == ""  or winner_file_name_winner.compare("end-1c", "==", "1.0") or directory_value_winner.get("1.0", END) == "":
+        if game_selection_winner.get() == "" or winner_file_name_winner.compare("end-1c", "==",
+                                                                                "1.0") or directory_value_winner.get(
+                "1.0", END) == "":
             return
+    Run_winner.pre_process_data(game_selection_winner, winner_file_name_winner, game_checkpoint_winner,
+                     checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
 
 
 def on_tab_change(event):
@@ -1824,11 +1839,16 @@ Output_Console.bind('<Key>',lambda e: 'break')
 Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ##")
 
 #run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start()
-run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window])
+#run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window])
 
 # Run button for Neat using a thread
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : run_Neat_thread.start(), justify=LEFT, anchor="w")
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start(), justify=LEFT, anchor="w")
 btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
+
+# Run button for Neat using a thread
+#btn_stop_neat = tk.Button(tab2, text="Stop NEAT", command= stop_thread, justify=LEFT, anchor="w")
+#btn_stop_neat.grid(row=10, column=1, sticky=tk.W, padx=5, pady=5)
+
 
 tabControl.add(tab3, text='Load Winner')
 tabControl.bind('<<NotebookTabChanged>>', on_tab_change)
@@ -1869,7 +1889,7 @@ checkpoint_directory_value_l_winner.grid(row=5, column=0, pady=2, sticky=tk.W)
 
 checkpoint_directory_value_winner = tk.Text(tab3, name="checkpoint_directory_value_winner", height = 4, width =80)
 checkpoint_directory_value_winner.grid(row=6, column=0, sticky=tk.W, columnspan=4)
-checkpoint_directory_value_winner.bind('<Key>',lambda e: 'break')
+#checkpoint_directory_value_winner.bind('<Key>',lambda e: 'break')
 
 # Reccurent / FeedForward network
 network_type_l_winner = tk.Label(tab3, text="Network Type:", justify=LEFT, anchor="w")
@@ -1902,6 +1922,7 @@ choose_config_file_winner.config(validate="key", validatecommand=Get_Directory_F
 # Run button for Neat using a thread
 btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : threading.Thread(target =  load_winner ,args = [game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner]).start(), justify=LEFT, anchor="w")
 btn_run_neat_winner.grid(row=11, column=0, sticky=tk.W, padx=5, pady=5)
+
 
 
 
