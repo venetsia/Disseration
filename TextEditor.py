@@ -1,3 +1,4 @@
+import asyncio
 import logging
 import os
 import re
@@ -24,6 +25,7 @@ import ValidateInput
 import Build_in_Console
 import datetime
 import Validate_Neat_Setup
+import pyglet
 
 # Create at startup
 education_mode = False
@@ -195,6 +197,7 @@ weight_values = ["weight_init_mean",
 structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 logging.basicConfig(filename="logfilename.log", level=logging.INFO)
 run_NEAT_thread = ""
+load_winner_thread =""
 def Validate_Text_Widget_Neat(event):
     winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
     winner_file_name.delete('1.0', END)
@@ -447,8 +450,9 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
                                            directory_value, render_window)
 
 def load_winner(game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
-    load_winner_thread = threading.current_thread()
+    global load_winner_thread
 
+    load_winner_thread = threading.current_thread()
     if run_NEAT_thread != "":
         if run_NEAT_thread.is_alive():
             run_NEAT_thread.join()
@@ -467,8 +471,8 @@ def load_winner(game_selection_winner,winner_file_name_winner, game_checkpoint_w
             return
     Run_winner.pre_process_data(game_selection_winner, winner_file_name_winner, game_checkpoint_winner,
                      checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
-
-
+    print("Exited in load_winner")
+    return
 def on_tab_change(event):
     # Load configuration.
     local_dir = os.path.dirname(__file__)
@@ -496,12 +500,14 @@ def on_tab_change(event):
             choose_config_file_winner.set("Automatic")
             #directory_value.configure(state='normal')
             #directory_value_winner.configure(state='normal')
+            directory_value_winner.delete('1.0', END)
             directory_value_winner.insert(INSERT, directory_value.get("1.0",END))
             #directory_value_winner.configure(state='disabled')
             #directory_value.configure(state='disabled')
 
             #winner_file_name.configure(state='normal')
             #winner_file_name_winner.configure(state='normal')
+            winner_file_name_winner.delete('1.0', END)
             winner_file_name_winner.insert(INSERT, winner_file_name.get("1.0", END))
             #winner_file_name.configure(state='disabled')
             #winner_file_name_winner.configure(state='disabled')
@@ -1875,7 +1881,7 @@ winner_file_name_winner.grid(row=3, column=1, sticky=tk.W)
 winner_file_name_winner.bind('<KeyRelease>',Validate_Text_Widget_Neat)
 
 # Checkpoints
-game_checkpoint_l_winner = tk.Label(tab3, text="Num of Checkpoints:", justify=LEFT, anchor="w")
+game_checkpoint_l_winner = tk.Label(tab3, text="Num of ep. per genome:", justify=LEFT, anchor="w")
 game_checkpoint_l_winner.grid(row=4, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_checkpoint_winner = ttk.Spinbox(tab3, from_=0, to=100000000, increment=1, name = "game_checkpoint")
@@ -1918,9 +1924,10 @@ choose_config_file_winner['values'] = ("From Text Editor", "Choose file from dir
 choose_config_file_winner.grid(row=8, column=1, sticky=tk.W)
 choose_config_file_winner.config(validate="key", validatecommand=Get_Directory_For_Neat.Get_Input(choose_config_file, directory_value, txt_edit))
 
+#btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : threading.Thread(target =  load_winner ,args = [game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner]).start(), justify=LEFT, anchor="w")
 
 # Run button for Neat using a thread
-btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : threading.Thread(target =  load_winner ,args = [game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner]).start(), justify=LEFT, anchor="w")
+btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : load_winner(game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner), justify=LEFT, anchor="w")
 btn_run_neat_winner.grid(row=11, column=0, sticky=tk.W, padx=5, pady=5)
 
 
@@ -1957,13 +1964,16 @@ for activation_option in range(len(activation_options_values_sec)):
 
 
 response_from_message_box = ctypes.windll.user32.MessageBoxW(0, "Would you like to launch education mode?", "Options", 4)
+
 if response_from_message_box == 6: #yes
     print("In Progress")
     root.mainloop()
+    pyglet.app.run()
 else:
     frame_Education.grid_forget()
     education_L.grid_forget()
     Education_listbox.grid_forget()
     tabControl.tab(tab_education, state = "disabled")
     root.mainloop()
+    pyglet.app.run()
 

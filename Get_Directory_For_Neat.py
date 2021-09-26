@@ -1,6 +1,6 @@
 import os
 import tkinter as tk
-from tkinter.filedialog import asksaveasfilename, askopenfilename
+from tkinter.filedialog import asksaveasfilename, askopenfilename, END
 from tkinter import ttk, INSERT
 import os.path
 from os import path
@@ -43,6 +43,7 @@ def open_file(txt_edit, path_directory):
     print(path.exists(filepath))
     print(filepath)
     path_directory.configure(state='normal')
+    path_directory.delete('1.0', END)
     path_directory.insert(INSERT, filepath)
     path_directory.configure(state='disabled')
 
