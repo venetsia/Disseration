@@ -186,5 +186,6 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     stats = neat.StatisticsReporter()
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
+
     return
 

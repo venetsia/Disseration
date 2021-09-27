@@ -1,3 +1,4 @@
+import sys
 from tkinter import END
 
 import neat
@@ -8,6 +9,7 @@ import cv2
 import gym
 import pyglet
 import NEAT_Single_Processing
+from TextRedirector import TextRedirector
 
 env_variable =""
 network = ""
@@ -96,7 +98,7 @@ def replay_function(genomes, config):
             net = neat.nn.RecurrentNetwork.create(genome, config)
         elif network == "Feed-forward":
             net = neat.nn.FeedForwardNetwork.create(genome, config)
-        for ep in range(GENERATION_EP):  # run many episodes for the genome in case it's
+        for ep in range(int(GENERATION_EP)):  # run many episodes for the genome in case it's
             env = gym.make(env_variable)
             # env = game_selection.get()
             observation = env.reset()
@@ -186,7 +188,6 @@ def replay_checkpoint(config_path,checkpoint_directory):
     #checkpoint_directory = NEAT_Single_Processing.raw(checkpoint_directory)
     global config
     config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction, neat.DefaultSpeciesSet, neat.DefaultStagnation, config_path)
-    print("Inside replay")
     print(checkpoint_directory)
 
     #Call game with only the loaded genome
@@ -199,31 +200,38 @@ def replay_checkpoint(config_path,checkpoint_directory):
 
     winner = pop.run(replay_function)
     return
-def pre_process_data(game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
+def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
     global env_variable
     global network
     env_variable = game_selection_winner.get()
     network = network_type_winner.get()
-
+    # Set Text Widget to be Output
+    sys.stdout = TextRedirector(Output_Console_winner, "stdout")
     directory_temp = ""
     global GENERATION_EP
     GENERATION_EP = game_checkpoint_winner.get()
-    print("Loading checkpoints")
     checkpoint_directories = checkpoint_directory_value_winner.get("1.0", END)
-    print(checkpoint_directories)
-    print("Here")
-    directory_check = checkpoint_directories.split("\n")
+    directory_check = checkpoint_directories.split("~")
     directory_value_winner_string =  directory_value_winner.get("1.0", END)
-    print(directory_value_winner_string)
-    print("For loop")
+    directory_check.remove("")
+    print(len(directory_check))
+
     print(directory_check)
-    if len(directory_check) != 0:
+
+
+    if len(directory_check) > 1:
+        print("Loading checkpoints")
         for directory_checkpoint_winner_processed in directory_check:
             directory_temp = directory_checkpoint_winner_processed.replace("\\", "/")
-            print("Value: " + directory_temp)
+            print("Checkpoint: " + directory_temp)
             replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
+    elif len(directory_check) == 1:
+        print("Loading checkpoint")
+        directory_temp = directory_check[0].replace("\\", "/")
+        print("Checkpoint: " + directory_temp)
+        replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
+    print("Loading winner")
 
     replay_genome(directory_value_winner_string, winner_file_name_winner)
-    print("Exited")
     pyglet.app.exit()
     return
