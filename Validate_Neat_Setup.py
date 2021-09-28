@@ -1,12 +1,15 @@
 import re
 import sys
 from tkinter import END
+import atari_py
+import gym
 
 games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
 game_evaluation_choice = ["Single-Processing", "Multi-Processing"]
 network_type_choice = ["Feed-forward", "Recurrent"]
 render_window_choice = ["True", "False"]
 choose_config_file_choice = ["From Text Editor", "Choose file from directory"]
+game_list = atari_py.list_games()
 
 class Validate_Neat(object):
 
@@ -98,11 +101,31 @@ class Validate_Neat(object):
                 else:
                     widget.set("")
                     label.config(fg="red")
+
+    def validate_spinbox_game(self, widget_name, label, style, widget, input, output):
+        text = widget.get()
+        if widget_name == "game_selection_config":
+            try:
+                env = gym.make(text)
+                output.set(env.action_space)
+                if text in game_list:
+                    input.set("1092")
+            except:
+                print("Error")
 def ValidateInputNEAT(widget, label, style):
     toolTip = Validate_Neat(widget)
     widget_name = widget._name
+
     def leave(event):
         toolTip.validate_spinbox(widget_name,label, style, widget)
+
+    widget.bind('<FocusOut>', leave)
+def Validate_Gym_Game(widget, label, style, input, output):
+    toolTip = Validate_Neat(widget)
+    widget_name = widget._name
+
+    def leave(event):
+        toolTip.validate_spinbox_game(widget_name, label, style, widget, input, output)
 
     widget.bind('<FocusOut>', leave)
 

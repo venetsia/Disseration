@@ -123,7 +123,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l",
                "directory_value_l", "directory_value_l", "render_window_l", "setup_neat_l_Winner", "winner_file_name_l_winner", "game_checkpoint_l_winner",
                "checkpoint_directory_value_l_winner", "network_type_l_winner", "directory_value_l_winner" , "choose_config_file_l_winner",
-               "setup_neat_l_Winner", "game_selection_l_Winner"]
+               "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l"]
 # Button list used to modify Dark Mode and Light Mode
 buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat"]
 
@@ -847,19 +847,29 @@ ttk.Separator(tab1, orient=VERTICAL).grid(column=2, row=0, rowspan=20, sticky='n
 
 tabControl.add(tab1, text='Neat Config')
 
+## Select game
+#game_selection_config_l = tk.Label(tab1, text="Gym Game:", justify=LEFT, anchor="w")
+#game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+#game_selection_config = ttk.Combobox(tab1, name="game_selection_config")
+#game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
+#game_selection_config.grid(row=0, column=1, sticky=tk.W)
+#game_selection_config.config(validate="key", validatecommand=(
+#    Validate_Neat_Setup.ValidateInputNEAT(game_selection_config, game_selection_config_l, style), "%P"))
+
 # Neat Section
 neat_section_L = tk.Label(tab1, text='Neat Section', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
-neat_section_L.grid(row=0, column=0, ipadx=32, pady=1)
+neat_section_L.grid(row=1, column=0, ipadx=32, pady=1)
 
 # Fitness Criterion
 fitness_criterion_l = tk.Label(tab1, text="Fitness Criterion", justify=LEFT, anchor="w")
-fitness_criterion_l.grid(row=1, column=0, ipadx=37, pady=2)
+fitness_criterion_l.grid(row=2, column=0, ipadx=37, pady=2)
 CreateHelpMessage.CreateToolTip(fitness_criterion_l,
                                 text='The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
 
 fitness_criterion = ttk.Combobox(tab1, name="fitness_criterion")
 fitness_criterion['values'] = ('min', 'max', 'mean')
-fitness_criterion.grid(row=1, column=1)
+fitness_criterion.grid(row=2, column=1)
 CreateHelpMessage.CreateToolTip(fitness_criterion,
                                 text='The function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
 fitness_criterion.config(validate="key", validatecommand=(
@@ -867,12 +877,12 @@ ValidateInput.ValidateInput(fitness_criterion, fitness_criterion, fitness_criter
 
 # Fitness Threshhold
 fitness_threshold_l = tk.Label(tab1, text="Fitness Threshold", justify=LEFT, anchor="w")
-fitness_threshold_l.grid(row=2, column=0, ipadx=35, pady=1)
+fitness_threshold_l.grid(row=3, column=0, ipadx=35, pady=1)
 CreateHelpMessage.CreateToolTip(fitness_threshold_l,
                                 text='When the fitness computed by fitness_criterion meets or exceeds this threshold, the evolution process will terminate, with a call to any registered reporting class’ found_solution method.')
 
 fitness_threshold = ttk.Spinbox(tab1, from_=-100000000, to=100000000, increment=1, name="fitness_threshold")
-fitness_threshold.grid(row=2, column=1)
+fitness_threshold.grid(row=3, column=1)
 CreateHelpMessage.CreateToolTip(fitness_threshold,
                                 text='When the fitness computed by fitness_criterion meets or exceeds this threshold, the evolution process will terminate, with a call to any registered reporting class’ found_solution method.')
 fitness_threshold.config(validate="key", validatecommand=(
@@ -880,13 +890,13 @@ ValidateInput.ValidateInput(fitness_threshold, fitness_threshold, fitness_thresh
 
 # No fitness Termination
 no_fitness_termination_l = tk.Label(tab1, text="No Termination?", justify=LEFT, anchor="w")
-no_fitness_termination_l.grid(row=3, column=0, ipadx=36)
+no_fitness_termination_l.grid(row=4, column=0, ipadx=36)
 CreateHelpMessage.CreateToolTip(no_fitness_termination_l,
                                 text='If this evaluates to True, then the fitness_criterion and fitness_threshold are ignored for termination;\n only valid if termination by a maximum number of generations passed to population.Population.run() is enabled,\n and the found_solution method is called upon generation number termination. If it evaluates to False, then fitness is used to determine termination. This defaults to “False”.')
 
 no_fitness_termination = ttk.Combobox(tab1, name="no_fitness_termination")
 no_fitness_termination['values'] = ('True', 'False')
-no_fitness_termination.grid(row=3, column=1)
+no_fitness_termination.grid(row=4, column=1)
 CreateHelpMessage.CreateToolTip(no_fitness_termination,
                                 text='If this evaluates to True, then the fitness_criterion and fitness_threshold are ignored for termination;\n only valid if termination by a maximum number of generations passed to population.Population.run() is enabled,\n and the found_solution method is called upon generation number termination. If it evaluates to False, then fitness is used to determine termination. This defaults to “False”.')
 no_fitness_termination.config(validate="key", validatecommand=(
@@ -894,24 +904,24 @@ ValidateInput.ValidateInput(no_fitness_termination, no_fitness_termination, no_f
 
 # Pop Size
 pop_size_l = tk.Label(tab1, text="Population Size", justify=LEFT, anchor="w")
-pop_size_l.grid(row=4, column=0, ipadx=39, pady=1)
+pop_size_l.grid(row=5, column=0, ipadx=39, pady=1)
 CreateHelpMessage.CreateToolTip(pop_size_l, text='The number of individuals in each generation.')
 
 pop_size = ttk.Spinbox(tab1, from_=0, to=100000000, increment=1, name="pop_size")
-pop_size.grid(row=4, column=1)
+pop_size.grid(row=5, column=1)
 CreateHelpMessage.CreateToolTip(pop_size, text='The number of individuals in each generation.')
 pop_size.config(validate="key",
                 validatecommand=(ValidateInput.ValidateInput(pop_size, pop_size, pop_size_l, style), "%P"))
 
 # reset_on_extinction
 reset_on_extinction_L = tk.Label(tab1, text="Reset on extinction?", justify=LEFT, anchor="w")
-reset_on_extinction_L.grid(row=5, column=0, ipadx=27)
+reset_on_extinction_L.grid(row=6, column=0, ipadx=27)
 CreateHelpMessage.CreateToolTip(reset_on_extinction_L,
                                 text='If this evaluates to True, when all species simultaneously become extinct due to stagnation,\n a new random population will be created. If False, a CompleteExtinctionException will be thrown.')
 
 reset_on_extinction = ttk.Combobox(tab1, name="reset_on_extinction")
 reset_on_extinction['values'] = ('True', 'False')
-reset_on_extinction.grid(row=5, column=1)
+reset_on_extinction.grid(row=6, column=1)
 CreateHelpMessage.CreateToolTip(reset_on_extinction,
                                 text='If this evaluates to True, when all species simultaneously become extinct due to stagnation,\n a new random population will be created. If False, a CompleteExtinctionException will be thrown.')
 reset_on_extinction.config(validate="key", validatecommand=(
@@ -920,17 +930,17 @@ ValidateInput.ValidateInput(reset_on_extinction, reset_on_extinction, reset_on_e
 # Default Stagnation section
 default_stagnation_l = tk.Label(tab1, text='Default Stagnation', font='Helvetica 12 bold underline', justify=LEFT,
                                 anchor="w")
-default_stagnation_l.grid(row=6, column=0, ipadx=10, pady=2)
+default_stagnation_l.grid(row=7, column=0, ipadx=10, pady=2)
 
 # species_fitness_func
 species_fitness_func_l = tk.Label(tab1, text="Species Fitness Func", justify=LEFT, anchor="w")
-species_fitness_func_l.grid(row=7, column=0, ipadx=27, pady=1)
+species_fitness_func_l.grid(row=8, column=0, ipadx=27, pady=1)
 CreateHelpMessage.CreateToolTip(species_fitness_func_l,
                                 text='The function used to compute species fitness. This defaults to ``mean``. Allowed values are: max, min, mean, and median')
 
 species_fitness_func = ttk.Combobox(tab1, name="species_fitness_func")
 species_fitness_func['values'] = ('min', 'max', 'mean', 'median')
-species_fitness_func.grid(row=7, column=1, pady=1)
+species_fitness_func.grid(row=8, column=1, pady=1)
 CreateHelpMessage.CreateToolTip(species_fitness_func,
                                 text='The function used to compute species fitness. This defaults to ``mean``. Allowed values are: max, min, mean, and median')
 species_fitness_func.config(validate="key", validatecommand=(
@@ -938,12 +948,12 @@ ValidateInput.ValidateInput(species_fitness_func, species_fitness_func, species_
 
 # max_stagnation
 max_stagnation_l = tk.Label(tab1, text="Max Stagination", justify=LEFT, anchor="w")
-max_stagnation_l.grid(row=8, column=0, ipadx=36, pady=1)
+max_stagnation_l.grid(row=9, column=0, ipadx=36, pady=1)
 CreateHelpMessage.CreateToolTip(max_stagnation_l,
                                 text='Species that have not shown improvement in more than this number of generations will be considered stagnant and removed. This defaults to 15.')
 
 max_stagnation = ttk.Spinbox(tab1, from_=0, to=100000000, increment=1, name="max_stagnation")
-max_stagnation.grid(row=8, column=1, pady=1)
+max_stagnation.grid(row=9, column=1, pady=1)
 CreateHelpMessage.CreateToolTip(max_stagnation,
                                 text='Species that have not shown improvement in more than this number of generations will be considered stagnant and removed. This defaults to 15.')
 max_stagnation.config(validate="key", validatecommand=(
@@ -951,12 +961,12 @@ ValidateInput.ValidateInput(max_stagnation, max_stagnation, max_stagnation_l, st
 
 # species_elitism
 species_elitism_l = tk.Label(tab1, text="Num Protected Species", justify=LEFT, anchor="w")
-species_elitism_l.grid(row=9, column=0, ipadx=18, pady=1)
+species_elitism_l.grid(row=10, column=0, ipadx=18, pady=1)
 CreateHelpMessage.CreateToolTip(max_stagnation,
                                 text='The number of species that will be protected from stagnation;\n mainly intended to prevent total extinctions caused by all species becoming stagnant before new species arise.\n For example, a species_elitism setting of 3 will prevent the 3 species with\n the highest species fitness from being removed for stagnation regardless of the amount of time they have not shown improvement. This defaults to 0.')
 
 species_elitism = ttk.Spinbox(tab1, from_=0, to=100000000, increment=1, name="species_elitism")
-species_elitism.grid(row=9, column=1, pady=2)
+species_elitism.grid(row=10, column=1, pady=2)
 CreateHelpMessage.CreateToolTip(species_elitism,
                                 text='The number of species that will be protected from stagnation;\n mainly intended to prevent total extinctions caused by all species becoming stagnant before new species arise.\n For example, a species_elitism setting of 3 will prevent the 3 species with\n the highest species fitness from being removed for stagnation regardless of the amount of time they have not shown improvement. This defaults to 0.')
 species_elitism.config(validate="key", validatecommand=(
@@ -964,28 +974,28 @@ ValidateInput.ValidateInput(species_elitism, species_elitism, species_elitism_l,
 
 # Default Reproduction
 default_reproduction_l = tk.Label(tab1, text='Default Reproduction', font='Helvetica 12 bold underline')
-default_reproduction_l.grid(row=10, column=0, pady=5, ipadx=2)
+default_reproduction_l.grid(row=11, column=0, pady=5, ipadx=2)
 
 # elitism
 elitism_l = tk.Label(tab1, text="Elitism", justify=LEFT, anchor="w")
-elitism_l.grid(row=11, column=0, ipadx=63, pady=2)
+elitism_l.grid(row=12, column=0, ipadx=63, pady=2)
 CreateHelpMessage.CreateToolTip(elitism_l,
                                 text='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
 
 elitism = ttk.Spinbox(tab1, from_=0, to=100000000, name='elitism')
-elitism.grid(row=11, column=1)
+elitism.grid(row=12, column=1)
 CreateHelpMessage.CreateToolTip(elitism,
                                 text='The number of most-fit individuals in each species that will be preserved as-is from one generation to the next. This defaults to 0.')
 elitism.config(validate="key", validatecommand=(ValidateInput.ValidateInput(elitism, elitism, elitism_l, style), "%P"))
 
 # survival_threshold
 survival_threshold_l = tk.Label(tab1, text="Survival Threshold", justify=LEFT, anchor="w")
-survival_threshold_l.grid(row=12, column=0, ipadx=32, pady=2)
+survival_threshold_l.grid(row=13, column=0, ipadx=32, pady=2)
 CreateHelpMessage.CreateToolTip(survival_threshold_l,
                                 text='The fraction for each species allowed to reproduce each generation. This defaults to 0.2.')
 
 survival_threshold = ttk.Spinbox(tab1, from_=0.00, to=100000000.00, increment=0.01, name="survival_threshold")
-survival_threshold.grid(row=12, column=1)  # ipady = 2)
+survival_threshold.grid(row=13, column=1)  # ipady = 2)
 CreateHelpMessage.CreateToolTip(survival_threshold,
                                 text='The fraction for each species allowed to reproduce each generation. This defaults to 0.2.')
 survival_threshold.config(validate="key", validatecommand=(
@@ -993,16 +1003,17 @@ ValidateInput.ValidateInput(survival_threshold, survival_threshold, survival_thr
 
 # min_species_size
 min_species_size_l = tk.Label(tab1, text="Min N of genomes per species", justify=LEFT, anchor="w")
-min_species_size_l.grid(row=13, column=0, pady=2)
+min_species_size_l.grid(row=14, column=0, pady=2)
 CreateHelpMessage.CreateToolTip(min_species_size_l,
                                 text='The minimum number of genomes per species after reproduction. This defaults to 2.')
 
 min_species_size = ttk.Spinbox(tab1, from_=0, to=100000000, name="min_species_size")
-min_species_size.grid(row=13, column=1)
+min_species_size.grid(row=14, column=1)
 CreateHelpMessage.CreateToolTip(min_species_size,
                                 text='The minimum number of genomes per species after reproduction. This defaults to 2.')
 min_species_size.config(validate="key", validatecommand=(
 ValidateInput.ValidateInput(min_species_size, min_species_size, min_species_size_l, style), "%P"))
+
 
 # Default Genome
 tabControl.add(tab2, text='Default Genome')
@@ -1098,6 +1109,17 @@ CreateHelpMessage.CreateToolTip(feed_forward,
                                 text='feed_forward\nIf this evaluates to True, generated networks will not be\nallowed to have recurrent connections (they will be feedforward).\nOtherwise they may be (but are not forced to be) recurrent.')
 feed_forward.config(validate="key", validatecommand=(
 ValidateInput.ValidateInput(feed_forward, feed_forward, feed_forward_L, style), "%P"))
+
+# Select game
+game_selection_config_l = tk.Label(tab1, text="Gym Game:", justify=LEFT, anchor="w")
+game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
+
+game_selection_config = ttk.Combobox(tab1, name="game_selection_config")
+game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
+game_selection_config.grid(row=0, column=1, sticky=tk.W)
+game_selection_config.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.Validate_Gym_Game(game_selection_config, game_selection_config_l, style, num_inputs, num_outputs), "%P"))
+
 
 # Node Activation and Aggregation options
 
