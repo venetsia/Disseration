@@ -4,6 +4,8 @@ import sys
 import threading
 from tkinter import END, INSERT
 from pathlib import Path
+
+import atari_py
 import cv2
 import gym
 import numpy as np
@@ -16,13 +18,15 @@ import tkinter as tk
 
 from TextRedirector import TextRedirector
 
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
 episodes = 1
 starting_pixel = 114
 self_y = 192
 search_x_start = 22
 search_x_end = 139
 rock_color = 107
-runs_per_net = 15
+
+runs_per_net = ""
 
 # Escape dict to be used for fixing string to raw
 escape_dict={'\a':r'\a',
@@ -51,6 +55,7 @@ escape_dict={'\a':r'\a',
 env_variable =""
 network = ""
 render_window_variable =""
+
 
 def eval_genomes(genomes, config) :
     for genome_id, genome in genomes :
@@ -162,16 +167,18 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     global env_variable
     global network
     global render_window_variable
+    global runs_per_net
     env_variable = game_selection.get()
     network = network_type.get()
     render_window_variable = render_window.get()
-
+    runs_per_net = ""
     #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
 
     #winner = pop.run(pe.evaluate)
 
     # Get winner
     winner = pop.run(eval_genomes)
+
 
     # Get winner name that will be used and fix string
     winner_file_raw = raw(winner_file_name.get("1.0",END))
@@ -188,4 +195,3 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
     pop.add_reporter(neat.StdOutReporter(True))
 
     return
-

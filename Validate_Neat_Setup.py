@@ -4,12 +4,12 @@ from tkinter import END
 import atari_py
 import gym
 
-games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
+games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2"]
 game_evaluation_choice = ["Single-Processing", "Multi-Processing"]
 network_type_choice = ["Feed-forward", "Recurrent"]
 render_window_choice = ["True", "False"]
 choose_config_file_choice = ["From Text Editor", "Choose file from directory"]
-game_list = atari_py.list_games()
+game_list_2D = ["BipedalWalker-v2", "LunarLander-v2"]
 
 class Validate_Neat(object):
 
@@ -107,11 +107,29 @@ class Validate_Neat(object):
         if widget_name == "game_selection_config":
             try:
                 env = gym.make(text)
-                output.set(env.action_space)
-                if text in game_list:
+                outputs = env.action_space
+                output.set(int(re.search(r'\d+', str(outputs)).group()))
+                if text in games_available:
                     input.set("1092")
             except:
                 print("Error")
+    def validate_Game_selection(self, widget_name,label,style,widget,runs_per_network_l, runs_per_network):
+        text = widget.get()
+        if text in game_list_2D:
+            runs_per_network_l.grid()
+            runs_per_network.grid()
+        else:
+            runs_per_network_l.grid_remove()
+            runs_per_network.grid_remove()
+        bg = style.lookup('TFrame', 'background')
+        if widget_name == "game_selection":
+            if str(text) in games_available:
+                if str(bg) == "grey75":
+                    label.config(fg="black")
+                else:
+                    label.config(fg="white")
+            else:
+                label.config(fg="red")
 def ValidateInputNEAT(widget, label, style):
     toolTip = Validate_Neat(widget)
     widget_name = widget._name
@@ -126,6 +144,15 @@ def Validate_Gym_Game(widget, label, style, input, output):
 
     def leave(event):
         toolTip.validate_spinbox_game(widget_name, label, style, widget, input, output)
+
+    widget.bind('<FocusOut>', leave)
+
+def Validate_Game_Selection(widget,label,style,runs_per_network_l, runs_per_network):
+    toolTip = Validate_Neat(widget)
+    widget_name = widget._name
+
+    def leave(event):
+        toolTip.validate_Game_selection(widget_name,label,style,widget,runs_per_network_l, runs_per_network)
 
     widget.bind('<FocusOut>', leave)
 

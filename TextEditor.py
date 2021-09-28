@@ -10,6 +10,9 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICA
 from tkinter import ttk, INSERT, END
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
+
+import gym
+
 import CreateHelpMessage
 from ttkthemes import ThemedStyle
 import textwrap
@@ -27,6 +30,10 @@ import datetime
 import Validate_Neat_Setup
 import pyglet
 from concurrent.futures import ThreadPoolExecutor
+
+
+game_list_2D = ["BipedalWalker-v2", "LunarLander-v2"]
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
 
 
 # Create at startup
@@ -123,7 +130,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l",
                "directory_value_l", "directory_value_l", "render_window_l", "setup_neat_l_Winner", "winner_file_name_l_winner", "game_checkpoint_l_winner",
                "checkpoint_directory_value_l_winner", "network_type_l_winner", "directory_value_l_winner" , "choose_config_file_l_winner",
-               "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l"]
+               "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l", "runs_per_network_l"]
 # Button list used to modify Dark Mode and Light Mode
 buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat"]
 
@@ -200,11 +207,22 @@ structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 logging.basicConfig(filename="logfilename.log", level=logging.INFO)
 run_NEAT_thread = ""
 load_winner_thread =""
+games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2"]
 
 workers = 1
 
 thread_pool_executor = ThreadPoolExecutor(max_workers=1)
 
+def print_selection():
+    if game_selection.get() != "":
+        text = game_selection.get()
+        env = gym.make(text)
+        outputs = env.action_space
+        int_output = re.search(r'\d+', str(outputs)).group()
+        if (var1.get() == 1) & (var2.get() == 0):
+            if text in games_available:
+                build_in_console.delete('1.0', END)
+                build_in_console.insert(END,"Input for game: " + text +"\nInputs: 1092\nOutputs: " + str(int_output) + "\nThe config file will be checked inputs and outputs")
 
 
 def Validate_Text_Widget_Neat(event):
@@ -434,18 +452,55 @@ def insert(line, value_to_be_added):
             activation_option_values = ', '.join(activation_values)
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
-def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
+def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network):
+    # Get path for config file
+    config_path = directory_value.get("1.0", END)
+    # Fix path string
+    path_new = NEAT_Single_Processing.raw(config_path)
+    new_file_content = ""
+    if game_selection.get() != "":
+        text = game_selection.get()
+        env = gym.make(text)
+        outputs = env.action_space
+        int_output = re.search(r'\d+', str(outputs)).group()
+        if (var1.get() == 1) & (var2.get() == 0):
+            if text in games_available:
+                line_in_file = 0
+                file = open(path_new, "r")
+                for line in file:
+                    if 'num_inputs' in line:
+                        new_line = line.replace(line,"num_inputs = 1092\n")
+                        new_file_content += new_line
+                    elif 'num_outputs' in line:
+                        new_line = line.replace(line,"num_outputs = " + int_output + "\n")
+                        new_file_content += new_line
+                    else:
+                        new_file_content += line
+        writing_file = open(path_new, "w")
+        writing_file.write(new_file_content)
+        writing_file.close()
+
+
     global run_NEAT_thread
     run_NEAT_thread = threading.current_thread()
+    # Make sure rendering is off when Multi-Processing is selected
+    if game_evaluation.get() == "Multi-Processing" and render_window.get() == "True":
+        render_window.set("False")
 
+    # Make sure the algorithm does not start if these are empty
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==", "1.0") or directory_value.get("1.0", END) == "":
         return
+    # If nothing is chosen do not render
     if render_window.get() == "":
         render_window.set("False")
+    # If nothing is chosen, do Feed-Forward
     if network_type.get() == "":
         network_type.set("Feed-forward")
+    # If nothing is chosen, choose 0
     if game_checkpoint.get() == "":
         game_checkpoint.set("0")
+
+    # Logging information
     logging.info(f'Time: {strftime("%Y-%m-%d %H:%M:%S", gmtime())}')
     logging.info(f'Game selection is: {game_selection.get()}')
     logging.info(f'Game evaluation is: {game_evaluation.get()}')
@@ -453,35 +508,26 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
     logging.info(f'The network type is: {network_type.get()}')
     logging.info(f'Checkpoints after {str(game_checkpoint.get())} generations')
     logging.info(f'Config file is located in: {NEAT_Single_Processing.raw(directory_value.get("1.0", END))}\n\n')
-    if game_evaluation.get() == "Single-Processing":
+
+
+    if game_evaluation.get() == "Single-Processing" and game_selection.get() in game_list_atari:
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
                                            directory_value, render_window)
+    #if game_evaluation.get() == "Single-Processing":
+    #    NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
+    #                                       network_type,
+    #                                       directory_value, render_window)
 
     return
-def submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window):
-    thread_pool_executor.submit(run_NEAT,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window)
+def submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network):
+    thread_pool_executor.submit(run_NEAT,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network)
 
 def load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
     global load_winner_thread
     print('Print threading for laod_winner')
     load_winner_thread = threading.current_thread()
-    #if run_NEAT_thread != "":
-    #    if run_NEAT_thread.is_alive():
-    #        print("thread is alive")
-    #        run_NEAT_thread.join()
-    #    else:
-    #        sys.stdout = sys.__stdout__
-    #        sys.stderr = sys.__stderr__
-    #        if game_selection_winner.get() == ""  or winner_file_name_winner.compare("end-1c", "==", "1.0") or directory_value_winner.get("1.0", END) == "":
-    #            return
-    #else:
-    #    sys.stdout = sys.__stdout__
-    #    sys.stderr = sys.__stderr__
-    #    if game_selection_winner.get() == "" or winner_file_name_winner.compare("end-1c", "==",
-    #                                                                            "1.0") or directory_value_winner.get(
-    #            "1.0", END) == "":
-    #        return
+
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
     if game_selection_winner.get() == "" or winner_file_name_winner.compare("end-1c", "==",
@@ -490,8 +536,9 @@ def load_winner(Output_Console_winner,game_selection_winner,winner_file_name_win
         return
     if game_checkpoint_winner.get() is None or len(game_checkpoint_winner.get()) == 0 or game_checkpoint_winner.get() == "0" or game_checkpoint_winner.index("end") == 0:
         game_checkpoint_winner.set("1")
+
     Run_winner.pre_process_data(Output_Console_winner,game_selection_winner, winner_file_name_winner, game_checkpoint_winner,
-                     checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
+                         checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
     return
@@ -1020,20 +1067,20 @@ tabControl.add(tab2, text='Default Genome')
 
 # Genome
 genome_Section_l = tk.Label(tab1, text='Genome Section', font='Helvetica 12 bold underline', anchor="w")
-genome_Section_l.grid(row=14, column=0, pady=5, ipadx=15)
+genome_Section_l.grid(row=15, column=0, pady=5, ipadx=15)
 
 # Network Parameters
 network_Parameters_l = tk.Label(tab1, text='Network Parameters', justify=LEFT, font='Helvetica 11 bold', anchor="w")
-network_Parameters_l.grid(row=15, column=0, pady=2, sticky=tk.W)
+network_Parameters_l.grid(row=16, column=0, pady=2, sticky=tk.W)
 
 # num_inputs
 num_inputs_l = tk.Label(tab1, text="Number of input nodes:", anchor="w")
-num_inputs_l.grid(row=16, column=0, ipadx=16)
+num_inputs_l.grid(row=17, column=0, ipadx=16)
 CreateHelpMessage.CreateToolTip(num_inputs_l,
                                 text='num_inputs\nThe number of input nodes, through which the network receives inputs.')
 
 num_inputs = ttk.Spinbox(tab1, from_=1, to=1000000000, increment=1, name="num_inputs")
-num_inputs.grid(row=16, column=1)
+num_inputs.grid(row=17, column=1)
 CreateHelpMessage.CreateToolTip(num_inputs,
                                 text='num_inputs\nThe number of input nodes, through which the network receives inputs.')
 num_inputs.config(validate="key",
@@ -1041,12 +1088,12 @@ num_inputs.config(validate="key",
 
 # num_outputs
 num_outputs_l = tk.Label(tab1, text="Number of output nodes:", anchor="w")
-num_outputs_l.grid(row=17, column=0, ipadx=13, pady=2)
+num_outputs_l.grid(row=18, column=0, ipadx=13, pady=2)
 CreateHelpMessage.CreateToolTip(num_outputs_l,
                                 text='num_outputs\nThe number of output nodes, to which the network delivers outputs.')
 
 num_outputs = ttk.Spinbox(tab1, from_=1, to=1000000000, increment=1, name="num_outputs")
-num_outputs.grid(row=17, column=1)
+num_outputs.grid(row=18, column=1)
 CreateHelpMessage.CreateToolTip(num_outputs,
                                 text='num_outputs\nThe number of output nodes, to which the network delivers outputs.')
 num_outputs.config(validate="key",
@@ -1054,12 +1101,12 @@ num_outputs.config(validate="key",
 
 # num_hidden
 num_hidden_l = tk.Label(tab1, text="Number of hidden nodes:", anchor="w")
-num_hidden_l.grid(row=18, column=0, ipadx=13, pady=2)
+num_hidden_l.grid(row=19, column=0, ipadx=13, pady=2)
 CreateHelpMessage.CreateToolTip(num_hidden_l,
                                 text='num_hidden\nThe number of hidden nodes to add to each genome in the initial population.')
 
 num_hidden = ttk.Spinbox(tab1, from_=1, to=1000000000, increment=1, name="num_hidden")
-num_hidden.grid(row=18, column=1)
+num_hidden.grid(row=19, column=1)
 CreateHelpMessage.CreateToolTip(num_hidden,
                                 text='num_hidden\nThe number of hidden nodes to add to each genome in the initial population.')
 num_hidden.config(validate="key",
@@ -1067,14 +1114,14 @@ num_hidden.config(validate="key",
 
 # initial_connection
 initial_connection_L = tk.Label(tab1, text="Initial connection:", anchor="w")
-initial_connection_L.grid(row=19, column=0, ipadx=34)
+initial_connection_L.grid(row=20, column=0, ipadx=34)
 CreateHelpMessage.CreateToolTip(initial_connection_L,
                                 text='initial_connection\nSpecifies the initial connectivity of newly-created genomes. (Note the effects on settings other than unconnected of the enabled_default parameter.)\nThere are seven allowed values:\nunconnected - No connections are initially present. This is the default.\nfs_neat_nohidden - One randomly-chosen input node has one connection to each output node. (This is one version of the FS-NEAT scheme; “FS” stands for “Feature Selection”.)\nfs_neat_hidden - One randomly-chosen input node has one connection to each hidden and output node. (This is another version of the FS-NEAT scheme. If there are no hidden nodes, it is the same as fs_neat_nohidden.)\nfull_nodirect - Each input node is connected to all hidden nodes, if there are any, and each hidden node is connected to all output nodes; otherwise, each input node is connected to all output nodes. Genomes with feed_forward set to False will also have recurrent (loopback, in this case) connections from each hidden or output node to itself.\nfull_direct - Each input node is connected to all hidden and output nodes, and each hidden node is connected to all output nodes. Genomes with feed_forward set to False will also have recurrent (loopback, in this case) connections from each hidden or output node to itself.\npartial_nodirect # - As for full_nodirect, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).\npartial_direct # - as for full_direct, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).')
 
 initial_connection = ttk.Combobox(tab1, name="initial_connection")
 initial_connection['values'] = ('unconnected', 'fs_neat_nohidden', 'fs_neat_hidden', 'full_nodirect', 'full_direct',
                                 'partial_nodirect', 'partial_direct')
-initial_connection.grid(row=19, column=1)
+initial_connection.grid(row=20, column=1)
 CreateHelpMessage.CreateToolTip(initial_connection,
                                 text='initial_connection\nSpecifies the initial connectivity of newly-created genomes. (Note the effects on settings other than unconnected of the enabled_default parameter.)\nThere are seven allowed values:\nunconnected - No connections are initially present. This is the default.\nfs_neat_nohidden - One randomly-chosen input node has one connection to each output node. (This is one version of the FS-NEAT scheme; “FS” stands for “Feature Selection”.)\nfs_neat_hidden - One randomly-chosen input node has one connection to each hidden and output node. (This is another version of the FS-NEAT scheme. If there are no hidden nodes, it is the same as fs_neat_nohidden.)\nfull_nodirect - Each input node is connected to all hidden nodes, if there are any, and each hidden node is connected to all output nodes; otherwise, each input node is connected to all output nodes. Genomes with feed_forward set to False will also have recurrent (loopback, in this case) connections from each hidden or output node to itself.\nfull_direct - Each input node is connected to all hidden and output nodes, and each hidden node is connected to all output nodes. Genomes with feed_forward set to False will also have recurrent (loopback, in this case) connections from each hidden or output node to itself.\npartial_nodirect # - As for full_nodirect, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).\npartial_direct # - as for full_direct, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).')
 initial_connection.config(validate="key", validatecommand=(
@@ -1082,12 +1129,12 @@ ValidateInput.ValidateInput(initial_connection, initial_connection, initial_conn
 
 # initial_conection
 initial_conection_value_l = tk.Label(tab1, text="Initial Connection probability:", anchor="w")
-initial_conection_value_l.grid(row=20, column=0, ipadx=3)
+initial_conection_value_l.grid(row=21, column=0, ipadx=3)
 CreateHelpMessage.CreateToolTip(initial_conection_value_l,
                                 text='initial_conection #\npartial_nodirect # - As for full_nodirect, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).\npartial_direct # - as for full_direct, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).')
 
 initial_connection_value = ttk.Spinbox(tab1, from_=0.0, to=1.0, increment=0.1, name="initial_connection_value")
-initial_connection_value.grid(row=20, column=1)
+initial_connection_value.grid(row=21, column=1)
 CreateHelpMessage.CreateToolTip(initial_connection_value,
                                 text='initial_conection #\npartial_nodirect # - As for full_nodirect, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).\npartial_direct # - as for full_direct, but each connection has a probability of being present determined by the number (valid values are in [0.0, 1.0]).')
 initial_connection_value.config(state='disabled')
@@ -1098,13 +1145,13 @@ ValidateInput.ValidateInput(initial_connection_value, initial_connection_value, 
 
 # feed_forward
 feed_forward_L = tk.Label(tab1, text="Feed Forward?", anchor="w")
-feed_forward_L.grid(row=21, column=0, ipadx=43)
+feed_forward_L.grid(row=22, column=0, ipadx=43)
 CreateHelpMessage.CreateToolTip(feed_forward_L,
                                 text='feed_forward\nIf this evaluates to True, generated networks will not be\nallowed to have recurrent connections (they will be feedforward).\nOtherwise they may be (but are not forced to be) recurrent.')
 
 feed_forward = ttk.Combobox(tab1, name='feed_forward')
 feed_forward['values'] = ('True', 'False')
-feed_forward.grid(row=21, column=1)
+feed_forward.grid(row=22, column=1)
 CreateHelpMessage.CreateToolTip(feed_forward,
                                 text='feed_forward\nIf this evaluates to True, generated networks will not be\nallowed to have recurrent connections (they will be feedforward).\nOtherwise they may be (but are not forced to be) recurrent.')
 feed_forward.config(validate="key", validatecommand=(
@@ -1115,7 +1162,7 @@ game_selection_config_l = tk.Label(tab1, text="Gym Game:", justify=LEFT, anchor=
 game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_config = ttk.Combobox(tab1, name="game_selection_config")
-game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
+game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "LunarLander-v2", "BipedalWalker-v2")
 game_selection_config.grid(row=0, column=1, sticky=tk.W)
 game_selection_config.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Gym_Game(game_selection_config, game_selection_config_l, style, num_inputs, num_outputs), "%P"))
@@ -1806,6 +1853,17 @@ tabControl.add(tab2, text = "NEAT Setup")
 setup_neat_l = tk.Label(tab2, text='Setup', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
 setup_neat_l.grid(row=0, column=0, ipadx=32, pady=1, sticky=tk.W)
 
+
+# Runs Per Network
+runs_per_network_l = tk.Label(tab2, text="Runs Per Network:", justify=LEFT, anchor="w")
+runs_per_network_l.grid(row=0, column=2, ipadx=37, pady=2, sticky=tk.W)
+
+runs_per_network = ttk.Spinbox(tab2, from_=0, to=100000000, increment=1, name = "runs_per_network")
+runs_per_network.grid(row=1, column=2, sticky=tk.W)
+
+runs_per_network_l.grid_remove()
+runs_per_network.grid_remove()
+
 # Select game
 game_selection_l = tk.Label(tab2, text="Gym Game:", justify=LEFT, anchor="w")
 game_selection_l.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
@@ -1814,14 +1872,15 @@ game_selection = ttk.Combobox(tab2, name="game_selection")
 game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
 game_selection.grid(row=1, column=1, sticky=tk.W)
 game_selection.config(validate="key", validatecommand=(
-    Validate_Neat_Setup.ValidateInputNEAT(game_selection, game_selection_l, style), "%P"))
+    Validate_Neat_Setup.Validate_Game_Selection(game_selection, game_selection_l, style, runs_per_network_l, runs_per_network), "%P"))
+
 
 # Select evalutation
 game_evaluation_l = tk.Label(tab2, text="Evaluate Genomes:", justify=LEFT, anchor="w")
 game_evaluation_l.grid(row=2, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_evaluation = ttk.Combobox(tab2, name="game_evaluation")
-game_evaluation['values'] = ("Single-Processing", "Multi-Processing")
+game_evaluation['values'] = ("Single-Processing")
 game_evaluation.grid(row=2, column=1, sticky=tk.W)
 game_evaluation.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_evaluation, game_evaluation_l, style), "%P"))
@@ -1897,8 +1956,14 @@ Output_Console.insert(tk.END, "## See the evolution of genomes while running NEA
 #run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start()
 #run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window])
 
+var1 = tk.IntVar()
+var2 = tk.IntVar()
+config_file_check = tk.Checkbutton(tab2, text='Check config file for input/output',variable=var1, onvalue=1, offvalue=0, command=print_selection)
+config_file_check.grid(row =10, column =1,sticky=tk.W, padx=5, pady=5)
+
+
 # Run button for Neat using a thread
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window), justify=LEFT, anchor="w")
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network), justify=LEFT, anchor="w")
 btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
 
 # Run button for Neat using a thread
@@ -1984,7 +2049,7 @@ Output_Console_winner.bind('<Key>',lambda e: 'break')
 Output_Console_winner.insert(tk.END, "## Load checkpoints / winner ##")
 
 # Run button for Neat using a thread
-btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner), justify=LEFT, anchor="w")
+btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner ), justify=LEFT, anchor="w")
 btn_run_neat_winner.grid(row=11, column=0, sticky=tk.W, padx=5, pady=5)
 
 
@@ -2026,9 +2091,9 @@ if response_from_message_box == 6: #yes
     root.mainloop()
     pyglet.app.run()
 else:
-    frame_Education.grid_forget()
-    education_L.grid_forget()
-    Education_listbox.grid_forget()
+    frame_Education.grid_remove()
+    education_L.grid_remove()
+    Education_listbox.grid_remove()
     tabControl.tab(tab_education, state = "disabled")
     root.mainloop()
     pyglet.app.run()
