@@ -2108,15 +2108,54 @@ for activation_option in range(len(activation_options_values_sec)):
 
 response_from_message_box = ctypes.windll.user32.MessageBoxW(0, "Would you like to launch education mode?", "Options", 4)
 
+education_mode = False
+
 if response_from_message_box == 6: #yes
+    education_mode = True
+    on_button.config(image=off)
+    is_on = False
+    # Labels
+    for label in labels_list:  # Loop though Labels
+        exec(label + '.config(fg = "#272726", bg = "#9bdbae")')
+    for button in buttons_list:
+        exec(button + ".configure(bg = '#4b72d7', fg = 'white smoke')")
+    # Text Boxes input (background (bg) - the color of box, foreground (fg) -color of text
+    config_file_check.configure(activebackground="#9bdbae")
+    txt_edit.config(bg="#dfdfdf", fg="#272726")
+    winner_file_name.config(bg="#dfdfdf", fg="#272726")
+    build_in_console.config(bg="#dfdfdf", fg="#272726")
+    Output_Console.config(bg="#dfdfdf", fg="#272726")
+    winner_file_name_winner.config(bg="#dfdfdf", fg="#272726")
+    checkpoint_directory_value_winner.config(bg="#dfdfdf", fg="#272726")
+    directory_value_winner.config(bg="#dfdfdf", fg="#272726")
+    directory_value.config(bg="#dfdfdf", fg="#272726")
+    Output_Console_winner.config(bg="#dfdfdf", fg="#272726")
+
+    fr_buttons.configure(bg="#9bdbae")
+    on_button.configure(bg="#9bdbae", activebackground='#9bdbae')
+    root.config(bg='#2c908f')
+    # Tab Style
+    style.theme_use('default')
+    style.configure('TNotebook.Tab', background="#3d5491", foreground = '#272726', activeforeground = "#272726")
+    style.configure("TNotebook", background="#2c908f",foreground = "white smoke", borderwidth=0)
+    # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
+    # Style of form (background), no foreground
+    style.configure("TFrame", background="#9bdbae", borderwidth=5)
+    style.configure("TCombobox", fieldbackground="#dfdfdf", background="#2c908f", foreground="#272726")
+    style.configure("TSpinbox", fieldbackground="#dfdfdf", background="#2c908f", foreground="#272726")
+    style.configure("TCheckbutton", fieldbackground="#dfdfdf", background="#dddbd9",
+                    foreground="#272726")
     print("In Progress")
     root.mainloop()
     pyglet.app.run()
+
 else:
+
     frame_Education.grid_remove()
     education_L.grid_remove()
     Education_listbox.grid_remove()
     tabControl.tab(tab_education, state = "disabled")
     root.mainloop()
     pyglet.app.run()
+
 
