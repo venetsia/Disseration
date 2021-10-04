@@ -787,8 +787,8 @@ def switch():
         for label in labels_list:  # Loop though Labels
             exec(label + '.config(fg = "gray1", bg = "grey75")')
         for button in buttons_list:
-            exec(button + ".configure(bg = '#32285b', fg= 'gray99')")
-
+            exec(button + ".configure(bg = '#e5233f', fg= 'gray99')")
+##32285b
         config_file_check.configure(activebackground="grey75")
         txt_edit.config(bg="light grey", fg="gray1")
         winner_file_name.config(bg="#e5e5e5", fg="gray1")
@@ -801,7 +801,8 @@ def switch():
         Output_Console_winner.config(bg="#e5e5e5", fg="gray1")
         fr_buttons.configure(bg="#d9001f")
         on_button.configure(bg="#d9001f", activebackground='#d9001f')
-        root.config(bg='#d9001f')
+        #root.config(bg='#d9001f')
+        root.config(bg='#e5233f')
         # Tab Style
         style.theme_use('default')
         style.configure('TNotebook.Tab', background="#5d797e")
@@ -809,8 +810,8 @@ def switch():
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
         style.configure("TFrame", background="grey75", borderwidth=5)
-        style.configure("TCombobox", fieldbackground="#e5e5e5", background="#d9001f", foreground="gray1")
-        style.configure("TSpinbox", fieldbackground="#e5e5e5", background="#d9001f", foreground="gray1")
+        style.configure("TCombobox", fieldbackground="#e5e5e5", background="#e5233f", foreground="gray1")
+        style.configure("TSpinbox", fieldbackground="#e5e5e5", background="#e5233f", foreground="gray1")
         style.configure("TCheckbutton", fieldbackground="#dcdcdc", bg="#dcdcdc",
                         foreground="gray1")
         # this changes the background colour of the 2nd item
@@ -848,8 +849,8 @@ def switch():
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
         style.configure("TFrame", background="grey35", borderwidth=5)
-        style.configure("TCombobox", fieldbackground="#697676", background="dark red", foreground="#dddbd9")
-        style.configure("TSpinbox", fieldbackground="#697676", background="dark red", foreground="#dddbd9")
+        style.configure("TCombobox", fieldbackground="#697676", background="#e5233f", foreground="#dddbd9")
+        style.configure("TSpinbox", fieldbackground="#697676", background="#e5233f", foreground="#dddbd9")
         style.configure("TCheckbutton", fieldbackground="#697676", background="#dddbd9",
                         foreground="#cbc8c3")
         # this changes the background colour of the 2nd item
@@ -858,81 +859,7 @@ def switch():
         for activation_option in range(len(activation_options_values_sec)):
             activation_listbox.itemconfig(activation_option, {'bg': "gray77"})
 
-    if is_on == True and education_mode == True: #Light Mode
-        on_button.config(image=off)
-        is_on = False
-        # Labels
-        for label in labels_list:  # Loop though Labels
-            exec(label + '.config(fg = "#272726", bg = "#9bdbae")')
-        for button in buttons_list:
-            exec(button + ".configure(bg = '#4b72d7', fg = 'white smoke')")
-        # Text Boxes input (background (bg) - the color of box, foreground (fg) -color of text
-        config_file_check.configure(activebackground="#9bdbae")
-        txt_edit.config(bg="#dfdfdf", fg="#272726")
-        winner_file_name.config(bg="#dfdfdf", fg="#272726")
-        build_in_console.config(bg="#dfdfdf", fg="#272726")
-        Output_Console.config(bg="#dfdfdf", fg="#272726")
-        winner_file_name_winner.config(bg="#dfdfdf", fg="#272726")
-        checkpoint_directory_value_winner.config(bg="#dfdfdf", fg="#272726")
-        directory_value_winner.config(bg="#dfdfdf", fg="#272726")
-        directory_value.config(bg="#dfdfdf", fg="#272726")
-        Output_Console_winner.config(bg="#dfdfdf", fg="#272726")
 
-        fr_buttons.configure(bg="#9bdbae")
-        on_button.configure(bg="#9bdbae", activebackground='#9bdbae')
-        root.config(bg='#2c908f')
-        # Tab Style
-        style.theme_use('default')
-        style.configure('TNotebook.Tab', background="#3d5491", foreground='#272726', activeforeground="#272726")
-        style.configure("TNotebook", background="#2c908f", foreground="white smoke", borderwidth=0)
-        # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
-        # Style of form (background), no foreground
-        style.configure("TFrame", background="#9bdbae", borderwidth=5)
-        style.configure("TCombobox", fieldbackground="#dfdfdf", background="#2c908f", foreground="#272726")
-        style.configure("TSpinbox", fieldbackground="#dfdfdf", background="#2c908f", foreground="#272726")
-        style.configure("TCheckbutton", fieldbackground="#dfdfdf", background="#dddbd9",
-                        foreground="#272726")
-    elif is_on == False and education_mode == True: #Dark Mode
-        on_button.config(image=on)
-        is_on = True
-        # Labels
-        for label in labels_list:  # Loop though Labels
-            exec(label + '.config(fg = "white smoke", bg = "grey35")')
-        for button in buttons_list:
-            exec(button + ".configure(bg = 'dark slate gray', fg = '#dddbd9')")
-        config_file_check.configure(activebackground="grey35")
-        txt_edit.config(bg="#272726", fg="#dddbd9")
-        winner_file_name.config(bg="#272726", fg="#dddbd9")
-        build_in_console.config(bg="gray12", fg="#dddbd9")
-        Output_Console.config(bg="#272726", fg="#dddbd9")
-        winner_file_name_winner.config(bg="#272726", fg="#dddbd9")
-        checkpoint_directory_value_winner.config(bg="#272726", fg="#dddbd9")
-        directory_value_winner.config(bg="#272726", fg="#dddbd9")
-        directory_value.config(bg="#272726", fg="#dddbd9")
-        Output_Console_winner.config(bg="#272726", fg="#dddbd9")
-        fr_buttons.configure(bg="gray18")
-        on_button.configure(bg="gray18", activebackground='gray18')
-        root.config(bg='gray24')
-        # Tab Style
-        style.theme_use('default')
-        style.configure('TNotebook.Tab', background="gray45")
-        style.configure("TNotebook", background="gray24", borderwidth=0)
-        # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
-        # Style of form (background), no foreground
-        style.configure("TFrame", background="grey35", borderwidth=5)
-        style.configure("TCombobox", fieldbackground="#697676", background="dark red", foreground="#dddbd9")
-        style.configure("TSpinbox", fieldbackground="#697676", background="dark red", foreground="#dddbd9")
-        style.configure("TCheckbutton", fieldbackground="#697676", background="#dddbd9",
-                        foreground="#cbc8c3")
-        # this changes the background colour of the 2nd item
-        for options in range(len(aggregation_options)):
-            listbox_aggregation_options.itemconfig(options, {'bg': 'gray77'})
-        for activation_option in range(len(activation_options_values_sec)):
-            activation_listbox.itemconfig(activation_option, {'bg': "gray77"})
-
-    # print(is_on)
-    # print(is_on)
-    return is_on
 
 # def update_progress_label():
 #     return f"Current Progress: {progress_Bar_Education['value']}%"
@@ -955,7 +882,7 @@ frame_Education.grid(row=0, column=0)
 education_L = tk.Label(frame_Education, text="Education", anchor="w", width = 15, font = ("MS Sans Serif", 15))
 education_L.grid(row=0, column=0, ipadx=18, sticky=tk.W)
 
-eduction_options = ('Introduction', 'Artificial Intelligence', 'cube', 'exp', 'gauss',
+eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories', 'Intelligent Agents', 'gauss',
                                  'hat', 'identity', 'inv', 'log', 'relu', 'elu',
                                  'lelu', 'selu', 'sigmoid', 'sin', 'softplus', 'square', 'tanh')
 langs_var = tk.StringVar(value=eduction_options)
@@ -2186,40 +2113,7 @@ response_from_message_box = ctypes.windll.user32.MessageBoxW(0, "Would you like 
 education_mode = False
 
 if response_from_message_box == 6: #yes
-    education_mode = True
-    on_button.config(image=off)
-    is_on = False
-    # Labels
-    for label in labels_list:  # Loop though Labels
-        exec(label + '.config(fg = "#272726", bg = "#9bdbae")')
-    for button in buttons_list:
-        exec(button + ".configure(bg = '#4b72d7', fg = 'white smoke')")
-    # Text Boxes input (background (bg) - the color of box, foreground (fg) -color of text
-    config_file_check.configure(activebackground="#9bdbae")
-    txt_edit.config(bg="#dfdfdf", fg="#272726")
-    winner_file_name.config(bg="#dfdfdf", fg="#272726")
-    build_in_console.config(bg="#dfdfdf", fg="#272726")
-    Output_Console.config(bg="#dfdfdf", fg="#272726")
-    winner_file_name_winner.config(bg="#dfdfdf", fg="#272726")
-    checkpoint_directory_value_winner.config(bg="#dfdfdf", fg="#272726")
-    directory_value_winner.config(bg="#dfdfdf", fg="#272726")
-    directory_value.config(bg="#dfdfdf", fg="#272726")
-    Output_Console_winner.config(bg="#dfdfdf", fg="#272726")
 
-    fr_buttons.configure(bg="#9bdbae")
-    on_button.configure(bg="#9bdbae", activebackground='#9bdbae')
-    root.config(bg='#2c908f')
-    # Tab Style
-    style.theme_use('default')
-    style.configure('TNotebook.Tab', background="#3d5491", foreground = '#272726', activeforeground = "#272726")
-    style.configure("TNotebook", background="#2c908f",foreground = "white smoke", borderwidth=0)
-    # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
-    # Style of form (background), no foreground
-    style.configure("TFrame", background="#9bdbae", borderwidth=5)
-    style.configure("TCombobox", fieldbackground="#dfdfdf", background="#2c908f", foreground="#272726")
-    style.configure("TSpinbox", fieldbackground="#dfdfdf", background="#2c908f", foreground="#272726")
-    style.configure("TCheckbutton", fieldbackground="#dfdfdf", background="#dddbd9",
-                    foreground="#272726")
     print("In Progress")
     # progressbar
     progress_Bar_Education = ttk.Progressbar(

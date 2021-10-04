@@ -1,0 +1,21 @@
+{"intents": [
+  {"tag": "greetings",
+    "patterns": ["hello", "hey", "hi", "good day", "greetings", "what's up", "how is it going?"],
+    "response": ["Hello!", "Hey!", "What can I do for you?"],
+  "tag": "goodbye",
+    "patterns": ["farewell", "bye", "goodbye", "bye bye", "gotta gop"],
+    "response":  ["farewell", "bye", "goodbye", "bye bye", "see you soon!", "take care!", "catch you later", "have a good day!"],
+  "tag":  "name",
+    "patterns": ["what is your name?", "whats your name", "what should I call you?", "who are you?", "Can you tell me your name"],
+    "response": ["I am Neural Agent, it is nice to meet you! I am here to show you one of the uses of intelligent agents and answer your questions."],
+    "tag": "agent",
+    "patterns": ["What is an agent?", "What is an intelligent agent?", "Tell me more about agents"],
+    "response": ["Anything that can be viewed as perceiving its environment though sensors and acting upon that environment though effectors.", "An agent is anything which perceives its environment, takes actions autonomously in order to achieve goals, and may improve its performance with learning or may use knowledge."],
+    "tag": "act agent",
+    "pattern": ["How should agents act?"],
+    "response": ["A rational agent is one that does the right thing (\"the right action is the one that will cause the agent to be most successful\")"],
+    "tag": "evaluate",
+    "pattern": ["How and when to evaluate the agent's success?", "How evaluate the agent's success?", "when to evaluate the agent's success?"],
+    "response": ["Observe the image above. An agent will use his sensors to perceive its environment. The agent has some kind of performance measure mechanism to check how successful an agent is. In order to reach its goal state (fitness threshold) it will perform some actions in the environment with its effectors and perceive the environment to determine how have the actions changed the environment. "]
+  }
+]}
