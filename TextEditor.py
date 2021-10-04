@@ -1992,7 +1992,7 @@ btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
 tabControl.add(tab3, text='Load Winner')
 tabControl.bind('<<NotebookTabChanged>>', on_tab_change)
 # Setup label
-setup_neat_l_Winner = tk.Label(tab3, text='Run Wunner', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
+setup_neat_l_Winner = tk.Label(tab3, text='Run Winner', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
 setup_neat_l_Winner.grid(row=0, column=0, ipadx=32, pady=1, sticky=tk.W)
 
 # Select game

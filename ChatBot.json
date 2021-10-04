@@ -1,21 +1,47 @@
 {"intents": [
   {"tag": "greetings",
     "patterns": ["hello", "hey", "hi", "good day", "greetings", "what's up", "how is it going?"],
-    "response": ["Hello!", "Hey!", "What can I do for you?"],
-  "tag": "goodbye",
+    "responses": ["Hello!", "Hey!", "What can I do for you?"],
+    "context_set": ""
+  },
+  {"tag": "goodbye",
     "patterns": ["farewell", "bye", "goodbye", "bye bye", "gotta gop"],
-    "response":  ["farewell", "bye", "goodbye", "bye bye", "see you soon!", "take care!", "catch you later", "have a good day!"],
-  "tag":  "name",
-    "patterns": ["what is your name?", "whats your name", "what should I call you?", "who are you?", "Can you tell me your name"],
-    "response": ["I am Neural Agent, it is nice to meet you! I am here to show you one of the uses of intelligent agents and answer your questions."],
-    "tag": "agent",
+    "responses":  ["farewell", "bye", "goodbye", "bye bye", "see you soon!", "take care!", "catch you later", "have a good day!"],
+    "context_set": ""
+  },
+  {"tag":  "name",
+    "patterns": ["what is your name?", "whats your name", "what should I call you?", "who are you?", "Can you tell me your name", "name", "chatbot"],
+    "responses": ["I am Neural Agent, it is nice to meet you! I am here to show you one of the uses of intelligent agents and answer your questions.\n I am an example of acting humanly as I am trained to percieve the written text (as input data) and I have given answers (output). This is also called supervised learning."],
+    "context_set": ""
+  },
+  {"tag": "agent",
     "patterns": ["What is an agent?", "What is an intelligent agent?", "Tell me more about agents"],
-    "response": ["Anything that can be viewed as perceiving its environment though sensors and acting upon that environment though effectors.", "An agent is anything which perceives its environment, takes actions autonomously in order to achieve goals, and may improve its performance with learning or may use knowledge."],
-    "tag": "act agent",
-    "pattern": ["How should agents act?"],
-    "response": ["A rational agent is one that does the right thing (\"the right action is the one that will cause the agent to be most successful\")"],
-    "tag": "evaluate",
-    "pattern": ["How and when to evaluate the agent's success?", "How evaluate the agent's success?", "when to evaluate the agent's success?"],
-    "response": ["Observe the image above. An agent will use his sensors to perceive its environment. The agent has some kind of performance measure mechanism to check how successful an agent is. In order to reach its goal state (fitness threshold) it will perform some actions in the environment with its effectors and perceive the environment to determine how have the actions changed the environment. "]
+    "responses": ["Anything that can be viewed as perceiving its environment though sensorsand acting upon that environment though effectors.", "An agent is anything which perceives its environment, takes actions autonomously in order to achieve goals, and may improve its performance with learning or may use knowledge."],
+     "context_set": ""
+  },
+  {"tag": "act agent",
+    "patterns": ["How should agents act?"],
+    "responses": ["A rational agent is one that does the right thing (\"the right action is the one that will cause the agent to be most successful\")"],
+    "context_set": ""
+  },
+  {"tag": "evaluate",
+    "patterns": ["How and when to evaluate the agent's success?", "How evaluate the agent's success?", "when to evaluate the agent's success?", "performance", "success", "goal state", "reach", "fitness", "action", "percepts", "sensors", "environment", "effectors"],
+    "responses": ["Observe the image above. An agent will use his sensors to perceive its environment. The agent has some kind of performance measure mechanism to check how successful an agent is. In order to reach its goal state (fitness threshold) it will perform some actions in the environment with its effectors and perceive the environment to determine how have the actions changed the environment. "],
+    "context_set": ""
+  },
+  {"tag":  "supervised learning",
+  "patterns":  ["What is supervised learning?", "What kind of learning does natural language processing use?", "natural language processing", "NLP"],
+  "responses":  ["Supervised learning means training models with algorithms when the training data has known outcomes for a question being asked. Supervised learning is used for prediction and classification. I am trained with supervised learning as I have learned from patterns of data."],
+   "context_set": ""
+  },
+  {"tag":  "learning",
+  "patterns": ["what other forms of learning are there?", "learning forms", "machine learning", "learning algorithms", "training model", "data", "make decisions"],
+  "responses":  ["There are three main approaches to training a model.\n There is supervised learning (I am trained used this). It is used when the input and output for a given problem are given are known.\n There is also unsupervised learning which tries to uncover hidden relationships within the data. No output is given here and the algorithm has to find some analogies itself.\n Last but not least, there is Reinforcement learning where we will look into more detail with NEAT. Reinforcement learning uses the rewarding system where if an action is either rewarded or a penalty is given. It is inspired by behavioral psychology and it does not need any inputs (such as pictures or text). It needs to know how many inputs there are and we give it full access to try and reach its goal."],
+  "context_set": ""
+  },
+  {
+    "tag": "NEAT",
+    "patterns": ["NEAT", "What is NEAT?", "reinforcement learning", "evolutionary", "biology inspired", "robot", "neuroevolution", "this application", "use", "genetic", "why"],
+    "responses": ["This application is specifically designed to simplify the use of NEAT algorithm and show students how such reinforcement learning algorithm to learn to play a game. NEAT is a method for evolving Artificial Neural Networks with a Genetic algorithm.\nIn order to run the NEAT algorithm we need to specify the number of inputs the program will receive from the game and the output (number of actions which it can perform). As any agent it will need some kind of goal, in this case our goal is to reach some score on the game (fitness_threshold). When neat receives the inputs it tries different actions and each action is given a reward or penalty for it. This is how the algorithm learns."]
   }
 ]}
