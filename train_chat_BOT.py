@@ -16,51 +16,58 @@ with open("ChatBot.json") as file:
 
 print(intents)
 
-words = []
-classes = []
-documents_x = []
-documents_y =[]
-ignore_letters = []
+try:
+    # Uncomment the next line to run the except if any changes occur in JSON file
+    # x
+    with open("data.pickle", "rb") as f:
+        words, classes, training, output = pickle.load(f)
 
-for intent in intents["intents"]:
-    for pattern in intent["patterns"]:
-        word_list = nltk.word_tokenize(pattern)
-        words.extend(word_list)
-        documents_x.append(word_list)
-        documents_y.append(intent["tag"])
-        if intent["tag"] not in classes:
-            classes.append(intent["tag"])
+except:
+    words = []
+    classes = []
+    documents_x = []
+    documents_y =[]
+    ignore_letters = []
 
-words = [stemmer.stem(w.lower()) for w in words if w not in "?"]
-words = sorted(set(words))
+    for intent in intents["intents"]:
+        for pattern in intent["patterns"]:
+            word_list = nltk.word_tokenize(pattern)
+            words.extend(word_list)
+            documents_x.append(word_list)
+            documents_y.append(intent["tag"])
+            if intent["tag"] not in classes:
+                classes.append(intent["tag"])
 
-classes = sorted(classes)
+    words = [stemmer.stem(w.lower()) for w in words if w not in "?"]
+    words = sorted(set(words))
 
-pickle.dump(words, open("words.pkl", "wb"))
-pickle.dump(words, open("classes.pkl", "wb"))
+    classes = sorted(classes)
 
-training = []
-output = []
-output_empty = [0 for _ in range(len(classes))]
+    pickle.dump(words, open("words.pkl", "wb"))
+    pickle.dump(words, open("classes.pkl", "wb"))
 
-for x,document in enumerate(documents_x):
-    bag =[]
-    word_patterns = [stemmer.stem(w) for w in document]
+    training = []
+    output = []
+    output_empty = [0 for _ in range(len(classes))]
 
-    for word in words:
-        if word in word_patterns:
-            bag.append(1)
-        else:
-            bag.append(0)
-    output_row = output_empty[:]
-    output_row[classes.index(documents_y[x])] = 1
-    training.append(bag)
-    output.append(output_row)
+    for x,document in enumerate(documents_x):
+        bag =[]
+        word_patterns = [stemmer.stem(w) for w in document]
 
-training = np.array(training)
-output = np.array(output)
-with open("data.pickle", "wb") as f:
-    pickle.dump((words,classes, training,output), f)
+        for word in words:
+            if word in word_patterns:
+                bag.append(1)
+            else:
+                bag.append(0)
+        output_row = output_empty[:]
+        output_row[classes.index(documents_y[x])] = 1
+        training.append(bag)
+        output.append(output_row)
+
+    training = np.array(training)
+    output = np.array(output)
+    with open("data.pickle", "wb") as f:
+        pickle.dump((words,classes, training,output), f)
 
 net = tflearn.input_data(shape=[None,len(training[0])])
 net = tflearn.fully_connected(net,8)
@@ -70,10 +77,12 @@ net = tflearn.regression(net)
 
 model = tflearn.DNN(net)
 
-model.fit(training, output, n_epoch=1000, batch_size = 8, show_metric=True)
-model.save("chatbot_model.model")
+try:
+    model.load("chatbot_model.model")
+except:
 
-print("Done")
+    model.fit(training, output, n_epoch=1000, batch_size = 8, show_metric=True)
+    model.save("chatbot_model.model")
 
 def bag_of_words(s, words):
     bag = [0 for _ in range(len(words))]

@@ -52,4 +52,14 @@ def Validate(widget,widget1):
         toolTip.enableWidged(widget,widget1)
     widget.bind('<Enter>', enable)
 
+def CreateToolTip_For_Education_Mode(widget, text):
+    toolTip = CreateHelpMessage(widget)
+    def enter(event):
+        toolTip.showtip(text)
+    def leave(event):
+        toolTip.hidetip()
+    widget.bind('<KeyPress>', enter)
+    widget.bind('<Enter>', enter)
+    widget.bind('<Leave>', leave)
+
 

@@ -20,12 +20,12 @@
      "context_set": ""
   },
   {"tag": "act agent",
-    "patterns": ["How should agents act?"],
+    "patterns": ["How should agents act?", "act", "how does an agent act", "rational", "right action"],
     "responses": ["A rational agent is one that does the right thing (\"the right action is the one that will cause the agent to be most successful\")"],
     "context_set": ""
   },
   {"tag": "evaluate",
-    "patterns": ["How and when to evaluate the agent's success?", "How evaluate the agent's success?", "when to evaluate the agent's success?", "performance", "success", "goal state", "reach", "fitness", "action", "percepts", "sensors", "environment", "effectors"],
+    "patterns": ["How and when to evaluate the agent's success?", "How evaluate the agent's success?", "when to evaluate the agent's success?", "performance", "success", "goal state", "reach", "fitness", "action", "percepts", "sensors", "environment", "effectors", "evaluate", "evaluation of agent", "cycle of agent"],
     "responses": ["Observe the image above. An agent will use his sensors to perceive its environment. The agent has some kind of performance measure mechanism to check how successful an agent is. In order to reach its goal state (fitness threshold) it will perform some actions in the environment with its effectors and perceive the environment to determine how have the actions changed the environment. "],
     "context_set": ""
   },
