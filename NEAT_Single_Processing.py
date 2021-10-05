@@ -131,67 +131,72 @@ def raw(text):
     return new_string
 
 def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window):
-    # Load configuration.
+    try:
+        # Load configuration.
 
-    # Empty console that will use for print
-    Output_Console.delete('1.0', END)
+        # Empty console that will use for print
+        Output_Console.delete('1.0', END)
 
-    # Set Text Widget to be Output
-    sys.stdout = TextRedirector(Output_Console, "stdout")
+        # Set Text Widget to be Output
+        sys.stdout = TextRedirector(Output_Console, "stdout")
 
-    # Get path for config file
-    config_path = directory_value.get("1.0",END)
-    # Fix path string
-    path_new = raw(config_path)
+        # Get path for config file
+        config_path = directory_value.get("1.0",END)
+        # Fix path string
+        path_new = raw(config_path)
 
-    # From NEAT integration that will be used for population
-    config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
-                               neat.DefaultSpeciesSet, neat.DefaultStagnation,
-                               path_new)
+        # From NEAT integration that will be used for population
+        config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
+                                   neat.DefaultSpeciesSet, neat.DefaultStagnation,
+                                   path_new)
 
-    # Get Population
-    pop = neat.Population(config)
-    # Enable statistic reported
-    stats = neat.StatisticsReporter()
-    pop.add_reporter(stats)
+        # Get Population
+        pop = neat.Population(config)
+        # Enable statistic reported
+        stats = neat.StatisticsReporter()
+        pop.add_reporter(stats)
 
-    # Print evolution of genomes
-    pop.add_reporter(neat.StdOutReporter(True))
+        # Print evolution of genomes
+        pop.add_reporter(neat.StdOutReporter(True))
 
-    # Make sure game_checkpoint does not execute if 0
-    if int(game_checkpoint.get()) != 0:
-        pop.add_reporter(neat.Checkpointer(int(game_checkpoint.get())))
-
-
-    # assign global variables that will be used in evolving genomes
-    global env_variable
-    global network
-    global render_window_variable
-    global runs_per_net
-    env_variable = game_selection.get()
-    network = network_type.get()
-    render_window_variable = render_window.get()
-    runs_per_net = ""
-    #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
-
-    #winner = pop.run(pe.evaluate)
-
-    # Get winner
-    winner = pop.run(eval_genomes)
+        # Make sure game_checkpoint does not execute if 0
+        if int(game_checkpoint.get()) != 0:
+            pop.add_reporter(neat.Checkpointer(int(game_checkpoint.get())))
 
 
-    # Get winner name that will be used and fix string
-    winner_file_raw = raw(winner_file_name.get("1.0",END))
-    # Save the winner.
-    with open(winner_file_raw, 'wb') as f:
-        pickle.dump(winner, f)
+        # assign global variables that will be used in evolving genomes
+        global env_variable
+        global network
+        global render_window_variable
+        global runs_per_net
+        env_variable = game_selection.get()
+        network = network_type.get()
+        render_window_variable = render_window.get()
+        runs_per_net = ""
+        #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
 
-    print(winner)
+        #winner = pop.run(pe.evaluate)
 
-    # Call game with only the loaded genome
-    pop = neat.Checkpointer.restore_checkpoint("neat-checkpoint-1")
-    stats = neat.StatisticsReporter()
-    pop.add_reporter(stats)
-    pop.add_reporter(neat.StdOutReporter(True))
+        # Get winner
+        winner = pop.run(eval_genomes)
+
+
+        # Get winner name that will be used and fix string
+        winner_file_raw = raw(winner_file_name.get("1.0",END))
+        # Save the winner.
+        with open(winner_file_raw, 'wb') as f:
+            pickle.dump(winner, f)
+
+        print(winner)
+
+        # Call game with only the loaded genome
+        pop = neat.Checkpointer.restore_checkpoint("neat-checkpoint-1")
+        stats = neat.StatisticsReporter()
+        pop.add_reporter(stats)
+        pop.add_reporter(neat.StdOutReporter(True))
+    except Exception as e:  # work on python 3.x
+        # Empty console that will use for print
+        Output_Console.delete('1.0', END)
+        Output_Console.insert(END, "Error message: " + str(e))
 
     return

@@ -464,6 +464,7 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
         outputs = env.action_space
         int_output = re.search(r'\d+', str(outputs)).group()
         if (var1.get() == 1) & (var2.get() == 0):
+            Output_Console.insert(END, "Config file is being modified (inputs and outputs). One moment please")
             if text in games_available:
                 line_in_file = 0
                 file = open(path_new, "r")
@@ -476,16 +477,13 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
                         new_file_content += new_line
                     else:
                         new_file_content += line
-        writing_file = open(path_new, "w")
-        writing_file.write(new_file_content)
-        writing_file.close()
+            writing_file = open(path_new, "w")
+            writing_file.write(new_file_content)
+            writing_file.close()
 
 
     global run_NEAT_thread
     run_NEAT_thread = threading.current_thread()
-    # Make sure rendering is off when Multi-Processing is selected
-    if game_evaluation.get() == "Multi-Processing" and render_window.get() == "True":
-        render_window.set("False")
 
     # Make sure the algorithm does not start if these are empty
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==", "1.0") or directory_value.get("1.0", END) == "":

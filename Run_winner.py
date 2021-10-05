@@ -201,37 +201,42 @@ def replay_checkpoint(config_path,checkpoint_directory):
     winner = pop.run(replay_function)
     return
 def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
-    global env_variable
-    global network
-    env_variable = game_selection_winner.get()
-    network = network_type_winner.get()
-    # Set Text Widget to be Output
-    sys.stdout = TextRedirector(Output_Console_winner, "stdout")
-    directory_temp = ""
-    global GENERATION_EP
-    GENERATION_EP = game_checkpoint_winner.get()
-    checkpoint_directories = checkpoint_directory_value_winner.get("1.0", END)
-    directory_check = checkpoint_directories.split("~")
-    directory_value_winner_string =  directory_value_winner.get("1.0", END)
-    directory_check.remove("")
-    print(len(directory_check))
+    try:
+        global env_variable
+        global network
+        env_variable = game_selection_winner.get()
+        network = network_type_winner.get()
+        # Set Text Widget to be Output
+        sys.stdout = TextRedirector(Output_Console_winner, "stdout")
+        directory_temp = ""
+        global GENERATION_EP
+        GENERATION_EP = game_checkpoint_winner.get()
+        checkpoint_directories = checkpoint_directory_value_winner.get("1.0", END)
+        directory_check = checkpoint_directories.split("~")
+        directory_value_winner_string =  directory_value_winner.get("1.0", END)
+        directory_check.remove("")
+        print(len(directory_check))
 
-    print(directory_check)
+        print(directory_check)
 
 
-    if len(directory_check) > 1:
-        print("Loading checkpoints")
-        for directory_checkpoint_winner_processed in directory_check:
-            directory_temp = directory_checkpoint_winner_processed.replace("\\", "/")
+        if len(directory_check) > 1:
+            print("Loading checkpoints")
+            for directory_checkpoint_winner_processed in directory_check:
+                directory_temp = directory_checkpoint_winner_processed.replace("\\", "/")
+                print("Checkpoint: " + directory_temp)
+                replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
+        elif len(directory_check) == 1:
+            print("Loading checkpoint")
+            directory_temp = directory_check[0].replace("\\", "/")
             print("Checkpoint: " + directory_temp)
             replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
-    elif len(directory_check) == 1:
-        print("Loading checkpoint")
-        directory_temp = directory_check[0].replace("\\", "/")
-        print("Checkpoint: " + directory_temp)
-        replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
-    print("Loading winner")
+        print("Loading winner")
 
-    replay_genome(directory_value_winner_string, winner_file_name_winner)
-    pyglet.app.exit()
+        replay_genome(directory_value_winner_string, winner_file_name_winner)
+        pyglet.app.exit()
+    except Exception as e:  # work on python 3.x
+        # Empty console that will use for print
+        Output_Console_winner.delete('1.0', END)
+        Output_Console_winner.insert(END, "Error message: " + str(e))
     return
