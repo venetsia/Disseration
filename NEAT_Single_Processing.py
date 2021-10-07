@@ -19,6 +19,7 @@ import tkinter as tk
 from TextRedirector import TextRedirector
 
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
+game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
 episodes = 1
 starting_pixel = 114
 self_y = 192
@@ -56,7 +57,7 @@ env_variable =""
 network = ""
 render_window_variable =""
 
-
+# For atari games below
 def eval_genomes(genomes, config) :
     for genome_id, genome in genomes :
         # for runs in range(runs_per_net):
@@ -118,6 +119,39 @@ def eval_network(net, net_input):
     activation = net.activate(net_input)
     return np.argmax(activation)
 
+# For atari games above
+
+# For 2D Box games below
+# Use the NN network phenotype and the discrete actuator force function
+def eval_genome_2DBox(genome, config):
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
+
+        fitnesses = []
+
+        for runs in range(runs_per_net):
+                #env = gym.make("LunarLander-v2")
+                env = gym.make(env_variable)
+                observation = env.reset()
+
+                fitness = 0.0
+                done = False
+
+                while not done:
+                        #model Prediction
+                        action = np.argmax(net.activate(observation))
+                        observation, reward, done, info = env.step(action)
+                        fitness += reward
+
+                fitnesses.append(fitness)
+
+        return np.mean(fitnesses)
+
+
+def eval_genomes_2DBox(genomes, config):
+        for genome_id, genome in genomes:
+                genome.fitness = eval_genome_2DBox(genome, config)
+
+# For 2D Box games above
 def raw(text):
     """Returns a raw string representation of text"""
     new_string=''
@@ -130,7 +164,7 @@ def raw(text):
 
     return new_string
 
-def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window):
+def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window, runs_per_network):
     try:
         # Load configuration.
 
@@ -172,13 +206,21 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
         env_variable = game_selection.get()
         network = network_type.get()
         render_window_variable = render_window.get()
-        runs_per_net = ""
-        #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
+        if env_variable in game_list_2D:
+            runs_per_net = runs_per_network.get()
+        else:
+            runs_per_net =""
 
-        #winner = pop.run(pe.evaluate)
+        #For MultiProcessing
+            #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
+
+            #winner = pop.run(pe.evaluate)
 
         # Get winner
-        winner = pop.run(eval_genomes)
+        if env_variable in game_list_atari:
+            winner = pop.run(eval_genomes)
+        elif env_variable in game_list_2D:
+            winner = pop.run(eval_genomes_2DBox)
 
 
         # Get winner name that will be used and fix string

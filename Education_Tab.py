@@ -22,6 +22,7 @@ neuron_tab_pic = ""
 neuron_tab_label =""
 perceptron_image = ""
 perceptron_label = ""
+check_answer = ""
 Introduction_tab = False
 Artificial_intelligence_tab = False
 AI_Categories_tab = False
@@ -90,6 +91,7 @@ class Education_tab(object):
         global perceptron_image
         global perceptron_label
         global Neuron_tab
+        global check_answer
         if value == "Artificial Intelligence":
             Artificial_intelligence_tab = True
             if label2 != "":
@@ -128,6 +130,20 @@ class Education_tab(object):
                 label2.grid(row=1, column=0)
                 label2.config(fg="grey75", bg="grey75")
             else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
                 label2 = tk.Label(educatuin_tab, text = "Please refer to Artificial Intelligence lesson first", font = ("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
@@ -157,6 +173,20 @@ class Education_tab(object):
                 chatbot_next.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
                 CreateHelpMessage.CreateToolTip_For_Education_Mode(response_enter, "Dear User, Welcome to intelligent agents lessen. This chat bot is an intelligent agent trained by a neural network. We will look into this next. For now we will see what an agent is by answering two questions. You can refer back to this chat as it was trained to recognise some topics and answer some questions.")
             else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
                 label2 = tk.Label(educatuin_tab, text = "Please refer to AI categories lesson first", font = ("Courier", 20, "bold") )
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
@@ -173,12 +203,30 @@ class Education_tab(object):
                     self.hide_old_widgets(response_enter)
                 if chatbot_next != "":
                     self.hide_old_widgets(chatbot_next)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
                 neuron_tab_pic = ImageTk.PhotoImage(file="biological_neuron.png")
                 neuron_tab_label = tk.Label(educatuin_tab, image=neuron_tab_pic)
                 neuron_tab_label.image = neuron_tab_pic
                 neuron_tab_label.grid(row=1, column=1)
                 neuron_tab_label.config(fg="grey75", bg="grey75")
             else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
                 label2 = tk.Label(educatuin_tab, text="Please refer to AI categories lesson first",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
@@ -211,6 +259,20 @@ class Education_tab(object):
                                          justify=tk.LEFT, anchor="w")
                 check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
             else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
                 label2 = tk.Label(educatuin_tab, text="Please refer to AI categories lesson first",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")

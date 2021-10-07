@@ -32,8 +32,8 @@ import pyglet
 from concurrent.futures import ThreadPoolExecutor
 
 
-game_list_2D = ["BipedalWalker-v2", "LunarLander-v2"]
-game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
+game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
 
 
 # Create at startup
@@ -207,7 +207,7 @@ structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 logging.basicConfig(filename="logfilename.log", level=logging.INFO)
 run_NEAT_thread = ""
 load_winner_thread =""
-games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2"]
+games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2", "Pong-v0", "CartPole-v1"]
 
 workers = 1
 
@@ -222,8 +222,17 @@ def print_selection():
         if (var1.get() == 1) & (var2.get() == 0):
             if text in games_available:
                 build_in_console.delete('1.0', END)
-                build_in_console.insert(END,"Input for game: " + text +"\nInputs: 1092\nOutputs: " + str(int_output) + "\nThe config file will be checked inputs and outputs")
-
+                if text in game_list_2D:
+                    start = ', ('
+                    end = ',)'
+                    env_ob_space = env.observation_space
+                    string_space = str(env_ob_space)
+                    int_input = string_space[str(string_space).find(start) + len(start):str(string_space).rfind(end)]
+                    build_in_console.insert(END,"Input for game: " + text +"\nInputs: " + int_input + "\nOutputs: " + str(int_output) + "\nThe config file will be checked inputs and outputs")
+                else:
+                    build_in_console.insert(END,
+                                            "Input for game: " + text + "\nInputs: 1092\nOutputs: " + str(
+                                                int_output) + "\nThe config file will be checked inputs and outputs")
 
 def Validate_Text_Widget_Neat(event):
     winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
@@ -462,6 +471,9 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
         text = game_selection.get()
         env = gym.make(text)
         outputs = env.action_space
+        env_ob_space = env.observation_space
+        string_space = str(env_ob_space)
+        int_input =""
         int_output = re.search(r'\d+', str(outputs)).group()
         if (var1.get() == 1) & (var2.get() == 0):
             Output_Console.insert(END, "Config file is being modified (inputs and outputs). One moment please")
@@ -470,8 +482,15 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
                 file = open(path_new, "r")
                 for line in file:
                     if 'num_inputs' in line:
-                        new_line = line.replace(line,"num_inputs = 1092\n")
-                        new_file_content += new_line
+                        if text in game_list_2D:
+                            start = ', ('
+                            end = ',)'
+                            int_input= string_space[str(string_space).find(start) + len(start):str(string_space).rfind(end)]
+                            new_line = line.replace(line, "num_input = " + int_input + "\n")
+                            new_file_content += new_line
+                        else:
+                            new_line = line.replace(line,"num_inputs = 1092\n")
+                            new_file_content += new_line
                     elif 'num_outputs' in line:
                         new_line = line.replace(line,"num_outputs = " + int_output + "\n")
                         new_file_content += new_line
@@ -508,10 +527,10 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
     logging.info(f'Config file is located in: {NEAT_Single_Processing.raw(directory_value.get("1.0", END))}\n\n')
 
 
-    if game_evaluation.get() == "Single-Processing" and game_selection.get() in game_list_atari:
+    if game_evaluation.get() == "Single-Processing" and (game_selection.get() in game_list_atari or game_selection.get() in game_list_2D):
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
-                                           directory_value, render_window)
+                                           directory_value, render_window, runs_per_network)
     #if game_evaluation.get() == "Single-Processing":
     #    NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
     #                                       network_type,
@@ -523,7 +542,7 @@ def submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluatio
 
 def load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
     global load_winner_thread
-    print('Print threading for laod_winner')
+    print('Print threading for load_winner')
     load_winner_thread = threading.current_thread()
 
     sys.stdout = sys.__stdout__
@@ -1178,7 +1197,7 @@ game_selection_config_l = tk.Label(tab1, text="Gym Game:", justify=LEFT, anchor=
 game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_config = ttk.Combobox(tab1, name="game_selection_config", width =20)
-game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "LunarLander-v2", "BipedalWalker-v2")
+game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0")
 game_selection_config.grid(row=0, column=1, sticky=tk.W)
 game_selection_config.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Gym_Game(game_selection_config, game_selection_config_l, style, num_inputs, num_outputs), "%P"))
@@ -1885,7 +1904,7 @@ game_selection_l = tk.Label(tab2, text="Gym Game:", justify=LEFT, anchor="w")
 game_selection_l.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection = ttk.Combobox(tab2, name="game_selection", width =20)
-game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
+game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0")
 game_selection.grid(row=1, column=1, sticky=tk.W)
 game_selection.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Game_Selection(game_selection, game_selection_l, style, runs_per_network_l, runs_per_network), "%P"))
@@ -1998,7 +2017,7 @@ game_selection_l_Winner = tk.Label(tab3, text="Gym Game:", justify=LEFT, anchor=
 game_selection_l_Winner.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_winner = ttk.Combobox(tab3, name="game_selection_winner", width =20)
-game_selection_winner['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
+game_selection_winner['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0")
 game_selection_winner.grid(row=1, column=1, sticky=tk.W)
 game_selection_winner.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_selection_winner, game_selection_l_Winner, style), "%P"))

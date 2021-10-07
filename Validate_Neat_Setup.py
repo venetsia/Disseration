@@ -4,12 +4,12 @@ from tkinter import END
 import atari_py
 import gym
 
-games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2"]
+games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0"]
 game_evaluation_choice = ["Single-Processing", "Multi-Processing"]
 network_type_choice = ["Feed-forward", "Recurrent"]
 render_window_choice = ["True", "False"]
 choose_config_file_choice = ["From Text Editor", "Choose file from directory"]
-game_list_2D = ["BipedalWalker-v2", "LunarLander-v2"]
+game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
 
 class Validate_Neat(object):
 
@@ -108,11 +108,20 @@ class Validate_Neat(object):
             try:
                 env = gym.make(text)
                 outputs = env.action_space
+                env_ob_space = env.observation_space
+                string_space = str(env_ob_space)
                 output.set(int(re.search(r'\d+', str(outputs)).group()))
                 if text in games_available:
-                    input.set("1092")
+                    if text in game_list_2D:
+                        start = ', ('
+                        end = ',)'
+                        input.set(string_space[str(string_space).find(start)+len(start):str(string_space).rfind(end)])
+                    else:
+                        input.set("1092")
             except:
                 print("Error")
+
+
     def validate_Game_selection(self, widget_name,label,style,widget,runs_per_network_l, runs_per_network):
         text = widget.get()
         if text in game_list_2D:
