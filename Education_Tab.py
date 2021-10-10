@@ -66,13 +66,19 @@ class Education_tab(object):
             chat_bot_dynamic_learn.insert(tk.END,"You: " + input + "Agent: " + random.choice(responses) + "\n")
         else:
             chat_bot_dynamic_learn.insert(tk.END,"I didn't get that, try again please.")
-    def check_answer(self,widget):
+    def check_answer(self,value,widget):
         input = widget.get("1.0", tk.END)
         input = input.lower()
-        if input in "hidden layer" or input.lower() in "hidden-layer" or input.find("hidden-layer") == 0 or input.find("hidden layer") == 0:
-            widget.config(bg="green")
-        else:
-            widget.config(bg="red")
+        if value == "Neural Network":
+            if input in "hidden layer" or input.lower() in "hidden-layer" or input.find("hidden-layer") == 0 or input.find("hidden layer") == 0:
+                widget.config(bg="green")
+            else:
+                widget.config(bg="red")
+        elif value == "Learning Types":
+            if input.find("reinforcement learning (rl)") == 0 or input.find("reinforcement learning (rl)") == 0 or input.find("reinforcement learning") == 0 or input.find("reinforcement learning") == 0 or input.find("rl") == 0 or input.find("rl") == 0 or input.find("reinforcement") == 0 or input.find("reinforcement") == 0 :
+                widget.config(bg="green")
+            else:
+                widget.config(bg="red")
     def nada(self):
        return
     def load_content(self,education_option_selected,educatuin_tab):
@@ -125,10 +131,10 @@ class Education_tab(object):
                 if neuron_tab_label != "":
                     self.hide_old_widgets(neuron_tab_label)
                 image2 = ImageTk.PhotoImage(file="AI_second.png")
-                label2 = tk.Label(educatuin_tab, image=image2)
-                label2.image = image2
-                label2.grid(row=1, column=0)
-                label2.config(fg="grey75", bg="grey75")
+                label1 = tk.Label(educatuin_tab, image=image2)
+                label1.image = image2
+                label1.grid(row=1, column=0)
+                label1.config(fg="grey75", bg="grey75")
             else:
                 if label2 != "":
                     self.hide_old_widgets(label2)
@@ -255,7 +261,7 @@ class Education_tab(object):
                 response_enter.grid(row=2, column=0, sticky=tk.W)
                 # Run button for Neat using a thread
                 check_answer = tk.Button(educatuin_tab, text="Check answer",
-                                         command=lambda: self.check_answer(response_enter),
+                                         command=lambda: self.check_answer(value,response_enter),
                                          justify=tk.LEFT, anchor="w")
                 check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
             else:
@@ -277,6 +283,54 @@ class Education_tab(object):
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
+        elif value == "Learning Types":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            neuron_tab_pic = ImageTk.PhotoImage(file="Types_of_learning.png")
+            neuron_tab_label = tk.Label(educatuin_tab, image=neuron_tab_pic)
+            neuron_tab_label.image = neuron_tab_pic
+            neuron_tab_label.grid(row=1, column=0)
+            neuron_tab_label.config(fg="grey75", bg="grey75")
+            response_enter = tk.Text(educatuin_tab, name="response_enter", height=1.5, width=70)
+            response_enter.grid(row=2, column=0, sticky=tk.W)
+            # Run button for Neat using a thread
+            check_answer = tk.Button(educatuin_tab, text="Check answer",
+                                     command=lambda: self.check_answer(value,response_enter),
+                                     justify=tk.LEFT, anchor="w")
+            check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+        elif value == "Components of a neural network":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            neuron_tab_pic = ImageTk.PhotoImage(file="Components_of_Neural_Network.png")
+            neuron_tab_label = tk.Label(educatuin_tab, image=neuron_tab_pic)
+            neuron_tab_label.image = neuron_tab_pic
+            neuron_tab_label.grid(row=1, column=0)
+            neuron_tab_label.config(fg="grey75", bg="grey75")
+
 def Activate_Content(education_option_selected, educatuin_tab):
     toolTip = Education_tab(education_option_selected)
     widget_name = education_option_selected._name

@@ -900,7 +900,7 @@ education_L = tk.Label(frame_Education, text="Education", anchor="w", width = 15
 education_L.grid(row=0, column=0, ipadx=18, sticky=tk.W)
 
 eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories', 'Intelligent Agents', 'Neuron',
-                                 'Neural Network', 'identity', 'inv', 'log', 'relu', 'elu',
+                                 'Neural Network', 'Components of a neural network', 'Learning Types','log', 'relu', 'elu',
                                  'lelu', 'selu', 'sigmoid', 'sin', 'softplus', 'square', 'tanh')
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
