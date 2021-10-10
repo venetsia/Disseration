@@ -215,6 +215,7 @@ workers = 1
 
 thread_pool_executor = ThreadPoolExecutor(max_workers=1)
 
+# Print how many inputs are expected from the game in RUN neat so user knows what is changed to what
 def print_selection():
     if game_selection.get() != "":
         text = game_selection.get()
@@ -236,6 +237,7 @@ def print_selection():
                                             "Input for game: " + text + "\nInputs: 1092\nOutputs: " + str(
                                                 int_output) + "\nThe config file will be checked inputs and outputs")
 
+# Delete any special symbols from winner name that will be used
 def Validate_Text_Widget_Neat(event):
     winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
     winner_file_name.delete('1.0', END)
