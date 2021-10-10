@@ -155,6 +155,8 @@ form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termin
                     "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value",
                     "weight_mutate_power", "weight_mutate_rate",
                     "weight_replace_rate"]
+education_mode_labels = ["label1", "label2", "chat_bot_dynamic_learn", ""]
+education_mode_button = ["chatbot_next", "check_answer", "neuron_tab_label", "perceptron_label"]
 
 # NEAT Sections separated into different List for smarter assignment when values do not exist in Config
 form_Main_label_list = ["neat_section_L", "default_stagnation_l",
@@ -794,7 +796,7 @@ def switch():
     global is_on
     #global education_mode
     # DarkMode is on or off
-    if is_on == True and education_mode == False:  # Light Mode
+    if is_on == True:  # Light Mode
         on_button.config(image=off)
         is_on = False
         # on_button.config(image=on)
@@ -805,7 +807,7 @@ def switch():
             exec(label + '.config(fg = "gray1", bg = "grey75")')
         for button in buttons_list:
             exec(button + ".configure(bg = '#e5233f', fg= 'gray99')")
-##32285b
+
         config_file_check.configure(activebackground="grey75")
         txt_edit.config(bg="light grey", fg="gray1")
         winner_file_name.config(bg="#e5e5e5", fg="gray1")
@@ -838,7 +840,7 @@ def switch():
             activation_listbox.itemconfig(activation_option, {'bg': "#dcdcdc"})
 
         # print(is_on)
-    elif is_on == False and education_mode == False:  # Dark Mode
+    elif is_on == False:  # Dark Mode
         on_button.config(image=on)
         is_on = True
         # Labels
@@ -846,6 +848,7 @@ def switch():
             exec(label + '.config(fg = "white smoke", bg = "grey35")')
         for button in buttons_list:
             exec(button + ".configure(bg = 'dark slate gray', fg = '#dddbd9')")
+
         config_file_check.configure(activebackground="grey35")
         txt_edit.config(bg="#272726", fg="#dddbd9")
         winner_file_name.config(bg="#272726", fg="#dddbd9")
@@ -863,9 +866,13 @@ def switch():
         style.theme_use('default')
         style.configure('TNotebook.Tab', background="gray45")
         style.configure("TNotebook", background="gray24", borderwidth=0)
+
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
-        style.configure("TFrame", background="grey35", borderwidth=5)
+        if education_mode == False:
+            style.configure("TFrame", background="grey35", borderwidth=5)
+        else:
+            style.configure("TFrame", background="grey75", borderwidth=5)
         style.configure("TCombobox", fieldbackground="#697676", background="#e5233f", foreground="#dddbd9")
         style.configure("TSpinbox", fieldbackground="#697676", background="#e5233f", foreground="#dddbd9")
         style.configure("TCheckbutton", fieldbackground="#697676", background="#dddbd9",
@@ -2130,7 +2137,7 @@ response_from_message_box = ctypes.windll.user32.MessageBoxW(0, "Would you like 
 education_mode = False
 
 if response_from_message_box == 6: #yes
-
+    education_mode = True
     print("In Progress")
     # progressbar
     progress_Bar_Education = ttk.Progressbar(
