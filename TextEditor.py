@@ -7,7 +7,7 @@ from multiprocessing import Process
 import threading
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
-from tkinter import ttk, INSERT, END
+from tkinter import ttk, INSERT, END, SE
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
 
@@ -892,19 +892,20 @@ def switch():
 
 
 root = tk.Tk()
+root.resizable(True,True) # Width, Height
+my_sizegrip = ttk.Sizegrip(root)
+my_sizegrip.grid(row=5,sticky=SE)
 
 style = ttk.Style()
 is_on = False
 
 # Easy Input
-
 frame1 = tk.Frame(master=root, width=700, height=600)
 frame1.grid(row=0, column=1)
 frame_Education = tk.Frame(master=root, width=60, height=600)
 frame_Education.grid(row=0, column=0)
 
 # Education
-
 education_L = tk.Label(frame_Education, text="Education", anchor="w", width = 15, font = ("MS Sans Serif", 15))
 education_L.grid(row=0, column=0, ipadx=18, sticky=tk.W)
 
@@ -923,7 +924,6 @@ tabControl = ttk.Notebook(frame1)
 tabControl.grid(row=2)
 
 tab_education = ttk.Frame(tabControl, width=700, height=700)
-
 
 
 tab1 = ttk.Frame(tabControl, width=700, height=700)
@@ -2140,6 +2140,7 @@ education_mode = False
 
 if response_from_message_box == 6: #yes
     education_mode = True
+    root.resizable(True, False)  # Width, Height
     print("In Progress")
     # progressbar
     progress_Bar_Education = ttk.Progressbar(

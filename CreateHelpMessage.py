@@ -1,9 +1,14 @@
 from tkinter import *
 
+# Developed thanks to an answer from StackOverflow
+# Credits to: squareRoot17 (Stack Overflow account) and Stevoisiak (Stack Overflow account)
+# Link to squareRoot17: https://stackoverflow.com/questions/20399243/display-message-when-hovering-over-something-with-mouse-cursor-in-python
+# Link to Stevoisiak: https://stackoverflow.com/questions/3221956/how-do-i-display-tooltips-in-tkinter
 class CreateHelpMessage(object):
 
     def __init__(self, widget):
         self.widget = widget
+        self.wraplength = 300   #pixels
         self.tipwindow = None
         self.id = None
         self.x = self.y = 0
@@ -21,7 +26,7 @@ class CreateHelpMessage(object):
         tw.wm_geometry("+%d+%d" % (x, y))
         label = Label(tw, text=self.text, justify=LEFT,
                       background="#ffffe0", relief=SOLID, borderwidth=1,
-                      font=("tahoma", "8", "normal"))
+                      font=("tahoma", "8", "normal"), wraplength = self.wraplength)
         label.pack(ipadx=1)
 
     def hidetip(self):
