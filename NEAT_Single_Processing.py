@@ -164,7 +164,7 @@ def raw(text):
 
     return new_string
 
-def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window, runs_per_network):
+def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window, runs_per_network, num_generations):
     try:
         # Load configuration.
 
@@ -218,9 +218,17 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
 
         # Get winner
         if env_variable in game_list_atari:
-            winner = pop.run(eval_genomes)
+            if num_generations.get() != "0":
+                num_generations_value = num_generations.get()
+                winner = pop.run(eval_genomes, num_generations_value)
+            else:
+                winner = pop.run(eval_genomes)
         elif env_variable in game_list_2D:
-            winner = pop.run(eval_genomes_2DBox)
+            if num_generations.get() != "0":
+                num_generations_value = num_generations.get()
+                winner = pop.run(eval_genomes_2DBox, num_generations_value)
+            else:
+                winner = pop.run(eval_genomes_2DBox)
 
 
         # Get winner name that will be used and fix string
