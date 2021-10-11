@@ -10,7 +10,7 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICA
 from tkinter import ttk, INSERT, END, SE
 from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
-
+from tkinter import messagebox
 import gym
 
 import CreateHelpMessage
@@ -397,6 +397,12 @@ def open_file():
             emptylisttostring = emptylisttostring + line + "\n"
 
         txt_edit.insert(tk.END, emptylisttostring)
+
+def on_closing():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        root.quit()
+        root.destroy()
+        exit()
 
 
 def save_file():
@@ -794,6 +800,37 @@ def update_editor():
             break
 
 
+def switch_modes():
+    global education_mode
+    if education_mode == True:
+        #root.destroy()
+        #root.quit()
+        education_mode = False
+        education_mode_normal_mode.config(image=education_mode_pic)
+        frame_Education.grid_remove()
+        education_L.grid_remove()
+        Education_listbox.grid_remove()
+        tabControl.tab(tab_education, state="disabled")
+        root.mainloop()
+    else:
+        #root.destroy()
+        #root.quit()
+        education_mode = True
+        progress_Bar_Education = ttk.Progressbar(
+            frame_Education,
+            orient='horizontal',
+            mode='determinate',
+            length=280
+        )
+        education_mode_normal_mode.config(image=normal_mode_pic)
+        frame_Education.grid()
+        education_L.grid()
+        Education_listbox.grid()
+        # place the progressbar
+        progress_Bar_Education.grid(row=2, column=0, pady=2, sticky=tk.W)
+        root.mainloop()
+
+
 # Define our switch function
 def switch():
     # colors found at: http://tephra.smith.edu/dftwiki/images/3/3d/TkInterColorCharts.png
@@ -824,6 +861,7 @@ def switch():
         Output_Console_winner.config(bg="#e5e5e5", fg="gray1")
         fr_buttons.configure(bg="#d9001f")
         on_button.configure(bg="#d9001f", activebackground='#d9001f')
+        education_mode_normal_mode.configure(bg="#d9001f", activebackground='#d9001f')
         #root.config(bg='#d9001f')
         root.config(bg='#e5233f')
         # Tab Style
@@ -865,6 +903,7 @@ def switch():
         Output_Console_winner.config(bg="#272726", fg="#dddbd9")
         fr_buttons.configure(bg="gray18")
         on_button.configure(bg="gray18", activebackground='gray18')
+        education_mode_normal_mode.configure(bg="gray18", activebackground='gray18')
         root.config(bg='gray24')
         # Tab Style
         style.theme_use('default')
@@ -1887,6 +1926,14 @@ off = tk.PhotoImage(file="off.png")
 on_button = tk.Button(fr_buttons, image=off, bd=0,
                       command=switch)
 
+# Define Our Images
+education_mode_pic = tk.PhotoImage(file="education_mode_icon.png")
+normal_mode_pic = tk.PhotoImage(file="normal_mode_pic.png")
+
+# Create A Button
+education_mode_normal_mode = tk.Button(fr_buttons, image=education_mode_pic, bd=0,
+                      command=switch_modes)
+
 btn_open.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
 btn_save.grid(row=1, column=0, sticky="ew", padx=5)
 default_values_config_btn.grid(row=2, column=0, sticky="ew", padx=5)
@@ -1895,6 +1942,7 @@ update_btn.grid(row=4, column=0, sticky="ew", padx=5)
 fr_buttons.grid(row=0, column=0, sticky="ns")
 txt_edit.grid(row=0, column=1, sticky="nsew")
 on_button.grid(row=5, column=0, sticky="ne")
+education_mode_normal_mode.grid(row=6,column =0)
 
 
 # Tab 2 --- Set up
@@ -2142,6 +2190,7 @@ directory_value_winner.config(bg="#e5e5e5", fg="gray1")
 Output_Console_winner.config(bg="#e5e5e5", fg="gray1")
 fr_buttons.configure(bg="#d9001f")
 on_button.configure(bg="#d9001f", activebackground='#d9001f')
+education_mode_normal_mode.configure(bg="#d9001f", activebackground='#d9001f')
 root.config(bg='#d9001f')
 # Tab Style
 style.theme_use('default')
@@ -2163,10 +2212,12 @@ for activation_option in range(len(activation_options_values_sec)):
 
 response_from_message_box = ctypes.windll.user32.MessageBoxW(0, "Would you like to launch education mode?", "Options", 4)
 education_mode = False
+root.protocol("WM_DELETE_WINDOW", on_closing)
 
 if response_from_message_box == 6: #yes
     education_mode = True
     root.resizable(True, False)  # Width, Height
+    education_mode_normal_mode.config(image=normal_mode_pic)
     print("In Progress")
     # progressbar
     progress_Bar_Education = ttk.Progressbar(
@@ -2181,7 +2232,7 @@ if response_from_message_box == 6: #yes
     pyglet.app.run()
 
 else:
-
+    education_mode_normal_mode.config(image=education_mode_pic)
     frame_Education.grid_remove()
     education_L.grid_remove()
     Education_listbox.grid_remove()
