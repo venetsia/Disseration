@@ -8,7 +8,7 @@ import train_chat_BOT
 import enum
 import NEAT_Single_Processing
 import train_chat_BOT
-
+education_mode_labels = ["label1", "label2", "chat_bot_dynamic_learn"]
 AI_tab = ["label1"]
 AI_categories_tab = ["label2"]
 label1 =""
@@ -338,3 +338,9 @@ def Activate_Content(education_option_selected, educatuin_tab):
         toolTip.load_content(education_option_selected,educatuin_tab)
 
     education_option_selected.bind('<<ListboxSelect>>', load_content)
+def DarkMode():
+    for education_label in education_mode_labels:
+        try:
+            exec(education_label + '.config(bg = "grey75")')
+        except:
+            pass

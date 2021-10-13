@@ -155,7 +155,7 @@ form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termin
                     "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value",
                     "weight_mutate_power", "weight_mutate_rate",
                     "weight_replace_rate"]
-education_mode_labels = ["label1", "label2", "chat_bot_dynamic_learn", ""]
+education_mode_labels = ["label1", "label2", "chat_bot_dynamic_learn"]
 education_mode_button = ["chatbot_next", "check_answer", "neuron_tab_label", "perceptron_label"]
 
 # NEAT Sections separated into different List for smarter assignment when values do not exist in Config
@@ -825,6 +825,7 @@ def switch_modes():
         education_mode_normal_mode.config(image=normal_mode_pic)
         frame_Education.grid()
         education_L.grid()
+        tabControl.tab(tab_education, state="normal")
         Education_listbox.grid()
         # place the progressbar
         progress_Bar_Education.grid(row=2, column=0, pady=2, sticky=tk.W)
@@ -886,11 +887,8 @@ def switch():
         on_button.config(image=on)
         is_on = True
         # Labels
-        for label in labels_list:  # Loop though Labels
-            exec(label + '.config(fg = "white smoke", bg = "grey35")')
         for button in buttons_list:
             exec(button + ".configure(bg = 'dark slate gray', fg = '#dddbd9')")
-
         config_file_check.configure(activebackground="grey35")
         txt_edit.config(bg="#272726", fg="#dddbd9")
         winner_file_name.config(bg="#272726", fg="#dddbd9")
@@ -910,12 +908,20 @@ def switch():
         style.configure('TNotebook.Tab', background="gray45")
         style.configure("TNotebook", background="gray24", borderwidth=0)
 
+        if education_mode == True:
+            Education_Tab.DarkMode()
+            for label in labels_list:  # Loop though Labels
+                exec(label + '.config(fg = "grey1", bg = "grey75")')
+        else:
+            for label in labels_list:  # Loop though Labels
+                exec(label + '.config(fg = "white smoke", bg = "grey35")')
+            style.configure("TFrame", background="grey35", borderwidth=5)
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
-        if education_mode == False:
-            style.configure("TFrame", background="grey35", borderwidth=5)
-        else:
-            style.configure("TFrame", background="grey75", borderwidth=5)
+
+        #style.configure("TFrame", background="grey35", borderwidth=5)
+
+       # style.configure("TFrame", background="grey75", borderwidth=5)
         style.configure("TCombobox", fieldbackground="#697676", background="#e5233f", foreground="#dddbd9")
         style.configure("TSpinbox", fieldbackground="#697676", background="#e5233f", foreground="#dddbd9")
         style.configure("TCheckbutton", fieldbackground="#697676", background="#dddbd9",
