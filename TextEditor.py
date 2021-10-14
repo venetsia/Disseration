@@ -237,7 +237,7 @@ def print_selection():
                                             "Input for game: " + text + "\nInputs: 1092\nOutputs: " + str(
                                                 int_output) + "\nThe config file will be checked inputs and outputs")
 
-# Delete any special symbols from winner name that will be used
+# Delete any special symbols from winner name that will be used on writing time (real time)
 def Validate_Text_Widget_Neat(event):
     winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
     winner_file_name.delete('1.0', END)
@@ -246,6 +246,9 @@ def Validate_Text_Widget_Neat(event):
 
 
 # Open File
+# Restricts to .txt files
+# Groups all of the config values and puts them together in a nice way,
+# this also helps user see what is where and helps algorithm to easily find values after
 def open_file():
     """Open a file for editing."""
 
@@ -398,13 +401,14 @@ def open_file():
 
         txt_edit.insert(tk.END, emptylisttostring)
 
+# When user presses X on Window it will ask if he/she wants to quit
 def on_closing():
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.quit()
         root.destroy()
         exit()
 
-
+# Save the config file from Editor
 def save_file():
     """Save the current file as a new file."""
     filepath = asksaveasfilename(
@@ -417,7 +421,7 @@ def save_file():
         text = txt_edit.get(1.0, tk.END)
         output_file.write(text)
 
-
+# Notifies user what values he/ she has chosen from listboxes (aggregation_list and actication_list)
 def items_selected(event):
     """ handle item selected event
     """
@@ -446,12 +450,16 @@ def items_selected(event):
 
 # Add Default assigned value to editor (Information gained from NEAT Python website)
 def default_values_config():
+    # Delete whole txt box
     txt_edit.delete("1.0", "end")
+    # Insert the text
     txt_edit.insert(INSERT, default_text_editor)
 
-# Get Editor Config - empty
+# Get Editor Config - empty config file
 def get_empty_config():
+    # Delete whole txt box
     txt_edit.delete("1.0", "end")
+    # Insert the text
     txt_edit.insert(INSERT, text_editor)
 
 # values that are not found in Editor are added via this insert function on a specific line (grouped - check the lists)
@@ -471,50 +479,71 @@ def insert(line, value_to_be_added):
             activation_option_values = ', '.join(activation_values)
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
+# RUN NEAT - pre-processing
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations):
+    # The whole if statement is used for modifying the config file
+
     # Get path for config file
     config_path = directory_value.get("1.0", END)
     # Fix path string
     path_new = NEAT_Single_Processing.raw(config_path)
     new_file_content = ""
     if game_selection.get() != "":
-        text = game_selection.get()
-        env = gym.make(text)
-        outputs = env.action_space
-        env_ob_space = env.observation_space
-        string_space = str(env_ob_space)
-        int_input =""
+        text = game_selection.get() # Get text from form box
+        env = gym.make(text)    # Make Game
+        outputs = env.action_space # Get Output - actions available
+        env_ob_space = env.observation_space # Inputs
+        string_space = str(env_ob_space) # Convert to string
+        # Get Integers from the value
         int_output = re.search(r'\d+', str(outputs)).group()
+        # If CheckBox is selected - if yes, then config file will be modified
         if (var1.get() == 1) & (var2.get() == 0):
             Output_Console.insert(END, "Config file is being modified (inputs and outputs). One moment please")
-            if text in games_available:
-                line_in_file = 0
+            if text in games_available: # If the game is valid
+                # Open file to read it
                 file = open(path_new, "r")
+                # For each line in file
                 for line in file:
+                    # Check if num_inputs is found
                     if 'num_inputs' in line:
+                        # Check if game is a Box2D game
                         if text in game_list_2D:
+                            # Moderate the input string
                             start = ', ('
                             end = ',)'
+                            # Get string between ", (" and ",)"
                             int_input= string_space[str(string_space).find(start) + len(start):str(string_space).rfind(end)]
+                            # Replace the line with the correct inputs needed
                             new_line = line.replace(line, "num_input = " + int_input + "\n")
+                            # Add new line into the file content
                             new_file_content += new_line
                         else:
+                            # If game is not a Box2D game it is most likely an Atari Game
+                            # Algorithm has been written to use 1092 inputs for Atari games
                             new_line = line.replace(line,"num_inputs = 1092\n")
+                            # Add new line into the file content
                             new_file_content += new_line
+                    # Check if num_output is found in line
                     elif 'num_outputs' in line:
+                        # Replace the line with correct output value needed
                         new_line = line.replace(line,"num_outputs = " + int_output + "\n")
+                        # Add new line to file
                         new_file_content += new_line
                     else:
+                        # Add other non-modified lines as well
                         new_file_content += line
+            # Open same file but in write mode
             writing_file = open(path_new, "w")
+            # Replace the whole text with new content
             writing_file.write(new_file_content)
+            # close file
             writing_file.close()
 
 
     global run_NEAT_thread
     run_NEAT_thread = threading.current_thread()
 
-    # Make sure the algorithm does not start if these are empty
+    # Make sure the algorithm does not start if these are empty (game, evaluation, wiinner file name or directory where config is
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==", "1.0") or directory_value.get("1.0", END) == "":
         return
     # If nothing is chosen do not render
@@ -538,85 +567,78 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
     logging.info(f'Checkpoints after {str(game_checkpoint.get())} generations')
     logging.info(f'Config file is located in: {NEAT_Single_Processing.raw(directory_value.get("1.0", END))}\n\n')
 
-
+    # Check if evaluation is Single Processing and game is either an Atari or Box2D game
     if game_evaluation.get() == "Single-Processing" and (game_selection.get() in game_list_atari or game_selection.get() in game_list_2D):
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
                                            directory_value, render_window, runs_per_network, num_generations)
-    #if game_evaluation.get() == "Single-Processing":
-    #    NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
-    #                                       network_type,
-    #                                       directory_value, render_window)
 
     return
+
+# Submit task to threadpool so Main app still works
+# ThreadPool only has one thread because of the rendering library
+# Once rendering library is applied to a thread it cannot be moved acros so if
+# thread is closed for example, rendering will not be able to happen
+# That is why we are submitting the task onto a threadpool with one thread
+# that is designed for rendering
+# RUN Neat - Train Neural Network
 def submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations):
     thread_pool_executor.submit(run_NEAT,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations)
 
-def load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
-    global load_winner_thread
-    print('Print threading for load_winner')
-    load_winner_thread = threading.current_thread()
-
+# Function to load Winner and Checkpoints from NEAT
+def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_winner, num_of_episodes_per_genome_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
+    # Change print statement to go to normal console
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
+    # if Game is empty, winner file name is empty or the directory - do not continue
     if game_selection_winner.get() == "" or winner_file_name_winner.compare("end-1c", "==",
                                                                             "1.0") or directory_value_winner.get(
         "1.0", END) == "":
         return
-    if game_checkpoint_winner.get() is None or len(game_checkpoint_winner.get()) == 0 or game_checkpoint_winner.get() == "0" or game_checkpoint_winner.index("end") == 0:
-        game_checkpoint_winner.set("1")
+    # This is Number of Episodes per Genome if none is selected it should be set to 1
+    if num_of_episodes_per_genome_winner.get() is None or len(num_of_episodes_per_genome_winner.get()) == 0 or num_of_episodes_per_genome_winner.get() == "0" or num_of_episodes_per_genome_winner.index("end") == 0:
+        num_of_episodes_per_genome_winner.set("1")
 
-    Run_winner.pre_process_data(Output_Console_winner,game_selection_winner, winner_file_name_winner, game_checkpoint_winner,
-                         checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
+    #Run Winner Genome
+    Run_winner.pre_process_data(Output_Console_winner, game_selection_winner, winner_file_name_winner, num_of_episodes_per_genome_winner,
+                                checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
+    # Change print statement to go to normal console
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
     return
 
+# Submit task to threadpool so Main app still works
+# ThreadPool only has one thread because of the rendering library
+# Once rendering library is applied to a thread it cannot be moved acros so if
+# thread is closed for example, rendering will not be able to happen
+# That is why we are submitting the task onto a threadpool with one thread
+# that is designed for rendering
+# Run Winner Genome and checkpoints if any
 def submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
     thread_pool_executor.submit(load_winner, Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
 
+# Applies values from one tab to another tab so it is more automated
 def on_tab_change(event):
     # Load configuration.
     local_dir = os.path.dirname(__file__)
-    #config_path = os.path.join(local_dir, 'configfeedforwardFishing.txt')
-    #print(tabControl.select())
-    #print(tabControl.index(tabControl.select()))
     checkpoint_directory_value_winner.delete('1.0', END)
     game_checkpoint_winner.set("1")
     if tabControl.index(tabControl.select()) == 3:
-        #print("Trying")
         try:
             game_selection_winner.set(game_selection.get())
             network_type_winner.set(network_type.get())
-            #game_checkpoint_winner.set(game_checkpoint.get())
-            #print(local_dir)
             arr = os.listdir(local_dir)
-            #print(arr)
+            # Gets all the checkpints in the directory and sepeartes them
             for file in arr:
                 if file.find("neat-checkpoint") == 0:
-                    #print("File is: ")
                     checkpoint_winners = os.path.join(local_dir, file)
-                    #print(os.path.join(local_dir, file))
-                    #checkpoint_directory_value_winner.configure(state='normal')
                     checkpoint_directory_value_winner.insert(END,"~ " + checkpoint_winners + "\n")
-                    #checkpoint_directory_value_winner.configure(state='disabled')
             choose_config_file_winner.set("Automatic")
-            #directory_value.configure(state='normal')
-            #directory_value_winner.configure(state='normal')
             directory_value_winner.delete('1.0', END)
             directory_value_winner.insert(INSERT, directory_value.get("1.0",END))
-            #directory_value_winner.configure(state='disabled')
-            #directory_value.configure(state='disabled')
-
-            #winner_file_name.configure(state='normal')
-            #winner_file_name_winner.configure(state='normal')
             winner_file_name_winner.delete('1.0', END)
             winner_file_name_winner.insert(INSERT, winner_file_name.get("1.0", END))
-            #winner_file_name.configure(state='disabled')
-            #winner_file_name_winner.configure(state='disabled')
-
         except:
-            #print("An exception occurred")
             pass
 
 def update_editor():
@@ -799,7 +821,7 @@ def update_editor():
             non_added_values.remove(non_added_value)
             break
 
-
+# switches from Normal view to Education and back
 def switch_modes():
     global education_mode
     if education_mode == True:
@@ -832,7 +854,7 @@ def switch_modes():
         root.mainloop()
 
 
-# Define our switch function
+# Define our switch function - switches between Dark mode and Light Mode
 def switch():
     # colors found at: http://tephra.smith.edu/dftwiki/images/3/3d/TkInterColorCharts.png
     global is_on
