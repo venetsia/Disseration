@@ -1,40 +1,34 @@
-import asyncio
 import logging
 import os
 import re
 import sys
-from multiprocessing import Process
 import threading
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
 from tkinter import ttk, INSERT, END, SE
-from tkinter.font import BOLD
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
 import gym
-
 import CreateHelpMessage
-from ttkthemes import ThemedStyle
-import textwrap
-import multiprocessing
-from multiprocessing.pool import ThreadPool
 from time import gmtime, strftime
 import ctypes  # An included library with Python install.
 import Education_Tab
 import Get_Directory_For_Neat
 import NEAT_Single_Processing
 import Run_winner
+import StickyNote
 import ValidateInput
 import Build_in_Console
-import datetime
 import Validate_Neat_Setup
 import pyglet
 from concurrent.futures import ThreadPoolExecutor
 
+from CustonText import CustomText
 
 game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
-
+Start_NEAT_Config = False
+NEAT_Config_Beginner_Level = False
 
 # Create at startup
 education_mode = False
@@ -130,7 +124,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l",
                "directory_value_l", "directory_value_l", "render_window_l", "setup_neat_l_Winner", "winner_file_name_l_winner", "game_checkpoint_l_winner",
                "checkpoint_directory_value_l_winner", "network_type_l_winner", "directory_value_l_winner" , "choose_config_file_l_winner",
-               "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l", "runs_per_network_l", "config_file_check", "num_generations_l"]
+               "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l", "runs_per_network_l", "config_file_check", "num_generations_l", "random_from_form_l"]
 # Button list used to modify Dark Mode and Light Mode
 buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat", "btn_run_neat_winner"]
 
@@ -154,7 +148,7 @@ form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termin
                     "structural_mutation_surer", "weight_init_mean",
                     "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value",
                     "weight_mutate_power", "weight_mutate_rate",
-                    "weight_replace_rate"]
+                    "weight_replace_rate", "random_from_form", "game_selection_config"]
 education_mode_labels = ["label1", "label2", "chat_bot_dynamic_learn"]
 education_mode_button = ["chatbot_next", "check_answer", "neuron_tab_label", "perceptron_label"]
 
@@ -789,7 +783,6 @@ def update_editor():
                     if line.endswith("[DefaultReproduction]"):
                         if form_input == "elitism_v":
                             txt_edit.delete(float(num_line_0), float(num_line_0) + 1.0)
-                            # txt_edit.insert(float(num_line), line  + fitness_criterion.get() + "\n")
                             txt_edit.insert(float(num_line_0),
                                             "elitism = " + eval(str(non_added_value) + ".get()") + "\n")
                         else:
@@ -798,7 +791,6 @@ def update_editor():
                 num_line_0 = 0
                 for line in thetext.split("\n"):
                     num_line_0 += 1
-                    # if line.endswith("[DefaultGenome]"):
                     if line.endswith("# Activation options") and non_added_value in activation_section:
                         insert(num_line_0, non_added_value)
                     elif line.endswith("# Aggregation options") and non_added_value in aggregation_section:
@@ -825,8 +817,6 @@ def update_editor():
 def switch_modes():
     global education_mode
     if education_mode == True:
-        #root.destroy()
-        #root.quit()
         education_mode = False
         education_mode_normal_mode.config(image=education_mode_pic)
         frame_Education.grid_remove()
@@ -835,8 +825,6 @@ def switch_modes():
         tabControl.tab(tab_education, state="disabled")
         root.mainloop()
     else:
-        #root.destroy()
-        #root.quit()
         education_mode = True
         progress_Bar_Education = ttk.Progressbar(
             frame_Education,
@@ -954,6 +942,38 @@ def switch():
         for activation_option in range(len(activation_options_values_sec)):
             activation_listbox.itemconfig(activation_option, {'bg': "gray77"})
 
+def onModification(event):
+    chars = len(event.widget.get("1.0", "end-1c"))
+    print(chars)
+    hidden_level_value = hidden_level_text.get(1.0, tk.END)
+    if hidden_level_value== "False\n" and education_mode == True:
+        for label in labels_list:
+            exec(label + '.grid_remove()')
+        for form_value in form_values_list:
+            exec(form_value + '.grid_remove()')
+        activation_listbox.grid_remove()
+        listbox_aggregation_options.grid_remove()
+
+        neat_section_L.grid()
+        fitness_criterion_l.grid()
+        fitness_criterion.grid()
+        fitness_threshold_l.grid()
+        fitness_threshold.grid()
+        pop_size_l.grid()
+        pop_size.grid()
+        genome_Section_l.grid()
+        network_Parameters_l.grid()
+        num_inputs_l.grid()
+        num_inputs.grid()
+        num_outputs_l.grid()
+        num_outputs.grid()
+        game_selection_config_l.grid()
+        game_selection_config.grid()
+
+    else:
+        print("in if statement")
+
+
 
 
 # def update_progress_label():
@@ -979,7 +999,7 @@ education_L = tk.Label(frame_Education, text="Education", anchor="w", width = 15
 education_L.grid(row=0, column=0, ipadx=18, sticky=tk.W)
 
 eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories', 'Intelligent Agents', 'Neuron',
-                                 'Neural Network', 'Components of a neural network', 'Learning Types','log', 'relu', 'elu',
+                                 'Neural Network', 'Components of a neural network', 'Learning Types','NEAT Config File', 'relu', 'elu',
                                  'lelu', 'selu', 'sigmoid', 'sin', 'softplus', 'square', 'tanh')
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
@@ -1001,21 +1021,11 @@ tab3 = ttk.Frame(tabControl, width=1000, height=700)
 
 tabControl.add(tab_education, text='Education')
 
-Education_Tab.Activate_Content(Education_listbox,tab_education)
+
 
 ttk.Separator(tab1, orient=VERTICAL).grid(column=2, row=0, rowspan=20, sticky='nse', padx=20)
 
 tabControl.add(tab1, text='Neat Config')
-
-## Select game
-#game_selection_config_l = tk.Label(tab1, text="Gym Game:", justify=LEFT, anchor="w")
-#game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
-
-#game_selection_config = ttk.Combobox(tab1, name="game_selection_config")
-#game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo")
-#game_selection_config.grid(row=0, column=1, sticky=tk.W)
-#game_selection_config.config(validate="key", validatecommand=(
-#    Validate_Neat_Setup.ValidateInputNEAT(game_selection_config, game_selection_config_l, style), "%P"))
 
 # Neat Section
 neat_section_L = tk.Label(tab1, text='Neat Section', font='Helvetica 12 bold underline', justify=LEFT, anchor="w")
@@ -1034,6 +1044,14 @@ CreateHelpMessage.CreateToolTip(fitness_criterion,
                                 text='fitness_criterion\nThe function used to compute the termination criterion from the set of genome fitnesses. Allowable values are: min, max, and mean')
 fitness_criterion.config(validate="key", validatecommand=(
 ValidateInput.ValidateInput(fitness_criterion, fitness_criterion, fitness_criterion_l, style), "%P"))
+
+hidden_level_text = CustomText(tab1, name="hidden_level", width = 1, height = 1)
+hidden_level_text.insert(1.0,"False")
+hidden_level_text.grid(row=2, column=1)
+hidden_level_text.lower(fitness_criterion)
+hidden_level_text.bind("<<TextModified>>", onModification)
+
+Education_Tab.Activate_Content(Education_listbox,tab_education,hidden_level_text)
 
 # Fitness Threshhold
 fitness_threshold_l = tk.Label(tab1, text="Fitness Threshold", justify=LEFT, anchor="w")
@@ -1270,7 +1288,7 @@ feed_forward.config(validate="key", validatecommand=(
 ValidateInput.ValidateInput(feed_forward, feed_forward, feed_forward_L, style), "%P"))
 
 # Select game
-game_selection_config_l = tk.Label(tab1, text="Gym Game:", justify=LEFT, anchor="w")
+game_selection_config_l = tk.Label(tab1, text="Gym Game: ", justify=LEFT, anchor="w")
 game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_config = ttk.Combobox(tab1, name="game_selection_config", width =20)

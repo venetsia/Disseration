@@ -1,13 +1,19 @@
 import random
 import tkinter as tk
+from tkinter import END
+
 import numpy as np
 from PIL import ImageTk
-
+import pyautogui
 import CreateHelpMessage
+import StickyNote
+
 import train_chat_BOT
 import enum
 import NEAT_Single_Processing
 import train_chat_BOT
+
+
 education_mode_labels = ["label1", "label2", "chat_bot_dynamic_learn"]
 AI_tab = ["label1"]
 AI_categories_tab = ["label2"]
@@ -81,7 +87,27 @@ class Education_tab(object):
                 widget.config(bg="red")
     def nada(self):
        return
-    def load_content(self,education_option_selected,educatuin_tab):
+    def automate(self, hidden_level_text,educatuin_tab):
+        # Locate Neat Icon
+        window_icon = pyautogui.locateOnScreen("NeatConfigImage.PNG")
+        # Click Windows Icon
+        pyautogui.click(window_icon)
+        hidden_level_text.delete(1.0, tk.END)
+        print(hidden_level_text.get(1.0, tk.END))
+        hidden_level_text.insert(tk.END, "False")
+        print(hidden_level_text.get(1.0, tk.END))
+        sticky = StickyNote.StickyNotes(educatuin_tab)
+        sticky.mainarea.insert(1.0, "Lets start with the basics. Each learning algorithm will need a variation of these values.\n"
+                           "If we select a game we will see that input and output are automatically generated for us based on the game."
+                           "\nNeat section:"
+                           "\n-fitness_criterion - how our score is calculated (max, min, etc)"
+                           "\n-fitness_threshold - how fit we want the agent to become"
+                           "\n-pop_size - how many genomes do we want to start with"
+                           "\nGenome Section:"
+                           "\n-num_inputs - what can the agent see "
+                           "\n-num_outputs - actions agent can perform")
+
+    def load_content(self,education_option_selected,educatuin_tab, hidden_level_text):
         selected_indices = education_option_selected.curselection()
         value = education_option_selected.get(selected_indices[0])
         global label1
@@ -330,12 +356,17 @@ class Education_tab(object):
             neuron_tab_label.image = neuron_tab_pic
             neuron_tab_label.grid(row=1, column=0)
             neuron_tab_label.config(fg="grey75", bg="grey75")
+        elif value == "NEAT Config File":
+            check_answer = tk.Button(educatuin_tab, text="Start",
+                                     command=lambda: self.automate(hidden_level_text,educatuin_tab),
+                                     justify=tk.LEFT, anchor="w")
+            check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
 
-def Activate_Content(education_option_selected, educatuin_tab):
+def Activate_Content(education_option_selected, educatuin_tab, hidden_level_text):
     toolTip = Education_tab(education_option_selected)
     widget_name = education_option_selected._name
     def load_content(event):
-        toolTip.load_content(education_option_selected,educatuin_tab)
+        toolTip.load_content(education_option_selected,educatuin_tab, hidden_level_text)
 
     education_option_selected.bind('<<ListboxSelect>>', load_content)
 def DarkMode():
