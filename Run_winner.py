@@ -30,8 +30,8 @@ runs_per_net = 15
 
 EP_STEP = 300           # maximum episode steps
 GENERATION_EP = 1     # evaluate by the minimum of 10-episode rewards
-game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
-game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
+game_list_2D = [ "LunarLander-v2", "CartPole-v1"]
 
 def replay_winner(genome,config):
     #number_left = len(genomes)
@@ -293,7 +293,7 @@ def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_nam
         GENERATION_EP = game_checkpoint_winner.get()
         checkpoint_directories = checkpoint_directory_value_winner.get("1.0", END)
         directory_check = checkpoint_directories.split("~")
-        directory_value_winner_string =  directory_value_winner.get("1.0", END)
+        directory_value_winner_string = directory_value_winner.get("1.0", END)
         try:
             directory_check.remove("")
         except:

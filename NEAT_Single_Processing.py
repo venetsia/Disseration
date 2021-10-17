@@ -18,8 +18,8 @@ import tkinter as tk
 
 from TextRedirector import TextRedirector
 
-game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
-game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
+game_list_2D = ["BipedalWalker-v3", "LunarLander-v2", "CartPole-v1"]
 episodes = 1
 starting_pixel = 114
 self_y = 192
@@ -160,6 +160,7 @@ def raw(text):
         except KeyError: new_string+=char
     new_string = new_string.replace("\\n", "")
     new_string = new_string.replace("\n", "")
+    #new_string = new_string.replace('\\', '/')
 
     return new_string
 
@@ -175,8 +176,10 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
 
         # Get path for config file
         config_path = directory_value.get("1.0",END)
+        print(config_path)
         # Fix path string
         path_new = raw(config_path)
+        print(path_new)
 
         # From NEAT integration that will be used for population
         config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,

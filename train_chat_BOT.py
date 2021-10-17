@@ -4,7 +4,8 @@ import numpy as np
 import nltk
 import pickle
 
-import tflearn as tflearn
+#import tflearn as tflearn
+import tflearn
 from nltk.stem.lancaster import LancasterStemmer
 import tensorflow
 

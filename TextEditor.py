@@ -5,6 +5,8 @@ import sys
 import threading
 import time
 import tkinter as tk
+from multiprocessing import Pool
+from pathlib import Path
 from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
 from tkinter import ttk, INSERT, END, SE, filedialog
 from tkinter.messagebox import showinfo
@@ -17,8 +19,8 @@ import ctypes  # An included library with Python install.
 import Education_Tab
 import Get_Directory_For_Neat
 import NEAT_Single_Processing
+import ProcessImages
 import Run_winner
-import StickyNote
 import ValidateInput
 import Build_in_Console
 import Validate_Neat_Setup
@@ -26,8 +28,8 @@ import pyglet
 from concurrent.futures import ThreadPoolExecutor
 from CustonText import CustomText
 
-game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
-game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
+game_list_2D = ["LunarLander-v2", "CartPole-v1"]
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
 Start_NEAT_Config = False
 NEAT_Config_Beginner_Level = False
 
@@ -127,7 +129,7 @@ other_tabs_labels = ["game_selection_l", "setup_neat_l", "winner_file_name_l","g
                "checkpoint_directory_value_l_winner", "network_type_l_winner", "directory_value_l_winner" , "choose_config_file_l_winner",
                "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l", "runs_per_network_l", "config_file_check", "num_generations_l", "random_from_form_l"]
 # Button list used to modify Dark Mode and Light Mode
-buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat", "btn_run_neat_winner", "btnFind" ]
+buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat", "btn_run_neat_winner", "btnFind" , "btnFind_winner"]
 # Used for looping though all Editor form values
 form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termination", "pop_size",
                     "reset_on_extinction",
@@ -194,7 +196,7 @@ connection_options = ["conn_add_prob", "conn_delete_prob", "enabled_default", "e
 response_options = ["response_init_mean",
                     "response_init_stdev", "response_init_type", "response_max_value", "response_min_value",
                     "response_mutate_power",
-                    "response_mutate_power", "response_replace_rate"]
+                    "response_mutate_power", "response_replace_rate", "response_mutate_rate"]
 weight_values = ["weight_init_mean",
                  "weight_init_stdev", "weight_init_type", "weight_max_value", "weight_min_value", "weight_mutate_power",
                  "weight_mutate_rate",
@@ -203,7 +205,7 @@ structure_options = ["single_structural_mutation", "structural_mutation_surer"]
 logging.basicConfig(filename="logfilename.log", level=logging.INFO)
 run_NEAT_thread = ""
 load_winner_thread =""
-games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2", "Pong-v0", "CartPole-v1"]
+games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "LunarLander-v2", "Pong-v0", "CartPole-v1"]
 
 workers = 1
 
@@ -422,6 +424,7 @@ def items_selected(event):
     # get selected indices
     selected_indices = activation_listbox.curselection()
     selected_indices_aggregation = listbox_aggregation_options.curselection()
+    selected_education_list = Education_listbox.curselection()
     if len(selected_indices) != 0:
         # get selected items
         selected_langs = ",".join([activation_listbox.get(i) for i in selected_indices])
@@ -441,6 +444,12 @@ def items_selected(event):
             title='Information',
             message=msg)
         return selected_langs_aggregation
+    if Education_Tab.Introduction_tab == True:
+        progress_Bar_Education['value'] = 14
+        #ttk.update_idletasks()
+    if Education_Tab.Artificial_intelligence_tab == True:
+        progress_Bar_Education['value'] = 28
+        #ttk.update_idletasks()
 
 # Add Default assigned value to editor (Information gained from NEAT Python website)
 def default_values_config():
@@ -475,14 +484,19 @@ def insert(line, value_to_be_added):
 
 # RUN NEAT - pre-processing
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations):
-    # The whole if statement is used for modifying the config file
 
+    # Make sure the algorithm does not start if these are empty (game, evaluation, wiinner file name or directory where config is
+    if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==",
+                                                                                             "1.0") or directory_value.get(
+            "1.0", END) == "":
+        return
     # Get path for config file
     config_path = directory_value.get("1.0", END)
     # Fix path string
     path_new = NEAT_Single_Processing.raw(config_path)
     new_file_content = ""
-    if game_selection.get() != "":
+    # The whole if statement is used for modifying the config file
+    if game_selection.get() != "" and game_selection.get() in games_available: # If the game is valid:
         text = game_selection.get() # Get text from form box
         env = gym.make(text)    # Make Game
         outputs = env.action_space # Get Output - actions available
@@ -526,20 +540,17 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
                     else:
                         # Add other non-modified lines as well
                         new_file_content += line
-            # Open same file but in write mode
-            writing_file = open(path_new, "w")
-            # Replace the whole text with new content
-            writing_file.write(new_file_content)
-            # close file
-            writing_file.close()
+                # Open same file but in write mode
+                writing_file = open(path_new, "w")
+                # Replace the whole text with new content
+                writing_file.write(new_file_content)
+                # close file
+                writing_file.close()
 
 
     global run_NEAT_thread
     run_NEAT_thread = threading.current_thread()
 
-    # Make sure the algorithm does not start if these are empty (game, evaluation, wiinner file name or directory where config is
-    if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==", "1.0") or directory_value.get("1.0", END) == "":
-        return
     # If nothing is chosen do not render
     if render_window.get() == "":
         render_window.set("False")
@@ -903,6 +914,12 @@ def getFolderPath():
                 checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
     except:
         pass
+def getFolderPath_and_File():
+    file_selected = filedialog.askopenfilename()
+    local_dir = file_selected
+
+    winner_file_name_winner.delete(1.0, END)
+    winner_file_name_winner.insert(END, local_dir)
 # Define our switch function - switches between Dark mode and Light Mode
 def switch():
     # colors found at: http://tephra.smith.edu/dftwiki/images/3/3d/TkInterColorCharts.png
@@ -1050,49 +1067,20 @@ def onModification(event):
                                  command=lambda: next_button_action(hidden_level_value),
                                  justify=tk.LEFT, anchor="w")
         next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
-        previous_button = tk.Button(tab1, text="Previous",
-                                command=lambda: previous_button_action(hidden_level_value),
-                                justify=tk.LEFT, anchor="w")
-        previous_button.grid(row=40, column=1, sticky=tk.W, padx=5, pady=5)
     elif hidden_level_value == "LoadWinnerExample\n" and education_mode == True:
         next_button = tk.Button(tab3, text="Next",
                                 command=lambda: next_button_action(hidden_level_value),
                                 justify=tk.LEFT, anchor="w")
         next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
-        previous_button = tk.Button(tab1, text="Previous",
-                                    command=lambda: previous_button_action(hidden_level_value),
-                                    justify=tk.LEFT, anchor="w")
-        previous_button.grid(row=40, column=1, sticky=tk.W, padx=5, pady=5)
     elif hidden_level_value == "LoadWinnerExample2\n" and education_mode == True:
-        pass
+        next_button = tk.Button(tab3, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
 
 
-def previous_button_action(hidden_level_value):
-    if hidden_level_value == "ExampleLevel1\n":
-        hidden_level_text.delete(1.0, tk.END)
-        hidden_level_text.insert(tk.END, "False")
-        window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
-        pyautogui.click(window_icon_3)
-        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
-        pyautogui.click(window_icon_1)
-        pyautogui.doubleClick()
-        window_icon_2 = pyautogui.locateOnScreen("Neat_config_image_fromTab.PNG")
-        pyautogui.click(window_icon_2)
-        pyautogui.doubleClick()
-    elif hidden_level_value == "False\n":
-        hidden_level_text.delete(1.0, tk.END)
-        hidden_level_text.insert(tk.END, "False")
-        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
-        pyautogui.click(window_icon_1)
-        pyautogui.doubleClick()
-        window_icon_1 = pyautogui.locateOnScreen("Neat_config_image_fromTab")
-    elif hidden_level_value == "LoadWinnerExample\n":
-        hidden_level_text.delete(1.0, tk.END)
-        hidden_level_text.insert(tk.END, "ExampleLevel1")
-    elif hidden_level_value == "LoadWinnerExample2\n":
-        hidden_level_text.delete(1.0, tk.END)
-        hidden_level_text.insert(tk.END, "LoadWinnerExample")
 def next_button_action(hidden_level_value):
+    dir_path = os.path.dirname(os.path.realpath(__file__))
     # Go Close Sticky page, go to education tab and select Load Winner/Checkpoint(s) E1
     if hidden_level_value == "ExampleLevel1\n" and education_mode == True:
         try:
@@ -1111,9 +1099,10 @@ def next_button_action(hidden_level_value):
         print(hidden_level_text.get(1.0, tk.END))
         game_selection_winner.set("CartPole-v1")
         winner_file_name_winner.delete('1.0', END)
-        winner_file_name_winner.insert(END, "winnerCartPoleExample")
+        target_path_1 = dir_path + '/CartPoleExample/winnerCartPoleExample'
+        winner_file_name_winner.insert(END, target_path_1)
         network_type_winner.set("Feed-forward")
-        target_path_1 = os.path.join(os.path.dirname(__file__), 'config-feedforwardCartPoleExample.txt')
+        target_path_1 = dir_path + "/CartPoleExample/config-feedforwardCartPoleExample.txt"
         directory_value.configure(state='normal')
         directory_value.delete('1.0', END)
         directory_value.insert(END, target_path_1)
@@ -1140,7 +1129,8 @@ def next_button_action(hidden_level_value):
         print(hidden_level_text.get(1.0, tk.END))
         game_selection_winner.set("LunarLander-v2")
         winner_file_name_winner.delete('1.0', END)
-        winner_file_name_winner.insert(END, "winnerLunarLanderExample")
+        target_path_winner = os.path.join(os.path.dirname(__file__), 'LunarLanderExample/winnerLunarLanderExample')
+        winner_file_name_winner.insert(END, target_path_winner)
         network_type_winner.set("Feed-forward")
         target_path_1 = os.path.join(os.path.dirname(__file__), 'LunarLanderExample/configFeedForwardLunarLander.txt')
         directory_value.configure(state='normal')
@@ -1151,6 +1141,31 @@ def next_button_action(hidden_level_value):
         directory_value_winner.delete('1.0', END)
         directory_value_winner.insert(END, target_path_1)
         directory_value_winner.configure(state='disabled')
+    elif hidden_level_value == "LoadWinnerExample2\n" and education_mode == True:
+        try:
+            window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
+            pyautogui.click(window_icon_3)
+        except:
+            pass
+        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
+        pyautogui.click(window_icon_1)
+        pyautogui.doubleClick()
+        pyautogui.doubleClick()
+        window_icon = pyautogui.locateOnScreen("Run_Neat_example1.PNG")
+        pyautogui.click(window_icon)
+        hidden_level_text.delete(1.0, tk.END)
+        print(hidden_level_text.get(1.0, tk.END))
+        hidden_level_text.insert(tk.END, "RunNEATExample")
+        print(hidden_level_text.get(1.0, tk.END))
+        game_selection.set("Breakout-v0")
+        game_evaluation.set("Single-Processing")
+        directory_value.delete('1.0', END)
+        target_path_directory = os.path.join(os.path.dirname(__file__), 'BipedaWalkerExample/configFeedForwardBipedalWalkerExample.txt')
+        directory_value.insert(END, target_path_directory)
+        network_type.set("Feed-forward")
+        winner_file_name_l.config(fg="red")
+        render_window_l.config(fg="red")
+
 # def update_progress_label():
 #     return f"Current Progress: {progress_Bar_Education['value']}%"
 
@@ -1173,14 +1188,16 @@ frame_Education.grid(row=0, column=0)
 education_L = tk.Label(frame_Education, text="Education", anchor="w", width = 15, font = ("MS Sans Serif", 15))
 education_L.grid(row=0, column=0, ipadx=18, sticky=tk.W)
 
-eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories', 'Intelligent Agents', 'Neuron',
-                                 'Neural Network', 'Components of a neural network', 'Learning Types','NEAT Config File', 'Load Winner/Checkpoints E1', 'Load Winner/Checkpoints E2',
-                                 'lelu', 'selu', 'sigmoid', 'sin', 'softplus', 'square', 'tanh')
+eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1','AI categories L2',
+                    'Intelligent Agents', 'Neuron',
+                    'Neural Network', 'Components of a neural network', 'Learning Types',
+                    "How do the neural network learn?","Reinforcement Learning L1",
+                    "Reinforcement Learning L2","Reinforcement Learning L3",'NEAT Config File', 'Load Winner/Checkpoints E1',
+                    'Load Winner/Checkpoints E2','Run NEAT E1')
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
                                 name="activation_options", exportselection=0)
 Education_listbox.grid(row=1, column=0, pady=2, sticky=tk.W)
-#education_options_selected = Education_listbox.bind('<<ListboxSelect>>', items_selected)
 education_options_selected = Education_listbox.bind('<Leave>', items_selected)
 
 tab_View = tk.IntVar()
@@ -1467,7 +1484,7 @@ game_selection_config_l = tk.Label(tab1, text="Gym Game: ", justify=LEFT, anchor
 game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_config = ttk.Combobox(tab1, name="game_selection_config", width =20)
-game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0")
+game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1", "Pong-v0")
 game_selection_config.grid(row=0, column=1, sticky=tk.W)
 game_selection_config.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Gym_Game(game_selection_config, game_selection_config_l, style, num_inputs, num_outputs), "%P"))
@@ -2193,7 +2210,7 @@ game_selection_l = tk.Label(tab2, text="Gym Game:", justify=LEFT, anchor="w")
 game_selection_l.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection = ttk.Combobox(tab2, name="game_selection", width =20)
-game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0")
+game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1", "Pong-v0")
 game_selection.grid(row=1, column=1, sticky=tk.W)
 game_selection.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Game_Selection(game_selection, game_selection_l, style, runs_per_network_l, runs_per_network), "%P"))
@@ -2321,7 +2338,7 @@ game_selection_l_Winner = tk.Label(tab3, text="Gym Game:", justify=LEFT, anchor=
 game_selection_l_Winner.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_winner = ttk.Combobox(tab3, name="game_selection_winner", width =20)
-game_selection_winner['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0")
+game_selection_winner['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "LunarLander-v2", "CartPole-v1", "Pong-v0")
 game_selection_winner.grid(row=1, column=1, sticky=tk.W)
 game_selection_winner.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_selection_winner, game_selection_l_Winner, style), "%P"))
@@ -2333,6 +2350,9 @@ winner_file_name_l_winner.grid(row=3, column=0, ipadx=37, pady=2, sticky=tk.W)
 winner_file_name_winner = tk.Text(tab3, name="winner_file_name_winner", height = 0.5, width =17)
 winner_file_name_winner.grid(row=3, column=1, sticky=tk.W)
 winner_file_name_winner.bind('<KeyRelease>',Validate_Text_Widget_Neat)
+
+btnFind_winner = tk.Button(tab3, text="Select File",command=getFolderPath_and_File, name = "btnFind_winner")
+btnFind_winner.grid(row=3,column=2)
 
 # Checkpoints
 game_checkpoint_l_winner = tk.Label(tab3, text="Num of ep. per genome:", justify=LEFT, anchor="w")
@@ -2439,6 +2459,8 @@ for activation_option in range(len(activation_options_values_sec)):
 response_from_message_box = ctypes.windll.user32.MessageBoxW(0, "Would you like to launch education mode?", "Options", 4)
 education_mode = False
 root.protocol("WM_DELETE_WINDOW", on_closing)
+
+ProcessImages.process_file()
 
 if response_from_message_box == 6: #yes
     education_mode = True

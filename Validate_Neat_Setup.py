@@ -4,12 +4,12 @@ from tkinter import END
 import atari_py
 import gym
 
-games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "BipedalWalker-v2", "LunarLander-v2", "CartPole-v1", "Pong-v0"]
+games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0",'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1", "Pong-v0"]
 game_evaluation_choice = ["Single-Processing", "Multi-Processing"]
 network_type_choice = ["Feed-forward", "Recurrent"]
 render_window_choice = ["True", "False"]
 choose_config_file_choice = ["From Text Editor", "Choose file from directory"]
-game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
+game_list_2D = [ "LunarLander-v2", "CartPole-v1"]
 
 class Validate_Neat(object):
 
