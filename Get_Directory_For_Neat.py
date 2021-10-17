@@ -25,6 +25,7 @@ def save_file(txt_edit, path_directory):
     filepath = filepath.replace('/','\\')
     print(filepath)
     path_directory.configure(state='normal')
+    path_directory.delete('1.0', END)
     path_directory.insert(INSERT, filepath)
     path_directory.configure(state='disabled')
 

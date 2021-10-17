@@ -1,4 +1,5 @@
 import random
+import time
 import tkinter as tk
 from tkinter import END
 
@@ -88,25 +89,59 @@ class Education_tab(object):
     def nada(self):
        return
     def automate(self, hidden_level_text,educatuin_tab):
-        # Locate Neat Icon
-        window_icon = pyautogui.locateOnScreen("NeatConfigImage.PNG")
-        # Click Windows Icon
-        pyautogui.click(window_icon)
-        hidden_level_text.delete(1.0, tk.END)
-        print(hidden_level_text.get(1.0, tk.END))
-        hidden_level_text.insert(tk.END, "False")
-        print(hidden_level_text.get(1.0, tk.END))
-        sticky = StickyNote.StickyNotes(educatuin_tab)
-        sticky.mainarea.insert(1.0, "Lets start with the basics. Each learning algorithm will need a variation of these values.\n"
-                           "If we select a game we will see that input and output are automatically generated for us based on the game."
-                           "\nNeat section:"
-                           "\n-fitness_criterion - how our score is calculated (max, min, etc)"
-                           "\n-fitness_threshold - how fit we want the agent to become"
-                           "\n-pop_size - how many genomes do we want to start with"
-                           "\nGenome Section:"
-                           "\n-num_inputs - what can the agent see "
-                           "\n-num_outputs - actions agent can perform")
-
+        hidden_level_value = hidden_level_text.get(1.0, tk.END)
+        if hidden_level_value == "False\n":
+            # Locate Neat Icon
+            window_icon = pyautogui.locateOnScreen("NeatConfigImage.PNG")
+            print(window_icon)
+            # Click Windows Icon
+            pyautogui.click(window_icon)
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "False")
+            print(hidden_level_text.get(1.0, tk.END))
+            sticky = StickyNote.StickyNotes(educatuin_tab)
+            sticky.mainarea.insert(1.0, "Lets start with the basics. Each learning algorithm will need a variation of these values.\n"
+                               "If we select a game we will see that input and output are automatically generated for us based on the game."
+                               "\nNeat section:"
+                               "\n-fitness_criterion - how our score is calculated (max, min, etc)"
+                               "\n-fitness_threshold - how fit we want the agent to become"
+                               "\n-pop_size - how many genomes do we want to start with"
+                               "\nGenome Section:"
+                               "\n-num_inputs - what can the agent see "
+                               "\n-num_outputs - actions agent can perform"
+                                        "\nThe values are filled out automatically so you can see."
+                                        "\nSo the game is CartPole.\nIt has 4 valid observations for input."
+                                        "\nFor output we have 2 valid actions (0 or 1) - move left or right"
+                                        "\nBecause of fitness_criterion being max we will look for the best genome."
+                                        "\nOur agent will stop learning when a genome reaches a score of 500")
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "ExampleLevel1")
+            print(hidden_level_text.get(1.0, tk.END))
+        elif hidden_level_value == "LoadWinnerExample\n":
+            window_icon = pyautogui.locateOnScreen("Load_Winner.PNG")
+            # Click Windows Icon
+            pyautogui.click(window_icon)
+            sticky = StickyNote.StickyNotes(educatuin_tab)
+            sticky.mainarea.insert(1.0,
+                                   "Okey now that we know how can we run NEAT, we will see an example of the previous NEAT configurations we have chosen."
+                                   "\nWe have to choose the game we the winner is trained on."
+                                   "\nWe also need to specify the name of the winner file"
+                                   "\nNumber of episodes per genomes means how many times/episodes do we want to test our winner on."
+                                   "\nWe can also view the checkpoints that our algorithm has made. We can change the directory so the software can detect in different directory for checkpoints."
+                                   "\n(they have to be marked as 'neat-checkpoint' in order for the software to detect it.)"
+                                   "\nWe will look into the network type later but we should choose the same one we have trained it on."
+                                   "\nThe config file can be either saved from editor or chosen from directory"
+                                   "\nWhen you are ready you can click 'Load Genomes and winner' and you will observe the checkpoints. They load howeever many genomes (population) the generation has. "
+                                   "\nYou can see which one is loaded from the below text field.")
+        elif hidden_level_value == "LoadWinnerExample2\n":
+            window_icon = pyautogui.locateOnScreen("Load_Winner.PNG")
+            # Click Windows Icon
+            pyautogui.click(window_icon)
+            sticky = StickyNote.StickyNotes(educatuin_tab)
+            sticky.mainarea.insert(1.0,"Lets see another game example. The game we will see is Lunar Lander and we have 8 inputs and 4 outputs.\n"
+                                       "Here it took a little longer for NEAT to figure out how to reach the threshold (goal) so we will see checkpoints 10 generations apart and then we will see the winner.")
     def load_content(self,education_option_selected,educatuin_tab, hidden_level_text):
         selected_indices = education_option_selected.curselection()
         value = education_option_selected.get(selected_indices[0])
@@ -290,25 +325,6 @@ class Education_tab(object):
                                          command=lambda: self.check_answer(value,response_enter),
                                          justify=tk.LEFT, anchor="w")
                 check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
-            else:
-                if label2 != "":
-                    self.hide_old_widgets(label2)
-                if label1 != "":
-                    self.hide_old_widgets(label1)
-                if chat_bot_dynamic_learn != "":
-                    self.hide_old_widgets(chat_bot_dynamic_learn)
-                if response_enter != "":
-                    self.hide_old_widgets(response_enter)
-                if chatbot_next != "":
-                    self.hide_old_widgets(chatbot_next)
-                if perceptron_label != "":
-                    self.hide_old_widgets(perceptron_label)
-                if check_answer != "":
-                    self.hide_old_widgets(check_answer)
-                label2 = tk.Label(educatuin_tab, text="Please refer to AI categories lesson first",
-                                  font=("Courier", 20, "bold"))
-                label2.config(bg="grey75")
-                label2.grid(row=1, column=0)
         elif value == "Learning Types":
             if label2 != "":
                 self.hide_old_widgets(label2)
@@ -357,8 +373,60 @@ class Education_tab(object):
             neuron_tab_label.grid(row=1, column=0)
             neuron_tab_label.config(fg="grey75", bg="grey75")
         elif value == "NEAT Config File":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
             check_answer = tk.Button(educatuin_tab, text="Start",
                                      command=lambda: self.automate(hidden_level_text,educatuin_tab),
+                                     justify=tk.LEFT, anchor="w")
+            check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+        elif value == "Load Winner/Checkpoints E1":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            check_answer = tk.Button(educatuin_tab, text="See Winner/Checkpoint(s)",
+                                     command=lambda: self.automate(hidden_level_text, educatuin_tab),
+                                     justify=tk.LEFT, anchor="w")
+            check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+        elif value == "'Load Winner/Checkpoints E2":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            check_answer = tk.Button(educatuin_tab, text="See Winner/Checkpoint(s)",
+                                     command=lambda: self.automate(hidden_level_text, educatuin_tab),
                                      justify=tk.LEFT, anchor="w")
             check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
 

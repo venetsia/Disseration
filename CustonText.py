@@ -1,6 +1,10 @@
 # Credits to https://stackoverflow.com/questions/40617515/python-tkinter-text-modified-callback
 # Bryan Oakley
 
+
+# This custom widget is used so if the text is modified within that certain widget
+# the action can be used
+
 import tkinter as tk
 
 class CustomText(tk.Text):

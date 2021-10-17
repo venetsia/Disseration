@@ -137,14 +137,13 @@ def eval_genome_2DBox(genome, config):
                 done = False
 
                 while not done:
-                        #model Prediction
-                        action = np.argmax(net.activate(observation))
-                        observation, reward, done, info = env.step(action)
-                        fitness += reward
+                    action = np.argmax(net.activate(observation))
+                    observation, reward, done, info = env.step(action)
+                    fitness += reward
 
                 fitnesses.append(fitness)
 
-        return np.mean(fitnesses)
+        return np.max(fitnesses)
 
 
 def eval_genomes_2DBox(genomes, config):
@@ -207,7 +206,7 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
         network = network_type.get()
         render_window_variable = render_window.get()
         if env_variable in game_list_2D:
-            runs_per_net = runs_per_network.get()
+            runs_per_net = int(runs_per_network.get())
         else:
             runs_per_net =""
 
@@ -219,13 +218,13 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
         # Get winner
         if env_variable in game_list_atari:
             if num_generations.get() != "0":
-                num_generations_value = num_generations.get()
+                num_generations_value = int(num_generations.get())
                 winner = pop.run(eval_genomes, num_generations_value)
             else:
                 winner = pop.run(eval_genomes)
         elif env_variable in game_list_2D:
             if num_generations.get() != "0":
-                num_generations_value = num_generations.get()
+                num_generations_value = int(num_generations.get())
                 winner = pop.run(eval_genomes_2DBox, num_generations_value)
             else:
                 winner = pop.run(eval_genomes_2DBox)
@@ -240,7 +239,7 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
         print(winner)
 
         # Call game with only the loaded genome
-        pop = neat.Checkpointer.restore_checkpoint("neat-checkpoint-1")
+        #pop = neat.Checkpointer.restore_checkpoint("neat-checkpoint-1")
         stats = neat.StatisticsReporter()
         pop.add_reporter(stats)
         pop.add_reporter(neat.StdOutReporter(True))

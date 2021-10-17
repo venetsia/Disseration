@@ -1,4 +1,6 @@
+import heapq
 import sys
+from operator import attrgetter
 from tkinter import END
 
 import neat
@@ -28,6 +30,8 @@ runs_per_net = 15
 
 EP_STEP = 300           # maximum episode steps
 GENERATION_EP = 1     # evaluate by the minimum of 10-episode rewards
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
+game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
 
 def replay_winner(genome,config):
     #number_left = len(genomes)
@@ -165,6 +169,56 @@ def replay_function(genomes, config):
             return int(fitness)
         except:
             print("Error message")
+
+def replay_genome_2DBox(genome, config,number_left):
+    net = neat.nn.FeedForwardNetwork.create(genome, config)
+
+    fitnesses = []
+
+    for ep in range(int(GENERATION_EP)):
+        # env = gym.make("LunarLander-v2")
+        env = gym.make(env_variable)
+        observation = env.reset()
+
+        fitness = 0.0
+        done = False
+
+        while not done:
+            # model Prediction
+            env.render()
+            action = np.argmax(net.activate(observation))
+            observation, reward, done, info = env.step(action)
+            fitness += reward
+        env.close()
+        if fitness == None:
+            fitness = 0
+        if number_left == 0:
+            try:
+                genome.fitness = "Exit"
+                return
+            except TypeError:
+                print("END")
+        fitnesses.append(fitness)
+
+    return np.mean(fitnesses)
+
+
+def replay_genomes_2DBox(genomes, config):
+    number_left = len(genomes)
+    for genome_id, genome in genomes:
+        # for runs in range(runs_per_net):
+        number_left = number_left - 1
+        genome.fitness = replay_genome_2DBox(genome, config, number_left)
+    try:
+        if genome.fitness is None:
+            genome.fitness == 0
+        else:
+            return genome.fitness
+    except TypeError:
+        try:
+            return int(genome.fitness)
+        except:
+            print("Error message")
 def replay_genome(config_path, winner_file_name_winner ):
     config_path = NEAT_Single_Processing.raw(config_path)
     winner_name = NEAT_Single_Processing.raw(winner_file_name_winner.get("1.0", END))
@@ -177,8 +231,31 @@ def replay_genome(config_path, winner_file_name_winner ):
     with open(winner_name, "rb") as f:
         genome = pickle.load(f)
 
+    if env_variable in game_list_atari:
+        replay_winner(genome,config)
+    elif env_variable in game_list_2D:
+        if network == "Recurrent":
+            net = neat.nn.RecurrentNetwork.create(genome, config)
+        elif network == "Feed-forward":
+            net = neat.nn.FeedForwardNetwork.create(genome, config)
+        for ep in range(int(GENERATION_EP)):
+            env = gym.make(env_variable)
+            observation = env.reset()
+            high_score = 0
+            done = False
+            while not done:
+                env.render()
+                action = np.argmax(net.activate(observation))
+                # action = eval_network(net, observation)
+                observation, reward, done, info = env.step(action)
+                high_score += reward
+                if high_score == None:
+                    high_score = 0
+                genome.fitness = high_score
 
-    replay_winner(genome,config)
+            env.close()
+            fitness = high_score
+            print('Genome: ', genome, ' Fitness: ', fitness)
     return
 
 def replay_checkpoint(config_path,checkpoint_directory):
@@ -196,9 +273,12 @@ def replay_checkpoint(config_path,checkpoint_directory):
     stats = neat.StatisticsReporter()
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
+    #print(pop.best_unique_genomes(5))
     # Convert loaded genome into required data structure
-
-    winner = pop.run(replay_function)
+    if env_variable in game_list_atari:
+        winner = pop.run(replay_function)
+    elif env_variable in game_list_2D:
+        winner = pop.run(replay_genomes_2DBox)
     return
 def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
     try:
@@ -214,10 +294,14 @@ def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_nam
         checkpoint_directories = checkpoint_directory_value_winner.get("1.0", END)
         directory_check = checkpoint_directories.split("~")
         directory_value_winner_string =  directory_value_winner.get("1.0", END)
-        directory_check.remove("")
-        print(len(directory_check))
-
-        print(directory_check)
+        try:
+            directory_check.remove("")
+        except:
+            pass
+        try:
+            directory_check.remove("\n")
+        except:
+            pass
 
 
         if len(directory_check) > 1:

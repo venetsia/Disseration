@@ -3,12 +3,14 @@ import os
 import re
 import sys
 import threading
+import time
 import tkinter as tk
 from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
-from tkinter import ttk, INSERT, END, SE
+from tkinter import ttk, INSERT, END, SE, filedialog
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
 import gym
+import pyautogui
 import CreateHelpMessage
 from time import gmtime, strftime
 import ctypes  # An included library with Python install.
@@ -22,7 +24,6 @@ import Build_in_Console
 import Validate_Neat_Setup
 import pyglet
 from concurrent.futures import ThreadPoolExecutor
-
 from CustonText import CustomText
 
 game_list_2D = ["BipedalWalker-v2", "LunarLander-v2", "CartPole-v1"]
@@ -120,14 +121,13 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
                "structural_mutation_surer_L", "weight_l", "weight_init_mean_l", "weight_init_stdev_l",
                "weight_init_type_L",
                "weight_max_value_l", "weight_min_value_l", "weight_mutate_power_l", "weight_mutate_rate_l",
-               "weight_replace_rate_l", "random_from_form_l", "game_selection_l", "setup_neat_l", "winner_file_name_l",
-               "game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l",
+               "weight_replace_rate_l", "random_from_form_l"]
+other_tabs_labels = ["game_selection_l", "setup_neat_l", "winner_file_name_l","game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l",
                "directory_value_l", "directory_value_l", "render_window_l", "setup_neat_l_Winner", "winner_file_name_l_winner", "game_checkpoint_l_winner",
                "checkpoint_directory_value_l_winner", "network_type_l_winner", "directory_value_l_winner" , "choose_config_file_l_winner",
                "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l", "runs_per_network_l", "config_file_check", "num_generations_l", "random_from_form_l"]
 # Button list used to modify Dark Mode and Light Mode
-buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat", "btn_run_neat_winner"]
-
+buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat", "btn_run_neat_winner", "btnFind" ]
 # Used for looping though all Editor form values
 form_values_list = ["fitness_criterion", "fitness_threshold", "no_fitness_termination", "pop_size",
                     "reset_on_extinction",
@@ -611,27 +611,64 @@ def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_w
 def submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
     thread_pool_executor.submit(load_winner, Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
 
+# Loading files sorted by alphabet and number
+# Credits to https://stackoverflow.com/questions/12093940/reading-files-in-a-particular-order-in-python
+# Martijn Pieters♦
+numbers = re.compile(r'(\d+)')
+def numericalSort(value):
+    parts = numbers.split(value)
+    parts[1::2] = map(int, parts[1::2])
+    return parts
 # Applies values from one tab to another tab so it is more automated
 def on_tab_change(event):
     # Load configuration.
     local_dir = os.path.dirname(__file__)
     checkpoint_directory_value_winner.delete('1.0', END)
     game_checkpoint_winner.set("1")
+    hidden_level_value = hidden_level_text.get(1.0, tk.END)
     if tabControl.index(tabControl.select()) == 3:
         try:
-            game_selection_winner.set(game_selection.get())
-            network_type_winner.set(network_type.get())
-            arr = os.listdir(local_dir)
-            # Gets all the checkpints in the directory and sepeartes them
-            for file in arr:
-                if file.find("neat-checkpoint") == 0:
-                    checkpoint_winners = os.path.join(local_dir, file)
-                    checkpoint_directory_value_winner.insert(END,"~ " + checkpoint_winners + "\n")
+            if game_selection.get() != "":
+                game_selection_winner.set(game_selection.get())
+            if network_type.get() != "":
+                network_type_winner.set(network_type.get())
+            if hidden_level_value == "LoadWinnerExample\n":
+                local_dir_example = os.path.dirname(__file__)
+                local_dir_example = local_dir_example + "/CartPoleExample"
+                arr = os.listdir(local_dir_example)
+                # Gets all the checkpints in the directory and sepeartes them
+                for file in (sorted(arr, key = numericalSort)):
+                    if file.find("neat-checkpoint") == 0:
+                        checkpoint_winners = os.path.join(local_dir_example, file)
+                        checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
+                        print(checkpoint_directory_value_winner.get(1.0, END))
+            elif hidden_level_value == "LoadWinnerExample2\n":
+                local_dir_example = os.path.dirname(__file__)
+                local_dir_example = local_dir_example + "/LunarLanderExample"
+                arr = os.listdir(local_dir_example)
+                # Gets all the checkpints in the directory and sepeartes them
+                for file in (sorted(arr, key = numericalSort)):
+                    if file.find("neat-checkpoint") == 0:
+                        checkpoint_winners = os.path.join(local_dir_example, file)
+                        checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
+                        print(checkpoint_directory_value_winner.get(1.0, END))
+            else:
+                if checkpoint_directory_value_winner.get("1.0", END) == "":
+                    arr = os.listdir(local_dir)
+                    # Gets all the checkpints in the directory and sepeartes them
+                    for file in (sorted(arr, key=numericalSort)):
+                        if file.find("neat-checkpoint") == 0:
+                            checkpoint_winners = os.path.join(local_dir, file)
+                            checkpoint_directory_value_winner.insert(END,"~ " + checkpoint_winners + "\n")
             choose_config_file_winner.set("Automatic")
-            directory_value_winner.delete('1.0', END)
-            directory_value_winner.insert(INSERT, directory_value.get("1.0",END))
-            winner_file_name_winner.delete('1.0', END)
-            winner_file_name_winner.insert(INSERT, winner_file_name.get("1.0", END))
+            if directory_value.get("1.0", END) != "":
+                directory_value_winner.configure(state='normal')
+                directory_value_winner.delete('1.0', END)
+                directory_value_winner.insert(INSERT, directory_value.get("1.0",END))
+                directory_value_winner.configure(state='disabled')
+            if winner_file_name.compare("end-1c", "!=", "1.0"):
+                winner_file_name_winner.delete('1.0', END)
+                winner_file_name_winner.insert(INSERT, winner_file_name.get("1.0", END))
         except:
             pass
 
@@ -823,6 +860,18 @@ def switch_modes():
         education_L.grid_remove()
         Education_listbox.grid_remove()
         tabControl.tab(tab_education, state="disabled")
+
+        for label in labels_list:
+            try:
+                exec(label + '.grid()')
+            except:
+                pass
+        for form_value in form_values_list:
+            try:
+                exec(form_value + '.grid()')
+            except:
+                pass
+
         root.mainloop()
     else:
         education_mode = True
@@ -841,7 +890,19 @@ def switch_modes():
         progress_Bar_Education.grid(row=2, column=0, pady=2, sticky=tk.W)
         root.mainloop()
 
-
+def getFolderPath():
+    try:
+        folder_selected = filedialog.askdirectory()
+        local_dir = folder_selected
+        checkpoint_directory_value_winner.delete('1.0', END)
+        arr = os.listdir(local_dir)
+        # Gets all the checkpints in the directory and sepeartes them
+        for file in (sorted(arr, key=numericalSort)):
+            if file.find("neat-checkpoint") == 0:
+                checkpoint_winners = os.path.join(local_dir, file)
+                checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
+    except:
+        pass
 # Define our switch function - switches between Dark mode and Light Mode
 def switch():
     # colors found at: http://tephra.smith.edu/dftwiki/images/3/3d/TkInterColorCharts.png
@@ -857,6 +918,8 @@ def switch():
         # Color LightMode program
         for label in labels_list:  # Loop though Labels
             exec(label + '.config(fg = "gray1", bg = "grey75")')
+        for label_o in other_tabs_labels:  # Loop though Labels
+            exec(label_o + '.config(fg = "gray1", bg = "grey75")')
         for button in buttons_list:
             exec(button + ".configure(bg = '#e5233f', fg= 'gray99')")
 
@@ -878,6 +941,7 @@ def switch():
         # Tab Style
         style.theme_use('default')
         style.configure('TNotebook.Tab', background="#5d797e")
+        #style.configure('TNotebook.Tab', background="#gray45")
         style.configure("TNotebook", background="#333333", borderwidth=0)
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
@@ -915,16 +979,22 @@ def switch():
         root.config(bg='gray24')
         # Tab Style
         style.theme_use('default')
-        style.configure('TNotebook.Tab', background="gray45")
+        #style.configure('TNotebook.Tab', background="gray45")
+        style.configure('TNotebook.Tab', background="#5d797e")
+        #style.configure("TNotebook", background="#333333", borderwidth=0)
         style.configure("TNotebook", background="gray24", borderwidth=0)
 
         if education_mode == True:
             Education_Tab.DarkMode()
             for label in labels_list:  # Loop though Labels
                 exec(label + '.config(fg = "grey1", bg = "grey75")')
+            for label_o in other_tabs_labels:  # Loop though Labels
+                exec(label_o + '.config(fg = "grey1", bg = "grey75")')
         else:
             for label in labels_list:  # Loop though Labels
                 exec(label + '.config(fg = "white smoke", bg = "grey35")')
+            for label_o in other_tabs_labels:  # Loop though Labels
+                exec(label_o + '.config(fg = "white smoke", bg = "grey35")')
             style.configure("TFrame", background="grey35", borderwidth=5)
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
@@ -946,7 +1016,7 @@ def onModification(event):
     chars = len(event.widget.get("1.0", "end-1c"))
     print(chars)
     hidden_level_value = hidden_level_text.get(1.0, tk.END)
-    if hidden_level_value== "False\n" and education_mode == True:
+    if hidden_level_value == "False\n" and education_mode == True:
         for label in labels_list:
             exec(label + '.grid_remove()')
         for form_value in form_values_list:
@@ -969,13 +1039,118 @@ def onModification(event):
         num_outputs.grid()
         game_selection_config_l.grid()
         game_selection_config.grid()
+    elif hidden_level_value == "ExampleLevel1\n" and education_mode == True:
+        fitness_criterion.set("max")
+        fitness_threshold.set("500")
+        pop_size.set("100")
+        game_selection_config.set("CartPole-v1")
+        num_inputs.set("4")
+        num_outputs.set("2")
+        next_button = tk.Button(tab1, text="Next",
+                                 command=lambda: next_button_action(hidden_level_value),
+                                 justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+        previous_button = tk.Button(tab1, text="Previous",
+                                command=lambda: previous_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        previous_button.grid(row=40, column=1, sticky=tk.W, padx=5, pady=5)
+    elif hidden_level_value == "LoadWinnerExample\n" and education_mode == True:
+        next_button = tk.Button(tab3, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+        previous_button = tk.Button(tab1, text="Previous",
+                                    command=lambda: previous_button_action(hidden_level_value),
+                                    justify=tk.LEFT, anchor="w")
+        previous_button.grid(row=40, column=1, sticky=tk.W, padx=5, pady=5)
+    elif hidden_level_value == "LoadWinnerExample2\n" and education_mode == True:
+        pass
 
-    else:
-        print("in if statement")
 
-
-
-
+def previous_button_action(hidden_level_value):
+    if hidden_level_value == "ExampleLevel1\n":
+        hidden_level_text.delete(1.0, tk.END)
+        hidden_level_text.insert(tk.END, "False")
+        window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
+        pyautogui.click(window_icon_3)
+        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
+        pyautogui.click(window_icon_1)
+        pyautogui.doubleClick()
+        window_icon_2 = pyautogui.locateOnScreen("Neat_config_image_fromTab.PNG")
+        pyautogui.click(window_icon_2)
+        pyautogui.doubleClick()
+    elif hidden_level_value == "False\n":
+        hidden_level_text.delete(1.0, tk.END)
+        hidden_level_text.insert(tk.END, "False")
+        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
+        pyautogui.click(window_icon_1)
+        pyautogui.doubleClick()
+        window_icon_1 = pyautogui.locateOnScreen("Neat_config_image_fromTab")
+    elif hidden_level_value == "LoadWinnerExample\n":
+        hidden_level_text.delete(1.0, tk.END)
+        hidden_level_text.insert(tk.END, "ExampleLevel1")
+    elif hidden_level_value == "LoadWinnerExample2\n":
+        hidden_level_text.delete(1.0, tk.END)
+        hidden_level_text.insert(tk.END, "LoadWinnerExample")
+def next_button_action(hidden_level_value):
+    # Go Close Sticky page, go to education tab and select Load Winner/Checkpoint(s) E1
+    if hidden_level_value == "ExampleLevel1\n" and education_mode == True:
+        try:
+            window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
+            pyautogui.click(window_icon_3)
+        except:
+            pass
+        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
+        pyautogui.click(window_icon_1)
+        pyautogui.doubleClick()
+        window_icon = pyautogui.locateOnScreen("Load_Winner_Checkpoints.PNG")
+        pyautogui.click(window_icon)
+        hidden_level_text.delete(1.0, tk.END)
+        print(hidden_level_text.get(1.0, tk.END))
+        hidden_level_text.insert(tk.END, "LoadWinnerExample")
+        print(hidden_level_text.get(1.0, tk.END))
+        game_selection_winner.set("CartPole-v1")
+        winner_file_name_winner.delete('1.0', END)
+        winner_file_name_winner.insert(END, "winnerCartPoleExample")
+        network_type_winner.set("Feed-forward")
+        target_path_1 = os.path.join(os.path.dirname(__file__), 'config-feedforwardCartPoleExample.txt')
+        directory_value.configure(state='normal')
+        directory_value.delete('1.0', END)
+        directory_value.insert(END, target_path_1)
+        directory_value.configure(state='disabled')
+        directory_value_winner.configure(state='normal')
+        directory_value_winner.delete('1.0', END)
+        directory_value_winner.insert(END, target_path_1)
+        directory_value_winner.configure(state='disabled')
+    elif hidden_level_value == "LoadWinnerExample\n" and education_mode == True:
+        print("In Example Level 2")
+        try:
+            window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
+            pyautogui.click(window_icon_3)
+        except:
+            pass
+        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
+        pyautogui.click(window_icon_1)
+        pyautogui.doubleClick()
+        window_icon = pyautogui.locateOnScreen("Load_Example_Lunar.PNG")
+        pyautogui.click(window_icon)
+        hidden_level_text.delete(1.0, tk.END)
+        print(hidden_level_text.get(1.0, tk.END))
+        hidden_level_text.insert(tk.END, "LoadWinnerExample2")
+        print(hidden_level_text.get(1.0, tk.END))
+        game_selection_winner.set("LunarLander-v2")
+        winner_file_name_winner.delete('1.0', END)
+        winner_file_name_winner.insert(END, "winnerLunarLanderExample")
+        network_type_winner.set("Feed-forward")
+        target_path_1 = os.path.join(os.path.dirname(__file__), 'LunarLanderExample/configFeedForwardLunarLander.txt')
+        directory_value.configure(state='normal')
+        directory_value.delete('1.0', END)
+        directory_value.insert(END, target_path_1)
+        directory_value.configure(state='disabled')
+        directory_value_winner.configure(state='normal')
+        directory_value_winner.delete('1.0', END)
+        directory_value_winner.insert(END, target_path_1)
+        directory_value_winner.configure(state='disabled')
 # def update_progress_label():
 #     return f"Current Progress: {progress_Bar_Education['value']}%"
 
@@ -999,7 +1174,7 @@ education_L = tk.Label(frame_Education, text="Education", anchor="w", width = 15
 education_L.grid(row=0, column=0, ipadx=18, sticky=tk.W)
 
 eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories', 'Intelligent Agents', 'Neuron',
-                                 'Neural Network', 'Components of a neural network', 'Learning Types','NEAT Config File', 'relu', 'elu',
+                                 'Neural Network', 'Components of a neural network', 'Learning Types','NEAT Config File', 'Load Winner/Checkpoints E1', 'Load Winner/Checkpoints E2',
                                  'lelu', 'selu', 'sigmoid', 'sin', 'softplus', 'square', 'tanh')
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
@@ -2172,6 +2347,9 @@ game_checkpoint_winner.config(validate="key", validatecommand=(
 checkpoint_directory_value_l_winner = tk.Label(tab3, text="Checkpoint(s) directory:", justify=LEFT, anchor="w")
 checkpoint_directory_value_l_winner.grid(row=5, column=0, pady=2, sticky=tk.W)
 
+btnFind = tk.Button(tab3, text="Browse Folder",command=getFolderPath, name = "btnFind")
+btnFind.grid(row=5,column=1)
+
 checkpoint_directory_value_winner = tk.Text(tab3, name="checkpoint_directory_value_winner", height = 4, width =80)
 checkpoint_directory_value_winner.grid(row=6, column=0, sticky=tk.W, columnspan=4)
 #checkpoint_directory_value_winner.bind('<Key>',lambda e: 'break')
@@ -2221,6 +2399,8 @@ btn_run_neat_winner.grid(row=11, column=0, sticky=tk.W, padx=5, pady=5)
 # Color LightMode program
 for label in labels_list:  # Loop though Labels
     exec(label + '.config(fg = "gray1", bg = "grey75")')
+for label_o in other_tabs_labels:  # Loop though Labels
+    exec(label_o + '.config(fg = "gray1", bg = "grey75")')
 for button in buttons_list:
     exec(button + ".configure(bg = '#32285b', fg= 'gray99')")
 
