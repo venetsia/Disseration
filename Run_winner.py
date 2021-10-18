@@ -221,14 +221,13 @@ def replay_genomes_2DBox(genomes, config):
             genome.fitness = 0
         else:
             best_unique.append(tuple((genome_id,genome)))
-    if num_of_genomes != 0:
-        if len(best_unique) <= num_of_genomes:
-            best_unique.sort(key=lambda genome: float(genome[1].fitness), reverse=True)
-            number_left = len(best_unique)
-            for genome_id, genome in best_unique:
-                # for runs in range(runs_per_net):
-                number_left = number_left - 1
-                genome.fitness = replay_genome_2DBox(genome, config, number_left)
+    if num_of_genomes == 0 or len(best_unique) <= num_of_genomes:
+        best_unique.sort(key=lambda genome: float(genome[1].fitness), reverse=True)
+        number_left = len(best_unique)
+        for genome_id, genome in best_unique:
+            # for runs in range(runs_per_net):
+            number_left = number_left - 1
+            genome.fitness = replay_genome_2DBox(genome, config, number_left)
     else:
         best_genomes =[]
         find_best_genomes(best_genomes, best_unique)
@@ -340,8 +339,8 @@ def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_nam
 
         if len(directory_check) > 1:
             print("Loading checkpoints")
-            num_of_genomes = int(number_of_genomes.get())
             try:
+                num_of_genomes = int(number_of_genomes.get())
                 num_of_genomes = int(num_of_genomes)
             except ValueError:
                 num_of_genomes = 0
