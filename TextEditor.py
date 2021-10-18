@@ -127,7 +127,7 @@ labels_list = ["neat_section_L", "fitness_criterion_l", "fitness_threshold_l", "
 other_tabs_labels = ["game_selection_l", "setup_neat_l", "winner_file_name_l","game_evaluation_l", "game_checkpoint_l", "console_l", "network_type_l", "choose_config_file_l",
                "directory_value_l", "directory_value_l", "render_window_l", "setup_neat_l_Winner", "winner_file_name_l_winner", "game_checkpoint_l_winner",
                "checkpoint_directory_value_l_winner", "network_type_l_winner", "directory_value_l_winner" , "choose_config_file_l_winner",
-               "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l", "runs_per_network_l", "config_file_check", "num_generations_l", "random_from_form_l"]
+               "setup_neat_l_Winner", "game_selection_l_Winner", "game_selection_config_l", "runs_per_network_l", "config_file_check", "num_generations_l", "random_from_form_l", "number_of_genomes_l"]
 # Button list used to modify Dark Mode and Light Mode
 buttons_list = ["btn_open", "btn_save", "default_values_config_btn", "get_empty_config_btn", "update_btn", "btn_run_neat", "btn_run_neat_winner", "btnFind" , "btnFind_winner"]
 # Used for looping though all Editor form values
@@ -591,7 +591,7 @@ def submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluatio
     thread_pool_executor.submit(run_NEAT,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations)
 
 # Function to load Winner and Checkpoints from NEAT
-def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_winner, num_of_episodes_per_genome_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
+def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_winner, num_of_episodes_per_genome_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes):
     # Change print statement to go to normal console
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
@@ -606,7 +606,7 @@ def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_w
 
     #Run Winner Genome
     Run_winner.pre_process_data(Output_Console_winner, game_selection_winner, winner_file_name_winner, num_of_episodes_per_genome_winner,
-                                checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
+                                checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes)
     # Change print statement to go to normal console
     sys.stdout = sys.__stdout__
     sys.stderr = sys.__stderr__
@@ -619,8 +619,8 @@ def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_w
 # That is why we are submitting the task onto a threadpool with one thread
 # that is designed for rendering
 # Run Winner Genome and checkpoints if any
-def submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner):
-    thread_pool_executor.submit(load_winner, Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner)
+def submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes):
+    thread_pool_executor.submit(load_winner, Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes)
 
 # Loading files sorted by alphabet and number
 # Credits to https://stackoverflow.com/questions/12093940/reading-files-in-a-particular-order-in-python
@@ -908,6 +908,9 @@ def getFolderPath():
         checkpoint_directory_value_winner.delete('1.0', END)
         arr = os.listdir(local_dir)
         # Gets all the checkpints in the directory and sepeartes them
+        if len(arr) != 0:
+            number_of_genomes_l.grid()
+            number_of_genomes.grid()
         for file in (sorted(arr, key=numericalSort)):
             if file.find("neat-checkpoint") == 0:
                 checkpoint_winners = os.path.join(local_dir, file)
@@ -2363,6 +2366,16 @@ game_checkpoint_winner.grid(row=4, column=1, sticky=tk.W)
 game_checkpoint_winner.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_checkpoint_winner, game_checkpoint_l_winner, style), "%P"))
 
+# Number of genomes
+number_of_genomes_l = tk.Label(tab3, text="Num of genomes in checkpoint:", justify=LEFT, anchor="w")
+number_of_genomes_l.grid(row=5, column=2,ipadx=37, pady=2, sticky=tk.W)
+
+number_of_genomes = ttk.Spinbox(tab3, from_=0, to=100000000, increment=1, name = "number_of_genomes", width =19)
+number_of_genomes.grid(row=5, column=3, sticky=tk.W)
+
+number_of_genomes_l.grid_remove()
+number_of_genomes.grid_remove()
+
 # Directory path
 checkpoint_directory_value_l_winner = tk.Label(tab3, text="Checkpoint(s) directory:", justify=LEFT, anchor="w")
 checkpoint_directory_value_l_winner.grid(row=5, column=0, pady=2, sticky=tk.W)
@@ -2411,7 +2424,7 @@ Output_Console_winner.bind('<Key>',lambda e: 'break')
 Output_Console_winner.insert(tk.END, "## Load checkpoints / winner ##")
 
 # Run button for Neat using a thread
-btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner ), justify=LEFT, anchor="w")
+btn_run_neat_winner = tk.Button(tab3, text="Load Genomes and winner", command= lambda : submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes), justify=LEFT, anchor="w")
 btn_run_neat_winner.grid(row=11, column=0, sticky=tk.W, padx=5, pady=5)
 
 
