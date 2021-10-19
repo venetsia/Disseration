@@ -37,9 +37,7 @@ class myThread(threading.Thread):
         self.q = q
 
     def run(self):
-        print("Starting " + self.name)
         process_data(self.name, self.q)
-        print("Exiting" + self.name)
 
 
 def process_data(threadName, q):
@@ -61,7 +59,6 @@ def process_data(threadName, q):
         if not workQueue.empty():
             data = q.get()
             queueLock.release()
-            print("%s processing %s" % (threadName, data))
             if data == "AI-Intro.png":
                 image1 = ImageTk.PhotoImage(file="AI-Intro.png")
             elif data == "AI_second.png":

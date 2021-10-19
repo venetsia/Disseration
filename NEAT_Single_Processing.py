@@ -153,7 +153,7 @@ def raw(text):
 
     return new_string
 
-def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window, runs_per_network, num_generations):
+def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint, network_type,directory_value, render_window, runs_per_network, num_generations, choose_config_file):
     try:
         # Load configuration.
 
@@ -165,17 +165,17 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
 
         # Get path for config file
         config_path = directory_value.get("1.0",END)
-        print(config_path)
         # Fix path string
         path_new = raw(config_path)
-        print(path_new)
+        if choose_config_file.get() == "Restore from Checkpoint":
+            pop = neat.Checkpointer.restore_checkpoint(path_new)
+        else:
+            # From NEAT integration that will be used for population
+            config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
+                                       neat.DefaultSpeciesSet, neat.DefaultStagnation,
+                                       path_new)
 
-        # From NEAT integration that will be used for population
-        config = neat.config.Config(neat.DefaultGenome, neat.DefaultReproduction,
-                                   neat.DefaultSpeciesSet, neat.DefaultStagnation,
-                                   path_new)
-
-        pop = neat.Population(config)
+            pop = neat.Population(config)
         # Enable statistic reported
         stats = neat.StatisticsReporter()
         pop.add_reporter(stats)
@@ -196,8 +196,13 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
         env_variable = game_selection.get()
         network = network_type.get()
         render_window_variable = render_window.get()
+
         if env_variable in game_list_2D:
-            runs_per_net = int(runs_per_network.get())
+            try:
+                runs_per_net = int(runs_per_network.get())
+                runs_per_net = int(runs_per_net)
+            except ValueError:
+                runs_per_net = 1
         else:
             runs_per_net =""
 
@@ -205,16 +210,21 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
             #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
 
             #winner = pop.run(pe.evaluate)
-
+        try:
+            num_generations = int(num_generations.get())
+            num_generations = int(num_generations)
+        except ValueError:
+            num_generations = 0
+            num_generations_value = 0
         # Get winner
         if env_variable in game_list_atari:
-            if num_generations.get() != "0":
+            if num_generations != 0:
                 num_generations_value = int(num_generations.get())
                 winner = pop.run(eval_genomes, num_generations_value)
             else:
                 winner = pop.run(eval_genomes)
         elif env_variable in game_list_2D:
-            if num_generations.get() != "0":
+            if num_generations != 0:
                 num_generations_value = int(num_generations.get())
                 winner = pop.run(eval_genomes_2DBox, num_generations_value)
             else:

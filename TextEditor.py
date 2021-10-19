@@ -484,8 +484,8 @@ def insert(line, value_to_be_added):
             txt_edit.insert(float(line) + 1.0, "activation_options = " + activation_option_values + "\n")
 
 # RUN NEAT - pre-processing
-def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations):
-
+def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations, choose_config_file):
+    print(choose_config_file.get())
     # Make sure the algorithm does not start if these are empty (game, evaluation, wiinner file name or directory where config is
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==",
                                                                                              "1.0") or directory_value.get(
@@ -577,7 +577,7 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
     if game_evaluation.get() == "Single-Processing" and (game_selection.get() in game_list_atari or game_selection.get() in game_list_2D):
         NEAT_Single_Processing.run_Program(Output_Console, game_selection, winner_file_name, game_checkpoint,
                                            network_type,
-                                           directory_value, render_window, runs_per_network, num_generations)
+                                           directory_value, render_window, runs_per_network, num_generations, choose_config_file)
 
     return
 
@@ -588,8 +588,8 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
 # That is why we are submitting the task onto a threadpool with one thread
 # that is designed for rendering
 # RUN Neat - Train Neural Network
-def submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations):
-    thread_pool_executor.submit(run_NEAT,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations)
+def submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations, choose_config_file):
+    thread_pool_executor.submit(run_NEAT,Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations, choose_config_file)
 
 # Function to load Winner and Checkpoints from NEAT
 def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_winner, num_of_episodes_per_genome_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes):
@@ -620,7 +620,7 @@ def load_winner(Output_Console_winner, game_selection_winner, winner_file_name_w
 # That is why we are submitting the task onto a threadpool with one thread
 # that is designed for rendering
 # Run Winner Genome and checkpoints if any
-def submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes):
+def submit_to_thread_pool_load_winner(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes ):
     thread_pool_executor.submit(load_winner, Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes)
 
 # Loading files sorted by alphabet and number
@@ -635,6 +635,7 @@ def numericalSort(value):
 def on_tab_change(event):
     # Load configuration.
     local_dir = os.path.dirname(__file__)
+    current_directory = os.path.abspath(os.getcwd())
     checkpoint_directory_value_winner.delete('1.0', END)
     game_checkpoint_winner.set("1")
     hidden_level_value = hidden_level_text.get(1.0, tk.END)
@@ -645,8 +646,7 @@ def on_tab_change(event):
             if network_type.get() != "":
                 network_type_winner.set(network_type.get())
             if hidden_level_value == "LoadWinnerExample\n":
-                local_dir_example = os.path.dirname(__file__)
-                local_dir_example = local_dir_example + "/CartPoleExample"
+                local_dir_example = current_directory + "/CartPoleExample"
                 arr = os.listdir(local_dir_example)
                 # Gets all the checkpints in the directory and sepeartes them
                 for file in (sorted(arr, key = numericalSort)):
@@ -655,8 +655,7 @@ def on_tab_change(event):
                         checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
                         print(checkpoint_directory_value_winner.get(1.0, END))
             elif hidden_level_value == "LoadWinnerExample2\n":
-                local_dir_example = os.path.dirname(__file__)
-                local_dir_example = local_dir_example + "/LunarLanderExample"
+                local_dir_example = current_directory + "/LunarLanderExample"
                 arr = os.listdir(local_dir_example)
                 # Gets all the checkpints in the directory and sepeartes them
                 for file in (sorted(arr, key = numericalSort)):
@@ -666,11 +665,11 @@ def on_tab_change(event):
                         print(checkpoint_directory_value_winner.get(1.0, END))
             else:
                 if checkpoint_directory_value_winner.get("1.0", END) == "":
-                    arr = os.listdir(local_dir)
+                    arr = os.listdir(current_directory)
                     # Gets all the checkpints in the directory and sepeartes them
                     for file in (sorted(arr, key=numericalSort)):
                         if file.find("neat-checkpoint") == 0:
-                            checkpoint_winners = os.path.join(local_dir, file)
+                            checkpoint_winners = os.path.join(current_directory, file)
                             checkpoint_directory_value_winner.insert(END,"~ " + checkpoint_winners + "\n")
             choose_config_file_winner.set("Automatic")
             if directory_value.get("1.0", END) != "":
@@ -861,7 +860,6 @@ def update_editor():
                     # break
             non_added_values.remove(non_added_value)
             break
-
 # switches from Normal view to Education and back
 def switch_modes():
     global education_mode
@@ -901,7 +899,6 @@ def switch_modes():
         # place the progressbar
         progress_Bar_Education.grid(row=2, column=0, pady=2, sticky=tk.W)
         root.mainloop()
-
 def getFolderPath():
     try:
         folder_selected = filedialog.askdirectory()
@@ -1085,6 +1082,9 @@ def onModification(event):
 
 def next_button_action(hidden_level_value):
     dir_path = os.path.dirname(os.path.realpath(__file__))
+    current_directory = os.path.abspath(os.getcwd())
+    if not dir_path.endswith("\pythonProject"):
+        dir_path = dir_path.split("\\", 1)[0]
     # Go Close Sticky page, go to education tab and select Load Winner/Checkpoint(s) E1
     if hidden_level_value == "ExampleLevel1\n" and education_mode == True:
         try:
@@ -1103,10 +1103,10 @@ def next_button_action(hidden_level_value):
         print(hidden_level_text.get(1.0, tk.END))
         game_selection_winner.set("CartPole-v1")
         winner_file_name_winner.delete('1.0', END)
-        target_path_1 = dir_path + '/CartPoleExample/winnerCartPoleExample'
+        target_path_1 = current_directory + '/CartPoleExample/winnerCartPoleExample'
         winner_file_name_winner.insert(END, target_path_1)
         network_type_winner.set("Feed-forward")
-        target_path_1 = dir_path + "/CartPoleExample/config-feedforwardCartPoleExample.txt"
+        target_path_1 = current_directory + "/CartPoleExample/config-feedforwardCartPoleExample.txt"
         directory_value.configure(state='normal')
         directory_value.delete('1.0', END)
         directory_value.insert(END, target_path_1)
@@ -1133,10 +1133,10 @@ def next_button_action(hidden_level_value):
         print(hidden_level_text.get(1.0, tk.END))
         game_selection_winner.set("LunarLander-v2")
         winner_file_name_winner.delete('1.0', END)
-        target_path_winner = os.path.join(os.path.dirname(__file__), 'LunarLanderExample/winnerLunarLanderExample')
+        target_path_winner = os.path.join(os.path.abspath(os.getcwd()), 'LunarLanderExample/winnerLunarLanderExample')
         winner_file_name_winner.insert(END, target_path_winner)
         network_type_winner.set("Feed-forward")
-        target_path_1 = os.path.join(os.path.dirname(__file__), 'LunarLanderExample/configFeedForwardLunarLander.txt')
+        target_path_1 = os.path.join(os.path.abspath(os.getcwd()), 'LunarLanderExample/configFeedForwardLunarLander.txt')
         directory_value.configure(state='normal')
         directory_value.delete('1.0', END)
         directory_value.insert(END, target_path_1)
@@ -2313,9 +2313,6 @@ Output_Console.grid(row=13, column=0, sticky=tk.W, rowspan =4, columnspan=4, pad
 Output_Console.bind('<Key>',lambda e: 'break')
 Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ##")
 
-#run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window]).start()
-#run_Neat_thread = threading.Thread(target =  run_NEAT ,args = [Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window])
-
 var1 = tk.IntVar()
 var2 = tk.IntVar()
 config_file_check = tk.Checkbutton(tab2, text='Check config file for input/output',variable=var1, onvalue=1, offvalue=0, command=print_selection)
@@ -2323,7 +2320,7 @@ config_file_check.grid(row =10, column =1,sticky=tk.W, padx=5, pady=5)
 
 
 # Run button for Neat using a thread
-btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations), justify=LEFT, anchor="w")
+btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations, choose_config_file), justify=LEFT, anchor="w")
 btn_run_neat.grid(row=10, column=0, sticky=tk.W, padx=5, pady=5)
 
 # Run button for Neat using a thread

@@ -36,9 +36,6 @@ game_list_2D = [ "LunarLander-v2", "CartPole-v1"]
 best_unique = []
 num_of_genomes = 1
 def replay_winner(genome,config):
-    #number_left = len(genomes)
-        #print(number_left)
-        # for runs in range(runs_per_net):
     if network == "Recurrent":
         net = neat.nn.RecurrentNetwork.create(genome, config)
     elif network == "Feed-forward":
@@ -338,7 +335,7 @@ def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_nam
 
 
         if len(directory_check) > 1:
-            print("Loading checkpoints")
+            print("\nLoading checkpoints")
             try:
                 num_of_genomes = int(number_of_genomes.get())
                 num_of_genomes = int(num_of_genomes)
@@ -346,19 +343,19 @@ def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_nam
                 num_of_genomes = 0
             for directory_checkpoint_winner_processed in directory_check:
                 directory_temp = directory_checkpoint_winner_processed.replace("\\", "/")
-                print("Checkpoint: " + directory_temp)
+                print("\nCheckpoint: " + directory_temp)
                 replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
         elif len(directory_check) == 1:
-            print("Loading checkpoint")
+            print("\nLoading checkpoint")
             directory_temp = directory_check[0].replace("\\", "/")
-            print("Checkpoint: " + directory_temp)
+            print("\nCheckpoint: " + directory_temp)
             replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
-        print("Loading winner")
+        print("\nLoading winner")
 
         replay_genome(directory_value_winner_string, winner_file_name_winner)
         pyglet.app.exit()
     except Exception as e:  # work on python 3.x
         # Empty console that will use for print
         Output_Console_winner.delete('1.0', END)
-        Output_Console_winner.insert(END, "Error message: " + str(e))
+        Output_Console_winner.insert(END, "\nError message: " + str(e))
     return

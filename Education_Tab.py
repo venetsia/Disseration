@@ -131,6 +131,8 @@ class Education_tab(object):
             print(hidden_level_text.get(1.0, tk.END))
             hidden_level_text.insert(tk.END, "ExampleLevel1")
             print(hidden_level_text.get(1.0, tk.END))
+        elif hidden_level_value == "ConfigFileExample1\n":
+            pass
         elif hidden_level_value == "LoadWinnerExample\n":
             window_icon = pyautogui.locateOnScreen("Load_Winner.PNG")
             # Click Windows Icon
@@ -234,7 +236,6 @@ class Education_tab(object):
                                              font=("Courier", 14, "bold"))
             reference_from_source.config(bg="grey75")
             reference_from_source.grid(row=2, column=0)
-
         elif value == "AI categories L1":
             if Artificial_intelligence_tab == True:
                 AI_Categories_tab = True

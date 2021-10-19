@@ -84,6 +84,21 @@ def open_file_run_neat(txt_edit, path_directory, num_generations, num_generation
     path_directory.insert(INSERT, filepath)
     path_directory.configure(state='disabled')
 
+def open_file_checkpoint_run_neat(txt_edit, path_directory):
+    """Open a file for editing."""
+    filepath = askopenfilename(
+        filetypes=[("All Files", "*.*")]
+    )
+
+    # If File path does not exist - return
+    if not filepath:
+        return
+
+    path_directory.configure(state='normal')
+    path_directory.delete('1.0', END)
+    path_directory.insert(INSERT, filepath)
+    path_directory.configure(state='disabled')
+
 class Get_Dir_for_Neat(object):
 
     def __init__(self, widget):
@@ -102,7 +117,8 @@ class Get_Dir_for_Neat(object):
             save_file(txt_edit, path_directory)
         elif widget.get() == "Choose file from directory":
             open_file_run_neat(txt_edit, path_directory, num_generations, num_generations_l)
-
+        elif widget.get() == "Restore from Checkpoint":
+            open_file_checkpoint_run_neat(txt_edit, path_directory)
 
 def Get_Input(widget,path_directory, txt_edit, num_generations, num_generations_l):
     toolTip = Get_Dir_for_Neat(widget)
