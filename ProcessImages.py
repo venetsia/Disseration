@@ -2,6 +2,7 @@ import queue
 import threading
 import time
 from PIL import ImageTk
+import multiprocessing
 
 
 exitFlag = 0
@@ -89,6 +90,7 @@ def process_data(threadName, q):
         time.sleep(1)
 
 
+
 def process_file():
     # Create new threads
     for tName in threadList:
@@ -96,7 +98,7 @@ def process_file():
         thread.start()
         threads.append(thread)
 
-    # Fill the queue
+    #Fill the queue
     queueLock.acquire()
     for word in filelist:
         workQueue.put(word)

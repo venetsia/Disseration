@@ -28,6 +28,11 @@ from concurrent.futures import ThreadPoolExecutor
 from CustonText import CustomText
 import gym.envs.classic_control
 import gym.envs.box2d
+import atari_py.ale_interface
+import atari_py.ale_python_interface
+import atari_py
+import gym.envs.atari.atari_env
+import gym.envs.atari
 
 game_list_2D = ["LunarLander-v2", "CartPole-v1"]
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
@@ -1087,11 +1092,12 @@ def next_button_action(hidden_level_value):
         dir_path = dir_path.split("\\", 1)[0]
     # Go Close Sticky page, go to education tab and select Load Winner/Checkpoint(s) E1
     if hidden_level_value == "ExampleLevel1\n" and education_mode == True:
-        try:
-            window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
-            pyautogui.click(window_icon_3)
-        except:
-            pass
+        #try:
+            #window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
+            #pyautogui.click(window_icon_3)
+
+        #except:
+        #    pass
         window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
         pyautogui.click(window_icon_1)
         pyautogui.doubleClick()

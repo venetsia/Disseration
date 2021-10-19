@@ -9,9 +9,9 @@ pop_size              = 5
 reset_on_extinction   = False
 
 [DefaultGenome]
-num_inputs              = 1092
+num_inputs = 1092
 num_hidden              = 0
-num_outputs             = 6
+num_outputs = 6
 
 
 initial_connection      = partial_nodirect 0.5
@@ -93,8 +93,8 @@ conn_add_prob           = 0.5
 feed_forward            = True
 initial_connection      = full
 num_hidden              = 0
-num_outputs             = 4
-num_inputs              = 1092
+num_outputs = 6
+num_inputs = 1092
 
 # Response options
 response_replace_rate   = 0.0

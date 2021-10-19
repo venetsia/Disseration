@@ -131,12 +131,11 @@ class Education_tab(object):
             print(hidden_level_text.get(1.0, tk.END))
             hidden_level_text.insert(tk.END, "ExampleLevel1")
             print(hidden_level_text.get(1.0, tk.END))
-        elif hidden_level_value == "ConfigFileExample1\n":
-            pass
         elif hidden_level_value == "LoadWinnerExample\n":
             window_icon = pyautogui.locateOnScreen("Load_Winner.PNG")
             # Click Windows Icon
             pyautogui.click(window_icon)
+            sticky = StickyNote.StickyNotes.quit_window()
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
                                    "Okey now that we know how can we run NEAT, we will see an example of the previous NEAT configurations we have chosen."

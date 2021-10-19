@@ -7,6 +7,7 @@ import neat
 import pickle
 from TextRedirector import TextRedirector
 
+
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
 game_list_2D = ["BipedalWalker-v3", "LunarLander-v2", "CartPole-v1"]
 episodes = 1
@@ -121,7 +122,8 @@ def eval_genome_2DBox(genome, config):
                 #env = gym.make("LunarLander-v2")
                 env = gym.make(env_variable)
                 observation = env.reset()
-
+                if render_window_variable == "True":
+                    env.render()
                 fitness = 0.0
                 done = False
 
