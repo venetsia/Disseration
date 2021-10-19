@@ -1,7 +1,6 @@
 import random
 import tkinter as tk
 import numpy as np
-from PIL import ImageTk
 import pyautogui
 import CreateHelpMessage
 import ProcessImages
@@ -439,9 +438,9 @@ class Education_tab(object):
                     self.hide_old_widgets(reference_from_source)
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
-                neuron_tab_pic = ImageTk.PhotoImage(file="biological_neuron.png")
-                neuron_tab_label = tk.Label(educatuin_tab, image=neuron_tab_pic)
-                neuron_tab_label.image = neuron_tab_pic
+                #neuron_tab_pic = ImageTk.PhotoImage(file="biological_neuron.png")
+                neuron_tab_label = tk.Label(educatuin_tab, image=ProcessImages.neuron_tab_pic)
+                neuron_tab_label.image = ProcessImages.neuron_tab_pic
                 neuron_tab_label.grid(row=1, column=0)
                 neuron_tab_label.config(fg="grey75", bg="grey75")
                 reference_from_source = tk.Label(educatuin_tab,

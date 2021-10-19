@@ -1,8 +1,8 @@
 import queue
 import threading
 import time
-
 from PIL import ImageTk
+
 
 exitFlag = 0
 image1 = ""

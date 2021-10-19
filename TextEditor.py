@@ -3,7 +3,6 @@ import os
 import re
 import sys
 import threading
-import time
 import tkinter as tk
 from multiprocessing import Pool
 from pathlib import Path
@@ -27,6 +26,8 @@ import Validate_Neat_Setup
 import pyglet
 from concurrent.futures import ThreadPoolExecutor
 from CustonText import CustomText
+import gym.envs.classic_control
+import gym.envs.box2d
 
 game_list_2D = ["LunarLander-v2", "CartPole-v1"]
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
@@ -1218,7 +1219,7 @@ tabControl.add(tab_education, text='Education')
 
 
 
-ttk.Separator(tab1, orient=VERTICAL).grid(column=2, row=0, rowspan=20, sticky='nse', padx=20)
+ttk.Separator(tab1, orient=tk.VERTICAL).grid(column=2, row=0, rowspan=20, sticky='nse', padx=20)
 
 tabControl.add(tab1, text='Neat Config')
 
@@ -2302,7 +2303,7 @@ choose_config_file_l = tk.Label(tab2, text="Config File:", justify=LEFT, anchor=
 choose_config_file_l.grid(row=7, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 choose_config_file = ttk.Combobox(tab2, name="choose_config_file", width =20)
-choose_config_file['values'] = ("From Text Editor", "Choose file from directory")
+choose_config_file['values'] = ("From Text Editor", "Choose file from directory", "Restore from Checkpoint")
 choose_config_file.grid(row=7, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=Get_Directory_For_Neat.run_NEAT_get_input(choose_config_file, directory_value, txt_edit, num_generations, num_generations_l))
 

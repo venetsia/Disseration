@@ -1,17 +1,19 @@
 import json
+import os
 import random
 import numpy as np
 import nltk
 import pickle
 
-#import tflearn as tflearn
 import tflearn
 from nltk.stem.lancaster import LancasterStemmer
 import tensorflow
 
 stemmer = LancasterStemmer()
-
-with open("ChatBot.json") as file:
+current_directory = os.path.abspath(os.getcwd())
+file = "ChatBot.json"
+training_images_labels_path = os.path.join(current_directory, file)
+with open(training_images_labels_path) as file:
     intents = json.load(file)
 #intents = json.loads(open("ChatBot.json").read())
 

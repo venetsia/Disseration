@@ -1,21 +1,10 @@
-import argparse
-import os
 import sys
-import threading
 from tkinter import END, INSERT
-from pathlib import Path
-
-import atari_py
 import cv2
 import gym
 import numpy as np
 import neat
-import multiprocessing
 import pickle
-import os.path
-from os import path
-import tkinter as tk
-
 from TextRedirector import TextRedirector
 
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
@@ -186,7 +175,6 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
                                    neat.DefaultSpeciesSet, neat.DefaultStagnation,
                                    path_new)
 
-        # Get Population
         pop = neat.Population(config)
         # Enable statistic reported
         stats = neat.StatisticsReporter()

@@ -1,7 +1,5 @@
 import re
 import sys
-from tkinter import END
-import atari_py
 import gym
 
 games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0",'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1", "Pong-v0"]
