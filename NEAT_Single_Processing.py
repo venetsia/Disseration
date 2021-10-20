@@ -9,7 +9,7 @@ from TextRedirector import TextRedirector
 
 
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
-game_list_2D = ["BipedalWalker-v3", "LunarLander-v2", "CartPole-v1"]
+game_list_2D = ["LunarLander-v2", "CartPole-v1"]
 episodes = 1
 starting_pixel = 114
 self_y = 192

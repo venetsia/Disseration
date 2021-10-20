@@ -10,6 +10,8 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICA
 from tkinter import ttk, INSERT, END, SE, filedialog
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
+
+import StickyNote
 import gym
 import pyautogui
 import CreateHelpMessage
@@ -33,6 +35,7 @@ import atari_py.ale_python_interface
 import atari_py
 import gym.envs.atari.atari_env
 import gym.envs.atari
+from StickyNote import StickyNotes
 
 game_list_2D = ["LunarLander-v2", "CartPole-v1"]
 game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
@@ -650,32 +653,13 @@ def on_tab_change(event):
                 game_selection_winner.set(game_selection.get())
             if network_type.get() != "":
                 network_type_winner.set(network_type.get())
-            if hidden_level_value == "LoadWinnerExample\n":
-                local_dir_example = current_directory + "/CartPoleExample"
-                arr = os.listdir(local_dir_example)
+            if checkpoint_directory_value_winner.get("1.0", END) == "" and hidden_level_value != "LoadWinnerExample\n" and hidden_level_value == "LoadWinnerExample2\n":
+                arr = os.listdir(current_directory)
                 # Gets all the checkpints in the directory and sepeartes them
-                for file in (sorted(arr, key = numericalSort)):
+                for file in (sorted(arr, key=numericalSort)):
                     if file.find("neat-checkpoint") == 0:
-                        checkpoint_winners = os.path.join(local_dir_example, file)
-                        checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
-                        print(checkpoint_directory_value_winner.get(1.0, END))
-            elif hidden_level_value == "LoadWinnerExample2\n":
-                local_dir_example = current_directory + "/LunarLanderExample"
-                arr = os.listdir(local_dir_example)
-                # Gets all the checkpints in the directory and sepeartes them
-                for file in (sorted(arr, key = numericalSort)):
-                    if file.find("neat-checkpoint") == 0:
-                        checkpoint_winners = os.path.join(local_dir_example, file)
-                        checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
-                        print(checkpoint_directory_value_winner.get(1.0, END))
-            else:
-                if checkpoint_directory_value_winner.get("1.0", END) == "":
-                    arr = os.listdir(current_directory)
-                    # Gets all the checkpints in the directory and sepeartes them
-                    for file in (sorted(arr, key=numericalSort)):
-                        if file.find("neat-checkpoint") == 0:
-                            checkpoint_winners = os.path.join(current_directory, file)
-                            checkpoint_directory_value_winner.insert(END,"~ " + checkpoint_winners + "\n")
+                        checkpoint_winners = os.path.join(current_directory, file)
+                        checkpoint_directory_value_winner.insert(END,"~ " + checkpoint_winners + "\n")
             choose_config_file_winner.set("Automatic")
             if directory_value.get("1.0", END) != "":
                 directory_value_winner.configure(state='normal')
@@ -1036,10 +1020,14 @@ def switch():
             activation_listbox.itemconfig(activation_option, {'bg': "gray77"})
 
 def onModification(event):
+    current_directory = os.path.abspath(os.getcwd())
     chars = len(event.widget.get("1.0", "end-1c"))
     print(chars)
     hidden_level_value = hidden_level_text.get(1.0, tk.END)
     if hidden_level_value == "False\n" and education_mode == True:
+        pass
+    elif hidden_level_value == "Start_Go_to_Neat\n" and education_mode == True:
+
         for label in labels_list:
             exec(label + '.grid_remove()')
         for form_value in form_values_list:
@@ -1062,6 +1050,38 @@ def onModification(event):
         num_outputs.grid()
         game_selection_config_l.grid()
         game_selection_config.grid()
+
+        # Set Focus on tab Neat Config
+        tabControl.select(tab1)
+
+        # Change selected List Box to be 'Load Winner/Checkpoints E1'
+        Education_listbox.selection_clear(0, END)
+        Education_listbox.selection_set(13)
+        Education_listbox.event_generate("<<ListboxSelect>>")
+    elif hidden_level_value == "LoadCartPoleExample\n" and education_mode == True:
+        # Set Focus on tab Load Winner
+        tabControl.select(tab3)
+        # Load everything
+        for label in labels_list:
+            try:
+                exec(label + '.grid()')
+            except:
+                pass
+        for form_value in form_values_list:
+            try:
+                exec(form_value + '.grid()')
+            except:
+                pass
+        activation_listbox.grid()
+        listbox_aggregation_options.grid()
+
+    elif hidden_level_value == "LoadLunarLanderExample\n" and education_mode == True:
+        # Set Focus on tab Load Winner
+        tabControl.select(tab3)
+
+    elif hidden_level_value == "RunNeatExampleCartPole\n" and education_mode == True:
+        # Set Focus on tab Load Winner
+        tabControl.select(tab2)
     elif hidden_level_value == "ExampleLevel1\n" and education_mode == True:
         fitness_criterion.set("max")
         fitness_threshold.set("500")
@@ -1086,27 +1106,33 @@ def onModification(event):
 
 
 def next_button_action(hidden_level_value):
-    dir_path = os.path.dirname(os.path.realpath(__file__))
+
     current_directory = os.path.abspath(os.getcwd())
-    if not dir_path.endswith("\pythonProject"):
-        dir_path = dir_path.split("\\", 1)[0]
+
     # Go Close Sticky page, go to education tab and select Load Winner/Checkpoint(s) E1
     if hidden_level_value == "ExampleLevel1\n" and education_mode == True:
-        #try:
-            #window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
-            #pyautogui.click(window_icon_3)
 
-        #except:
-        #    pass
-        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
-        pyautogui.click(window_icon_1)
-        pyautogui.doubleClick()
-        window_icon = pyautogui.locateOnScreen("Load_Winner_Checkpoints.PNG")
-        pyautogui.click(window_icon)
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+        except:
+            pass
+
+        # Set Focus on tab Education
+        tabControl.select(tab_education)
+
+        #Change selected List Box to be 'Load Winner/Checkpoints E1'
+        Education_listbox.selection_clear(0, END)
+        Education_listbox.selection_set(14)
+        Education_listbox.event_generate("<<ListboxSelect>>")
+
+        # LoadWinnerExample
         hidden_level_text.delete(1.0, tk.END)
         print(hidden_level_text.get(1.0, tk.END))
         hidden_level_text.insert(tk.END, "LoadWinnerExample")
         print(hidden_level_text.get(1.0, tk.END))
+
+        # Set Values in Load Winner for CartPole example
         game_selection_winner.set("CartPole-v1")
         winner_file_name_winner.delete('1.0', END)
         target_path_1 = current_directory + '/CartPoleExample/winnerCartPoleExample'
@@ -1120,19 +1146,36 @@ def next_button_action(hidden_level_value):
         directory_value_winner.configure(state='normal')
         directory_value_winner.delete('1.0', END)
         directory_value_winner.insert(END, target_path_1)
+        choose_config_file_winner.set("Automatic")
         directory_value_winner.configure(state='disabled')
+
+        local_dir_example = current_directory + "/CartPoleExample"
+        arr = os.listdir(local_dir_example)
+        # Gets all the checkpints in the directory and sepeartes them
+        for file in (sorted(arr, key=numericalSort)):
+            if file.find("neat-checkpoint") == 0:
+                checkpoint_winners = os.path.join(local_dir_example, file)
+                checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
+                print(checkpoint_directory_value_winner.get(1.0, END))
+
     elif hidden_level_value == "LoadWinnerExample\n" and education_mode == True:
         print("In Example Level 2")
         try:
-            window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
-            pyautogui.click(window_icon_3)
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
         except:
             pass
-        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
-        pyautogui.click(window_icon_1)
-        pyautogui.doubleClick()
-        window_icon = pyautogui.locateOnScreen("Load_Example_Lunar.PNG")
-        pyautogui.click(window_icon)
+
+        # Set Focus on tab Education
+        tabControl.select(tab_education)
+
+        # Change selected List Box to be 'Load Winner/Checkpoints E2'
+        Education_listbox.selection_clear(0, END)
+        Education_listbox.selection_set(15)
+        Education_listbox.event_generate("<<ListboxSelect>>")
+
+        # Set Values for Example 2 - Lunar Lander
+
         hidden_level_text.delete(1.0, tk.END)
         print(hidden_level_text.get(1.0, tk.END))
         hidden_level_text.insert(tk.END, "LoadWinnerExample2")
@@ -1150,27 +1193,41 @@ def next_button_action(hidden_level_value):
         directory_value_winner.configure(state='normal')
         directory_value_winner.delete('1.0', END)
         directory_value_winner.insert(END, target_path_1)
+        choose_config_file_winner.set("Automatic")
         directory_value_winner.configure(state='disabled')
+
+        local_dir_example = current_directory + "/LunarLanderExample"
+        arr = os.listdir(local_dir_example)
+        # Gets all the checkpints in the directory and sepeartes them
+        for file in (sorted(arr, key=numericalSort)):
+            if file.find("neat-checkpoint") == 0:
+                checkpoint_winners = os.path.join(local_dir_example, file)
+                checkpoint_directory_value_winner.insert(END, "~ " + checkpoint_winners + "\n")
+                print(checkpoint_directory_value_winner.get(1.0, END))
     elif hidden_level_value == "LoadWinnerExample2\n" and education_mode == True:
         try:
-            window_icon_3 = pyautogui.locateOnScreen("Close_Sticky_Note.PNG")
-            pyautogui.click(window_icon_3)
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
         except:
             pass
-        window_icon_1 = pyautogui.locateOnScreen("Education_Tab_Pic.PNG")
-        pyautogui.click(window_icon_1)
-        pyautogui.doubleClick()
-        pyautogui.doubleClick()
-        window_icon = pyautogui.locateOnScreen("Run_Neat_example1.PNG")
-        pyautogui.click(window_icon)
+
+        # Set Focus on tab Education
+        tabControl.select(tab_education)
+
+        # Change selected List Box to be 'Run NEAT'
+        Education_listbox.selection_clear(0, END)
+        Education_listbox.selection_set(16)
+        Education_listbox.event_generate("<<ListboxSelect>>")
+
+
         hidden_level_text.delete(1.0, tk.END)
         print(hidden_level_text.get(1.0, tk.END))
         hidden_level_text.insert(tk.END, "RunNEATExample")
         print(hidden_level_text.get(1.0, tk.END))
-        game_selection.set("Breakout-v0")
+        game_selection.set("CartPole-v1")
         game_evaluation.set("Single-Processing")
         directory_value.delete('1.0', END)
-        target_path_directory = os.path.join(os.path.dirname(__file__), 'BipedaWalkerExample/configFeedForwardBipedalWalkerExample.txt')
+        target_path_directory = os.path.join(os.path.dirname(__file__), 'CartPoleExample/config-feedforwardCartPoleExample.txt')
         directory_value.insert(END, target_path_directory)
         network_type.set("Feed-forward")
         winner_file_name_l.config(fg="red")

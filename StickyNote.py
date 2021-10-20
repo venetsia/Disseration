@@ -59,3 +59,10 @@ class StickyNotes(Toplevel):
         no_of_windows -= 1
         return
         self.closebutton.config(relief='flat', bd=0, bg='#F8F7B6')
+    def quit_window_all(self):
+        self.closebutton.config(relief='flat', bd=0)
+        global no_of_windows
+        self.destroy()
+        no_of_windows -= 1
+        return
+        self.closebutton.config(relief='flat', bd=0, bg='#F8F7B6')

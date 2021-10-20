@@ -25,6 +25,8 @@ perceptron_label = ""
 check_answer = ""
 how_learn_nn_label =""
 reference_from_source = ""
+sticky = ""
+
 
 Introduction_tab = False
 Artificial_intelligence_tab = False
@@ -101,17 +103,15 @@ class Education_tab(object):
     def nada(self):
        return
     def automate(self, hidden_level_text,educatuin_tab):
+        global sticky
         hidden_level_value = hidden_level_text.get(1.0, tk.END)
         if hidden_level_value == "False\n":
-            # Locate Neat Icon
-            window_icon = pyautogui.locateOnScreen("NeatConfigImage.PNG")
-            print(window_icon)
-            # Click Windows Icon
-            pyautogui.click(window_icon)
+
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
-            hidden_level_text.insert(tk.END, "False")
+            hidden_level_text.insert(tk.END, "Start_Go_to_Neat")
             print(hidden_level_text.get(1.0, tk.END))
+
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0, "Lets start with the basics. Each learning algorithm will need a variation of these values.\n"
                                "If we select a game we will see that input and output are automatically generated for us based on the game."
@@ -127,15 +127,16 @@ class Education_tab(object):
                                         "\nFor output we have 2 valid actions (0 or 1) - move left or right"
                                         "\nBecause of fitness_criterion being max we will look for the best genome."
                                         "\nOur agent will stop learning when a genome reaches a score of 500")
+
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
             hidden_level_text.insert(tk.END, "ExampleLevel1")
             print(hidden_level_text.get(1.0, tk.END))
         elif hidden_level_value == "LoadWinnerExample\n":
-            window_icon = pyautogui.locateOnScreen("Load_Winner.PNG")
-            # Click Windows Icon
-            pyautogui.click(window_icon)
-            sticky = StickyNote.StickyNotes.quit_window()
+            hidden_level_text.delete(1.0, tk.END)
+            hidden_level_text.insert(tk.END, "LoadCartPoleExample")
+
+            # Load Sticky Note
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
                                    "Okey now that we know how can we run NEAT, we will see an example of the previous NEAT configurations we have chosen."
@@ -149,16 +150,20 @@ class Education_tab(object):
                                    "\nWhen you are ready you can click 'Load Genomes and winner' and you will observe the checkpoints. They load howeever many genomes (population) the generation has. "
                                    "\nYou can see which one is loaded from the below text field.")
         elif hidden_level_value == "LoadWinnerExample2\n":
-            window_icon = pyautogui.locateOnScreen("Load_Winner.PNG")
-            # Click Windows Icon
-            pyautogui.click(window_icon)
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "LoadLunarLanderExample")
+            print(hidden_level_text.get(1.0, tk.END))
+
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,"Lets see another game example. The game we will see is Lunar Lander and we have 8 inputs and 4 outputs.\n"
                                        "Here it took a little longer for NEAT to figure out how to reach the threshold (goal) so we will see checkpoints 10 generations apart and then we will see the winner.")
         elif hidden_level_value == "RunNEATExample\n":
-            window_icon = pyautogui.locateOnScreen("RunNeatTab.PNG")
-            # Click Windows Icon
-            pyautogui.click(window_icon)
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "RunNeatExampleCartPole")
+            print(hidden_level_text.get(1.0, tk.END))
+
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
                                    "Now that we have seen what the NEAT algorithm actually does we can now train an agent.\n"
