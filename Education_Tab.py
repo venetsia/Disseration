@@ -243,6 +243,35 @@ class Education_tab(object):
                                              font=("Courier", 14, "bold"))
             reference_from_source.config(bg="grey75")
             reference_from_source.grid(row=2, column=0)
+        elif value == "Introduction":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if neuron_tab_label != "":
+                self.hide_old_widgets(neuron_tab_label)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            if reference_from_source != "":
+                self.hide_old_widgets(reference_from_source)
+            if how_learn_nn_label != "":
+                self.hide_old_widgets(how_learn_nn_label)
+            label2 = tk.Label(educatuin_tab, text="Welcome to Education Mode. You may experience some slowliness due \n"
+                                                  "to the contents of the education mode loading. They should be done \n"
+                                                  "soon. Please browse though the lessons and I hope you enjoy.",
+                              font=("Courier", 20, "bold"))
+            label2.config(bg="grey75")
+            label2.grid(row=1, column=0)
         elif value == "AI categories L1":
             if Artificial_intelligence_tab == True:
                 AI_Categories_tab = True

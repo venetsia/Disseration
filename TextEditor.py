@@ -1280,6 +1280,8 @@ Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariabl
                                 name="activation_options", exportselection=0)
 Education_listbox.grid(row=1, column=0, pady=2, sticky=tk.W)
 education_options_selected = Education_listbox.bind('<Leave>', items_selected)
+Education_listbox.select_set(0)  # This only sets focus on the first item.
+Education_listbox.event_generate("<<ListboxSelect>>")
 
 tab_View = tk.IntVar()
 tabControl = ttk.Notebook(frame1)
@@ -2554,7 +2556,9 @@ if response_from_message_box == 6: #yes
     education_mode = True
     root.resizable(True, False)  # Width, Height
     education_mode_normal_mode.config(image=normal_mode_pic)
-    print("In Progress")
+    Education_listbox.selection_clear(0, END)
+    Education_listbox.select_set(0)  # This only sets focus on the first item.
+    Education_listbox.event_generate("<<ListboxSelect>>")
     # progressbar
     progress_Bar_Education = ttk.Progressbar(
         frame_Education,
@@ -2565,8 +2569,8 @@ if response_from_message_box == 6: #yes
     # place the progressbar
     progress_Bar_Education.grid(row=2, column=0, pady=2, sticky=tk.W)
     root.mainloop()
-    pyglet.app.run()
 
+    pyglet.app.run()
 else:
     education_mode_normal_mode.config(image=education_mode_pic)
     frame_Education.grid_remove()
