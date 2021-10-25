@@ -1082,6 +1082,20 @@ def onModification(event):
     elif hidden_level_value == "RunNeatExampleCartPole\n" and education_mode == True:
         # Set Focus on tab Load Winner
         tabControl.select(tab2)
+        # Set Values in Load Winner for CartPole example
+        game_selection.set("CartPole-v1")
+        game_evaluation.set("Single-Processing")
+        game_checkpoint.set("0")
+        network_type.set("Feed-forward")
+        directory_value.delete(1.0, tk.END)
+        target_path_1 = current_directory + "/CartPoleExample/config-feedforwardCartPoleExample.txt"
+        directory_value.configure(state='normal')
+        directory_value.delete('1.0', END)
+        directory_value.insert(END, target_path_1)
+        directory_value.configure(state='disabled')
+        runs_per_network_l.grid()
+        runs_per_network.grid()
+        runs_per_network.set("1")
     elif hidden_level_value == "ExampleLevel1\n" and education_mode == True:
         fitness_criterion.set("max")
         fitness_threshold.set("500")
@@ -1260,7 +1274,7 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
                     'Neural Network', 'Components of a neural network', 'Learning Types',
                     "How do the neural network learn?","Reinforcement Learning L1",
                     "Reinforcement Learning L2","Reinforcement Learning L3",'NEAT Config File', 'Load Winner/Checkpoints E1',
-                    'Load Winner/Checkpoints E2','Run NEAT E1')
+                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent")
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
                                 name="activation_options", exportselection=0)

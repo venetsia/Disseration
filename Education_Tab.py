@@ -45,6 +45,7 @@ How_Lean_NN = False
 ReinforcementL1 = False
 ReinforcementL2 = False
 ReinforcementL3 = False
+Feedforward_vs_Recurrent_tab = False
 
 class Education_tab(object):
 
@@ -139,12 +140,11 @@ class Education_tab(object):
             # Load Sticky Note
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
-                                   "Okey now that we know how can we run NEAT, we will see an example of the previous NEAT configurations we have chosen."
-                                   "\nWe have to choose the game we the winner is trained on."
+                                   "Okey now that we know the crucial config values for NEAT, we will see an example of the previous NEAT configurations we have chosen."
+                                   "\nWe have to choose the game the winner is trained on."
                                    "\nWe also need to specify the name of the winner file"
                                    "\nNumber of episodes per genomes means how many times/episodes do we want to test our winner on."
-                                   "\nWe can also view the checkpoints that our algorithm has made. We can change the directory so the software can detect in different directory for checkpoints."
-                                   "\n(they have to be marked as 'neat-checkpoint' in order for the software to detect it.)"
+                                   "\nWe can also view the checkpoints that our algorithm has made. Try browsing to CartPoleExample folder."
                                    "\nWe will look into the network type later but we should choose the same one we have trained it on."
                                    "\nThe config file can be either saved from editor or chosen from directory"
                                    "\nWhen you are ready you can click 'Load Genomes and winner' and you will observe the checkpoints. They load howeever many genomes (population) the generation has. "
@@ -157,7 +157,9 @@ class Education_tab(object):
 
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,"Lets see another game example. The game we will see is Lunar Lander and we have 8 inputs and 4 outputs.\n"
-                                       "Here it took a little longer for NEAT to figure out how to reach the threshold (goal) so we will see checkpoints 10 generations apart and then we will see the winner.")
+                                       "Here it took a little longer for NEAT to figure out how to reach the threshold (goal) so we will see checkpoints 10 generations apart and then we will see the winner."
+                                       "\nWhen running checkpoints it will run either how many genomes you have specified or if there are less than that it will run however many genomes per generation are.\n"
+                                       "(Bear in mind that a generation may have 100 genomes per generation so the we will only show these that have made some progress (N-number of genomes)")
         elif hidden_level_value == "RunNEATExample\n":
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
@@ -167,15 +169,15 @@ class Education_tab(object):
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
                                    "Now that we have seen what the NEAT algorithm actually does we can now train an agent.\n"
-                                   "On this tab you are able to specify which game would you like to train the agent on - for this example we will move onto more complcated games (the Atari games, specifically Breakout-v0).\n"
+                                   "On this tab we can train our own winner so we will start with CartPole example.\n"
+                                   "Runs per network - If you choose 2 for example each genome (agent) being trained will have 2 tries on the game. (if 0 is selected it will just run once)\n"
                                    "The evaluation will be single-processing which means it will run on one core (one agent at a time).\n"
-                                   "You can see that there are some red fields and one of them is Winner file name is also in red: Please name your file for the winner.\n"
-                                   "Save Checkpoints' is not in red because you can leave empty but if you would like any checkpoints saved. If you select a number bigger than 0 it will save the 0 generation always. Let's say you have inputed 5, it will save every 5 generations. We earlier saw that we can load checkpoints and view them. You can leave it empty."
-                                   "The network type will stay FeedForward. - we will se later what it means and what is the other option."
-                                   "\nRender Window is also in red so please choose if you would like to view the agent while it is being trained."
-                                   "\nThe configuration file is selected but if you would like to include another file you can do so from selecting the dropdown. The config file can be edited or made entirely in app. If you do not know how many inputs and outputs the game needs you can choose 'Check config file for input/output' and it will show you on the 'Enter Command' what modifications will happen in config."
-                                   "\nOn the last text field you will be able to view generations, the genomes within them, their fitness, etc."
-                                   "\nOnce you select a field on the screen 'Run Per Network' will appear. If you choose 2 for example each genome (agent) being trained will have 2 tries on the game. (if 0 is selected it will just run once)")
+                                   "Please name your file for the winner.\n"
+                                   "Save Checkpoints - If you select a number bigger than 0 it will save the 0 generation always. Let's say you have inputed 5, it will save every 5 generations. We earlier saw that we can load checkpoints and view them. You can leave it empty."
+                                   "\nThe network type will stay FeedForward. - we will see what it is on the next lesson."
+                                   "\nRender Window - whether you would like to see the game rendered while agent is learning"
+                                   "\nOn the last text field you will be able to view generations, the genomes within them, their fitness, etc.")
+
     def load_content(self,education_option_selected,educatuin_tab, hidden_level_text):
         selected_indices = education_option_selected.curselection()
         value = education_option_selected.get(selected_indices[0])
@@ -194,6 +196,7 @@ class Education_tab(object):
         global LoadWinner
         global LoadWinner2
         global Run_Neat_choice
+        global Feedforward_vs_Recurrent_tab
 
         global how_learn_nn_label
         global label1
@@ -1123,7 +1126,64 @@ class Education_tab(object):
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
-
+        elif value == "Feed-Forward vs Recurrent":
+            if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
+                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True and Run_Neat_choice == True:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                Feedforward_vs_Recurrent_tab = True
+                how_learn_nn_label = tk.Label(educatuin_tab, image=ProcessImages.feedforward_vs_recurrent_pic)
+                how_learn_nn_label.image = ProcessImages.feedforward_vs_recurrent_pic
+                how_learn_nn_label.grid(row=1, column=0)
+                how_learn_nn_label.config(fg="grey75", bg="grey75")
+            else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab, text="Please refer to Run NEAT E1 lesson first",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
 def Activate_Content(education_option_selected, educatuin_tab, hidden_level_text):
     toolTip = Education_tab(education_option_selected)
     widget_name = education_option_selected._name
