@@ -50,8 +50,105 @@ So for example if you would like to run one of the optons circled in red you nee
 
 ![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/NEAT_Examples_Education.png)
 
+## NEAT Editor 
+
+(**If text fields in form are empty and you Config File has some value - clicking on "Update Config" will not remove your value**)
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Neat_normal_mode.PNG)
+
+In the Editor you would be able to open or create a new config file using the software. 
+
+Using the buttons below you will be able to either open an existing file, configure a new one clean or with default values and edit them and then save changes.
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/ButtonsforEditor.PNG)
+
+The form you can see on the left includes all the values of NEAT Config file that can be added onto the Config form. 
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/NeATEDITORCONFIGFORM.PNG)
+
+Via this form you will be able to insert the value you wish to add into the config file. It is easy to use because when you move your cursor mouse on the parameter you can see what it actually is and decide what value you want. (**See NEAT Config for more information**)
+
+### Open an existing config file
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/OpenBTN.PNG)
+
+When you click this button you will be able to open an existing config file and you can edit whichever values you want in the form.
+
+**When you open an existing file it will group the parametrs in groups if they are not - for example parameters that have to be under `[NEAT]`, `[DefaultStagination]`, `# Activation Options`, `# Network parameters`, etc. - so it is easier for you to find them and for the software to know where to insert the value if it is missing from form**
+
+### Config Layout
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/ConfigLayoutBTN.PNG) 
+
+Using this button you will get a clean (empty) NEAT Config file - the parameters without the values and you can use the form to include add values to any of the parameters you want.
+
+The text you will get is:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/ConfigLayoutText.PNG)
+
+**Notice that there is some text in "[]" or starting with # - the software uses these to recognise where the parameters need to go as they are grouped together for an easy to use and understand interface.**
+
+### Default Config
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/DefaultConfigBTN.PNG) 
+
+1. Using this button you will get the NEAT Config text with default values (if the parameter has a default value).
+The default values for the parameters have been taken from the official Python NEAT guidence page - **https://neat-python.readthedocs.io/en/latest/config_file.html**
+
+Example:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/DefaultConfigText.PNG)
+
+### Update Config
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/UpdateConfigBTN.PNG) 
+
+When you input the values you would like for the parameters you can click "Update Config" and it will insert these values for the parameters.
+
+#### Example before clicking the button with no text in form: (**If text fields in form are empty and you Config File has some value - clicking on "Update Config" will not remove your value**)
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/BeforeClickingUpdateConfigButton.PNG)
+
+#### Example before clicking button with text in form:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/BeforeClickingUpdateConfigButtonWithValue.PNG)
+
+#### Example after clicking button with text in form:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/AfterClickingUpdateConfigButton.PNG)
+
+2. Insert parameter into Config file if it is missing from Config file and you have added a value in form **(one with value, one without)**
+
+#### Example before clicking Update Config with missing parameters (one with value, one without)
+
+**It will add the parameter only if the parameter has a value within form**
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/MissingValuesBeforeClickingUpdateConfig.PNG)
+
+#### Example after clicking Update Config with missing parameters (one with value, one without)
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/MissingValuesAfterClickingUpdateConfig.PNG)
+
+3. Insert parameter into Config file if it is missing from Config file and you have added a value in form **(both with value)**
+
+####  Example before clicking Update Config with missing parameters (both with value)
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/MissingValuesBeforeClickingUpdateConfigBothWithValues.PNG)
+
+####  Example after clicking Update Config with missing parameters (both with value)
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/MissingValuesAfterClickingUpdateConfigBothWithValues.PNG)
+
+### Save As
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/SaveASBTN.PNG)
+
+Once you have done the changes you want for the Config file you can easily save the file with the button "Save As" in a directory of your choice.
+
 ## NEAT Config 
 ![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Neat_normal_mode.PNG)
+
+(**If text fields in form are empty and you Config File has some value - clicking on "Update Config" will not remove your value**)
 
 In this tab you will have the freedom to edit the configuration file of NEAT. 
 For more details of the NEAT Config file you can see the oficial guidence: https://neat-python.readthedocs.io/en/latest/config_file.html
@@ -177,6 +274,10 @@ You have two options here:
 * Feedforward network
 * Recurrent network
 
+More information on what these are:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/feed-forwardVSrecurrent.PNG)
+
 **Important Note** If Recurrent has been selected here and your Config file has feed_forward = True, the parameter from the config file will be ignored and the network will be recurrent.
 
 If this "Feedforward?" is set to True:
@@ -276,6 +377,21 @@ Here I have preloaded the file in the Editor window so you can clearly see that 
 ##### This option "Terminate after num of generations" will not appear if "no_fitness_termination = False"
 ##### If "Terminate after num of generations" is left blank and we have 'no_fitness_termination = True" the software will set "Terminate after num of generations: 1" so it will terminate the algorithm after 1 generation.
 
+#### Log file - keep track of what settings you have chosen when you train a neural network
+Later on when you would like to view your winner and checkpoints you may not remember what you have chosen. That is why the software creates a logfile and inserts whatever you run into it so you can recall later on.
+
+**If you do not remember a logfile has been generated for you so you can see what you have run**
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/logfile.PNG)
+
+You can easily see what you have run with what names and where the config file is located.
+
+#### 12. Run Neat Example
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/RunNEATFOrmFilledOut_With_Render.PNG)
+
+![a;t text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/RunNEATFOrmFilledOut_With_RenderExample.PNG)
+
 ### Load Winner
 
 
@@ -303,4 +419,121 @@ You can specify winner file name either:
 
 Why would I need to use "Select File"? - When NEAT creates the checkpoints and winner file it saves them in the same directory where the content root is (where the application is being executed from) **but each time you run the algorithm if you specify the same name for the winner it will overwrite the file, the same goes with Neat Checkpoints as they are marked neat-checkpoint-[number], next time you run the same ammount of checkpoints (if reached) - they will be overwritten. So that is why you need to make sure you move the files you want to keep in a different directory so you can load them later.** . If you for example train a winner and go to the Load Winner Tab to load it immediately, the information will be copied over the tabs.
 
+#### 3. Number of ep. per genome:
 
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Number_of_ep_per_genome.PNG)
+
+With this option when you run to see the Winner genome and checkpoints it will run each genomes N number of times.
+For example if you input 2 episodes per genome, the winner genome and genomes within checkpoints will run 2 times.
+
+#### 4. Checkpoint(s) Directory 
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Checkpoints_Winner.PNG)
+
+This option is not mandatory as you can only Load the winner genome so if you wish to not see any checkpoints you can skip it.
+
+Process on getting the checkpoints:
+1. Click on Browse Folder and you should see:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Checkpoints_Directory_Locator.PNG)
+
+* Eventhoug you do not see anything in the directory, if you have saved them in the folder when you click "Select Folder" it will search for any files named: `neat-checkpoint-` and it will show:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Checkpoints_Directory_Selected.PNG) 
+
+You can delete any of the checkpoints you do not want to see (**You have to delete the whole line starting with `~`. Example in my case if I do not want to see neat-checkpoint-0 I simply have to delete:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/neat-Checkpoint-0-directory.PNG)
+
+So you will simply get this after deleting the line:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/neat-Checkpoint-0-directory-Deleted.PNG)
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/deleted-neat-checkpoint-0.PNG)
+
+2. Num of Checkpoints (**hidden feature only enabled if you would like to view checkpoints**)
+Because the checkpoints are originally used to restore the training from a certain generation, a modification has been made so you can choose to view N number of genomes in that generation and not view the whole generation (for example if you started with 100 population on generation 0, running generation 0 would run 100 genomes per N episoder). 
+Modification includes ommitting the genomes with fitness of None and when you select N number of genomes in checkpoint it will get the N number of genomes with the highest fitness in that generation (checkpoint).
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Num_genomes_in_checkpoint.PNG)
+
+#### 5. Num of Checkpoints (**hidden feature only enabled if you would like to view checkpoints**)
+Because the checkpoints are originally used to restore the training from a certain generation, a modification has been made so you can choose to view N number of genomes in that generation and not view the whole generation (for example if you started with 100 population on generation 0, running generation 0 would run 100 genomes per N episoder). 
+Modification includes ommitting the genomes with fitness of None and when you select N number of genomes in checkpoint it will get the N number of genomes with the highest fitness in that generation (checkpoint).
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Num_genomes_in_checkpoint.PNG)
+
+#### 6. Network Type
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/network_type_winner.PNG)
+
+You have two options here:
+* Feedforward network
+* Recurrent network
+
+More information on what these are:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/feed-forwardVSrecurrent.PNG)
+
+You would need to choose the same network you have trained it on. 
+
+**If you do not remember a logfile has been generated for you so you can see what you have run**
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/logfile.PNG)
+
+You can easily see what you have run with what names  and where the config file is located.
+
+#### 7. Config File
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Config_File_Winner.PNG)
+
+Options:
+* Automatic - if you have just run or filled out NEAT Set up to train your neural network it will automatically copy those details here
+* From Text Editor - this will enable you to save the current config you have edit (**but bear in mind that results can be inpredictable if you run with different config file for loading the genomes)
+* Choose file from directory - choose a Config file from directory
+
+Once filled out you will see the directory you have chosen in the "Directory" text field (non-editable):
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/Config_File_WinnerFilled.PNG)
+
+#### 8. Load Genomes and Winner
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/LoadGenomesAndWinner.PNG)
+
+Once you have filled out the form you can click the button and it will load the checkpoints and winner
+
+**You will see a rendered window of the game**
+
+1. You will see the which checkpoint is being shown and when are you viewing the winner from: "## Load checkpoints/ winner ##"
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/LoadCheckpoints%20and%20WinnerTextField.PNG)
+
+2. Example of a filled out form
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/ExampleFilledoutFormForLoadWinner.PNG)
+
+3. Example when "Load Genomes and winner" button is clicked
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/LoadWinnerExample.png)
+
+**You can load the example as well: all files are in folder CartPoleExample**
+
+## Dark Mode/ Ligh Mode
+
+If you would to use Dark mode of the application you can click on:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/off.png)
+
+In order to switch back to light mode click on:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/on.png)
+
+## Normal Mode/ Education Mode
+
+If you would like to use Educatio mode click on:
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/education_mode_icon.png)
+
+If you would like to switch to Normal Mode click on:
+
+!alt text](https://github.com/venetsia/Disseration/blob/master/normal_mode_pic.png)
