@@ -453,11 +453,7 @@ def items_selected(event):
             title='Information',
             message=msg)
         return selected_langs_aggregation
-    if Education_Tab.Introduction_tab == True:
-        progress_Bar_Education['value'] = 14
-        #ttk.update_idletasks()
-    if Education_Tab.Artificial_intelligence_tab == True:
-        progress_Bar_Education['value'] = 28
+
         #ttk.update_idletasks()
 
 # Add Default assigned value to editor (Information gained from NEAT Python website)
@@ -860,6 +856,8 @@ def switch_modes():
         frame_Education.grid_remove()
         education_L.grid_remove()
         Education_listbox.grid_remove()
+        save_progress_btn.grid_remove()
+        reset_progress.grid_remove()
         tabControl.tab(tab_education, state="disabled")
 
         for label in labels_list:
@@ -887,8 +885,12 @@ def switch_modes():
         education_L.grid()
         tabControl.tab(tab_education, state="normal")
         Education_listbox.grid()
-        # place the progressbar
-        progress_Bar_Education.grid(row=2, column=0, pady=2, sticky=tk.W)
+        # Run button for Neat using a thread
+        save_progress_btn.grid()
+
+        # Run button for Neat using a thread
+        reset_progress.grid()
+
         root.mainloop()
 def getFolderPath():
     try:
@@ -925,12 +927,13 @@ def switch():
         # is_on = True
         # Labels
         # Color LightMode program
+        # Color LightMode program
         for label in labels_list:  # Loop though Labels
             exec(label + '.config(fg = "gray1", bg = "grey75")')
         for label_o in other_tabs_labels:  # Loop though Labels
             exec(label_o + '.config(fg = "gray1", bg = "grey75")')
         for button in buttons_list:
-            exec(button + ".configure(bg = '#e5233f', fg= 'gray99')")
+            exec(button + ".configure(bg = '#32285b', fg= 'gray99')")
 
         config_file_check.configure(activebackground="grey75")
         txt_edit.config(bg="light grey", fg="gray1")
@@ -945,18 +948,16 @@ def switch():
         fr_buttons.configure(bg="#d9001f")
         on_button.configure(bg="#d9001f", activebackground='#d9001f')
         education_mode_normal_mode.configure(bg="#d9001f", activebackground='#d9001f')
-        #root.config(bg='#d9001f')
-        root.config(bg='#e5233f')
+        root.config(bg='#d9001f')
         # Tab Style
         style.theme_use('default')
         style.configure('TNotebook.Tab', background="#5d797e")
-        #style.configure('TNotebook.Tab', background="#gray45")
         style.configure("TNotebook", background="#333333", borderwidth=0)
         # style.configure("TNotebook.Tab", background="green", foreground=COLOR_3,, borderwidth=2)
         # Style of form (background), no foreground
         style.configure("TFrame", background="grey75", borderwidth=5)
-        style.configure("TCombobox", fieldbackground="#e5e5e5", background="#e5233f", foreground="gray1")
-        style.configure("TSpinbox", fieldbackground="#e5e5e5", background="#e5233f", foreground="gray1")
+        style.configure("TCombobox", fieldbackground="#e5e5e5", background="#d9001f", foreground="gray1")
+        style.configure("TSpinbox", fieldbackground="#e5e5e5", background="#d9001f", foreground="gray1")
         style.configure("TCheckbutton", fieldbackground="#dcdcdc", bg="#dcdcdc",
                         foreground="gray1")
         # this changes the background colour of the 2nd item
@@ -1119,8 +1120,51 @@ def onModification(event):
                                 command=lambda: next_button_action(hidden_level_value),
                                 justify=tk.LEFT, anchor="w")
         next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+    elif hidden_level_value == "NoFitnessTerminationExample\n" and education_mode == True:
+        for label in labels_list:
+            exec(label + '.grid_remove()')
+        for form_value in form_values_list:
+            exec(form_value + '.grid_remove()')
+        activation_listbox.grid_remove()
+        listbox_aggregation_options.grid_remove()
 
-
+        neat_section_L.grid()
+        fitness_criterion_l.grid()
+        fitness_criterion.grid()
+        fitness_threshold_l.grid()
+        fitness_threshold.grid()
+        pop_size_l.grid()
+        pop_size.grid()
+        genome_Section_l.grid()
+        network_Parameters_l.grid()
+        num_inputs_l.grid()
+        num_inputs.grid()
+        num_outputs_l.grid()
+        num_outputs.grid()
+        game_selection_config_l.grid()
+        game_selection_config.grid()
+        no_fitness_termination_l.grid()
+        no_fitness_termination.grid()
+        no_fitness_termination.set("True")
+        # Set Focus on tab Neat Config
+        tabControl.select(tab1)
+        num_generations_l.grid()
+        num_generations.grid()
+        game_selection.set("CartPole-v1")
+        game_evaluation.set("Single-Processing")
+        directory_value.configure(state='normal')
+        directory_value.delete('1.0', END)
+        target_path_1 = current_directory + "/No_Fitness_Termination_Example/configFeedForwardLunarLander_NoFitnessTerm.txt"
+        directory_value.insert(END, target_path_1)
+        directory_value.configure(state='disabled')
+        network_type.set("Feed-forward")
+        winner_file_name_l.config(fg="red")
+        render_window_l.config(fg="black")
+        render_window.set("False")
+        next_button = tk.Button(tab1, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
 def next_button_action(hidden_level_value):
 
     current_directory = os.path.abspath(os.getcwd())
@@ -1248,7 +1292,63 @@ def next_button_action(hidden_level_value):
         network_type.set("Feed-forward")
         winner_file_name_l.config(fg="red")
         render_window_l.config(fg="red")
+    elif hidden_level_value == "NoFitnessTerminationExample\n" and education_mode == True:
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+        except:
+            pass
+        # Set Focus on tab Education
+        tabControl.select(tab2)
+        num_generations_l.grid()
+        num_generations.grid()
+        game_selection.set("LunarLander-v2")
+        game_evaluation.set("Single-Processing")
+        directory_value.delete('1.0', END)
+        network_type.set("Feed-forward")
+        winner_file_name_l.config(fg="red")
+        render_window_l.config(fg="black")
+        render_window.set("False")
+        sticky = StickyNote.StickyNotes(tab2)
+        sticky.mainarea.insert(1.0,
+                               "Because we have set no_fitness_termination = True in config file, when you load the config file it scans for this"
+                               "parameter and value and gives you the option to choose how many generations would you like to train."
+                               "To do:\n"
+                               "- Choose after how many generations you would like the algorithm to stop.\n"
+                               "(Terminate after num of generations:)")
+def setup_logger(name, log_file, level=logging.INFO):
+    """To setup as many loggers as you want"""
 
+    handler = logging.FileHandler(log_file)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.addHandler(handler)
+
+    return logger
+def save_progress():
+    open("progress_logfile.log", 'w').close()
+    logger = setup_logger('progress_logger', 'progress_logfile.log')
+    logger.info(f'Introduction_tab: {Education_Tab.Introduction_tab}')
+    logger.info(f'Artificial_intelligence_tab: {Education_Tab.Artificial_intelligence_tab}')
+    logger.info(f'AI_Categories_tab: {Education_Tab.AI_Categories_tab}')
+    logger.info(f'AI_Categories_tab_2: {Education_Tab.AI_Categories_tab_2}')
+    logger.info(f'Intelligent_Agents_tab: {Education_Tab.Intelligent_Agents_tab}')
+    logger.info(f'Neuron_tab: {Education_Tab.Neuron_tab}')
+    logger.info(f'Perceptron_tab: {Education_Tab.Perceptron_tab}')
+    logger.info(f'Components_of_NN: {Education_Tab.Components_of_NN}')
+    logger.info(f'Learning_Types: {Education_Tab.Learning_Types}')
+    logger.info(f'Neat_config_choice: {Education_Tab.Neat_config_choice}')
+    logger.info(f'LoadWinner: {Education_Tab.LoadWinner}')
+    logger.info(f'LoadWinner2: {Education_Tab.LoadWinner2}')
+    logger.info(f'Run_Neat_choice: {Education_Tab.Run_Neat_choice}')
+    logger.info(f'How_Lean_NN: {Education_Tab.How_Lean_NN}')
+    logger.info(f'ReinforcementL1: {Education_Tab.ReinforcementL1}')
+    logger.info(f'ReinforcementL2: {Education_Tab.ReinforcementL2}')
+    logger.info(f'ReinforcementL3: {Education_Tab.ReinforcementL3}')
+    logger.info(f'Feedforward_vs_Recurrent_tab: {Education_Tab.Feedforward_vs_Recurrent_tab}')
+def reset_progress():
+    open("progress_logfile.log", 'w').close()
 # def update_progress_label():
 #     return f"Current Progress: {progress_Bar_Education['value']}%"
 
@@ -1276,7 +1376,7 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
                     'Neural Network', 'Components of a neural network', 'Learning Types',
                     "How do the neural network learn?","Reinforcement Learning L1",
                     "Reinforcement Learning L2","Reinforcement Learning L3",'NEAT Config File', 'Load Winner/Checkpoints E1',
-                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent")
+                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination")
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
                                 name="activation_options", exportselection=0)
@@ -1344,7 +1444,7 @@ fitness_threshold.config(validate="key", validatecommand=(
 ValidateInput.ValidateInput(fitness_threshold, fitness_threshold, fitness_threshold_l, style), "%P"))
 
 # No fitness Termination
-no_fitness_termination_l = tk.Label(tab1, text="No Termination?", justify=LEFT, anchor="w")
+no_fitness_termination_l = tk.Label(tab1, text="No Fit Termination?", justify=LEFT, anchor="w")
 no_fitness_termination_l.grid(row=4, column=0, ipadx=36)
 CreateHelpMessage.CreateToolTip(no_fitness_termination_l,
                                 text='no_fitness_termination\nIf this evaluates to True, then the fitness_criterion and fitness_threshold are ignored for termination; only valid if termination by a maximum number of generations passed to population.Population.run() is enabled,\n and the found_solution method is called upon generation number termination. If it evaluates to False, then fitness is used to determine termination. This defaults to “False”.')
@@ -2389,7 +2489,7 @@ choose_config_file.grid(row=7, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=Get_Directory_For_Neat.run_NEAT_get_input(choose_config_file, directory_value, txt_edit, num_generations, num_generations_l))
 
 # Output console
-Output_Console = tk.Text(tab2, name="output_console", height = 30, width =80)
+Output_Console = tk.Text(tab2, name="output_console", height = 30, width = 80)
 Output_Console.grid(row=13, column=0, sticky=tk.W, rowspan =4, columnspan=4, pady = 5)
 Output_Console.bind('<Key>',lambda e: 'break')
 Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ##")
@@ -2398,7 +2498,6 @@ var1 = tk.IntVar()
 var2 = tk.IntVar()
 config_file_check = tk.Checkbutton(tab2, text='Check config file for input/output',variable=var1, onvalue=1, offvalue=0, command=print_selection)
 config_file_check.grid(row =10, column =1,sticky=tk.W, padx=5, pady=5)
-
 
 # Run button for Neat using a thread
 btn_run_neat = tk.Button(tab2, text="Run NEAT", command= lambda : submit_to_thread_pool_run_neat(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations, choose_config_file), justify=LEFT, anchor="w")
@@ -2568,8 +2667,16 @@ if response_from_message_box == 6: #yes
         mode='determinate',
         length=280
     )
-    # place the progressbar
-    progress_Bar_Education.grid(row=2, column=0, pady=2, sticky=tk.W)
+    # Run button for Neat using a thread
+    save_progress_btn = tk.Button(frame_Education, text="Save Progress",
+                             command=save_progress,
+                             justify=tk.LEFT, anchor="w")
+    save_progress_btn.grid(row=2, column=0, sticky=tk.W, padx=5, pady=5)
+    # Run button for Neat using a thread
+    reset_progress= tk.Button(frame_Education, text="Reset Progress",
+                                  command=reset_progress,
+                                  justify=tk.LEFT, anchor="w")
+    reset_progress.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
     root.mainloop()
 
     pyglet.app.run()

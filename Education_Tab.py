@@ -27,6 +27,8 @@ how_learn_nn_label =""
 reference_from_source = ""
 sticky = ""
 
+Performed_Progress_Check = False
+
 
 Introduction_tab = False
 Artificial_intelligence_tab = False
@@ -46,6 +48,8 @@ ReinforcementL1 = False
 ReinforcementL2 = False
 ReinforcementL3 = False
 Feedforward_vs_Recurrent_tab = False
+
+education_values = ["Introduction_tab","Artificial_intelligence_tab","AI_Categories_tab","AI_Categories_tab_2","Intelligent_Agents_tab", "Neuron_tab","Perceptron_tab","Components_of_NN" ,"Learning_Types","Neat_config_choice","LoadWinner","LoadWinner2","Run_Neat_choice" ,"How_Lean_NN" ,"ReinforcementL1","ReinforcementL2" ,"ReinforcementL3" ,"Feedforward_vs_Recurrent_tab"]
 
 class Education_tab(object):
 
@@ -121,13 +125,10 @@ class Education_tab(object):
                                "\n-fitness_threshold - how fit we want the agent to become"
                                "\n-pop_size - how many genomes do we want to start with"
                                "\nGenome Section:"
-                               "\n-num_inputs - what can the agent see "
-                               "\n-num_outputs - actions agent can perform"
-                                        "\nThe values are filled out automatically so you can see."
-                                        "\nSo the game is CartPole.\nIt has 4 valid observations for input."
-                                        "\nFor output we have 2 valid actions (0 or 1) - move left or right"
-                                        "\nBecause of fitness_criterion being max we will look for the best genome."
-                                        "\nOur agent will stop learning when a genome reaches a score of 500")
+                               "\n(for CartPole game)"
+                               "\n- num_inputs - what can the agent see (4 valid observations for input) "
+                               "\n- num_outputs - actions agent can perform (2 valid actions (0 or 1) - move left or right)"
+                               "\nOur agent will stop learning when a genome reaches a score of 500 (the fitness_threshold)")
 
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
@@ -140,15 +141,14 @@ class Education_tab(object):
             # Load Sticky Note
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
-                                   "Okey now that we know the crucial config values for NEAT, we will see an example of the previous NEAT configurations we have chosen."
+                                   "Now we will see an an trained neural network to play the CartPole example."
                                    "\nWe have to choose the game the winner is trained on."
                                    "\nWe also need to specify the name of the winner file"
                                    "\nNumber of episodes per genomes means how many times/episodes do we want to test our winner on."
-                                   "\nWe can also view the checkpoints that our algorithm has made. Try browsing to CartPoleExample folder."
                                    "\nWe will look into the network type later but we should choose the same one we have trained it on."
-                                   "\nThe config file can be either saved from editor or chosen from directory"
-                                   "\nWhen you are ready you can click 'Load Genomes and winner' and you will observe the checkpoints. They load howeever many genomes (population) the generation has. "
-                                   "\nYou can see which one is loaded from the below text field.")
+                                   "\nWe should choose the same config that we trained the neural network on"
+                                   "\nWhen you are ready click on \"Load Genomes and winner\" & we will see the winner genome that reached 500 score."
+                                   "\nObserve the text field on the bottom that it shows what it has loaded.")
         elif hidden_level_value == "LoadWinnerExample2\n":
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
@@ -156,28 +156,42 @@ class Education_tab(object):
             print(hidden_level_text.get(1.0, tk.END))
 
             sticky = StickyNote.StickyNotes(educatuin_tab)
-            sticky.mainarea.insert(1.0,"Lets see another game example. The game we will see is Lunar Lander and we have 8 inputs and 4 outputs.\n"
-                                       "Here it took a little longer for NEAT to figure out how to reach the threshold (goal) so we will see checkpoints 10 generations apart and then we will see the winner."
-                                       "\nWhen running checkpoints it will run either how many genomes you have specified or if there are less than that it will run however many genomes per generation are.\n"
-                                       "(Bear in mind that a generation may have 100 genomes per generation so the we will only show these that have made some progress (N-number of genomes)")
+            sticky.mainarea.insert(1.0,"Lets see another game example.\n The game we will see is Lunar Lander and we have 8 inputs and 4 outputs.\n"
+                                       "Here it took a little longer for NEAT to figure out how to reach the threshold (goal).\n"
+                                       "We have checkpoints 10 generations apart that we can see.\n"
+                                       "To Do:\n"
+                                       " - Browse to \"LunarLanderExample\" folder."
+                                       "\n(The folder may appear empty but click on \"Select Folder\" and you will see it automatically detects the files.)"
+                                       "\n - Chose how many genomes you would like to see from that generation (it will get the N genomes with highest fintess)\n"
+                                       "- Click on : \"Load Genomes and Winner\"\n"
+                                       "(You will first see the N genomes from checkpoints and then the winner.)")
         elif hidden_level_value == "RunNEATExample\n":
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
             hidden_level_text.insert(tk.END, "RunNeatExampleCartPole")
             print(hidden_level_text.get(1.0, tk.END))
-
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
-                                   "Now that we have seen what the NEAT algorithm actually does we can now train an agent.\n"
                                    "On this tab we can train our own winner so we will start with CartPole example.\n"
-                                   "Runs per network - If you choose 2 for example each genome (agent) being trained will have 2 tries on the game. (if 0 is selected it will just run once)\n"
+                                   "Runs per network - Each genomes plays the game for N number of times.\n"
                                    "The evaluation will be single-processing which means it will run on one core (one agent at a time).\n"
-                                   "Please name your file for the winner.\n"
-                                   "Save Checkpoints - If you select a number bigger than 0 it will save the 0 generation always. Let's say you have inputed 5, it will save every 5 generations. We earlier saw that we can load checkpoints and view them. You can leave it empty."
                                    "\nThe network type will stay FeedForward. - we will see what it is on the next lesson."
-                                   "\nRender Window - whether you would like to see the game rendered while agent is learning"
-                                   "\nOn the last text field you will be able to view generations, the genomes within them, their fitness, etc.")
-
+                                    "\nIn the most bottom text field you will be able to see the progress of the training."
+                                   "To Do:\n"
+                                   "- Please name your file for the winner.\n"
+                                   " * Save Checkpoints - This can be left empty but if you would like to save progress specify after how many generations."
+                                   "\n- Render Window - choose True if you want to view the neural network attempt to reach threshold."
+                                   "\n* if you would like to increase the \"Runs per network\" you deffinitely can change it.")
+        elif hidden_level_value == "RunNeatExampleCartPole\n":
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "NoFitnessTerminationExample")
+            print(hidden_level_text.get(1.0, tk.END))
+            # Close Sticky Note
+            sticky = StickyNote.StickyNotes(educatuin_tab)
+            sticky.mainarea.insert(1.0,
+                                   "Now because training your neural network may take a while you can actually choose to train your neural network for N number of generations.\n"
+                                   "In the configuration file \"No Fitness Termination?\" (no_fitness_termination) should be set to True.\n")
     def load_content(self,education_option_selected,educatuin_tab, hidden_level_text):
         selected_indices = education_option_selected.curselection()
         value = education_option_selected.get(selected_indices[0])
@@ -210,6 +224,15 @@ class Education_tab(object):
         global perceptron_image
         global perceptron_label
         global check_answer
+        if Performed_Progress_Check == False:
+            with open("progress_logfile".log, "r") as input_file:
+                text = input_file.read()  # Read file
+                for education_value in education_values:
+                    for line in text.split("\n"):
+                        if education_value in line:
+                            value = education_value.split(": ", 1)[1]
+                            if value is True:
+                                eval(str(education_value) + " = True")
         if value == "Artificial Intelligence":
             Artificial_intelligence_tab = True
             if label2 != "":
@@ -1213,6 +1236,40 @@ class Education_tab(object):
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
+        elif value == "No Fitness Termination":
+            if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
+                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                try:
+                    StickyNote.StickyNotes.quit_window_all(sticky)
+                except:
+                    pass
+                check_answer = tk.Button(educatuin_tab, text="Start",
+                                         command=lambda: self.automate(hidden_level_text, educatuin_tab),
+                                         justify=tk.LEFT, anchor="w")
+                check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
 def Activate_Content(education_option_selected, educatuin_tab, hidden_level_text):
     toolTip = Education_tab(education_option_selected)
     widget_name = education_option_selected._name

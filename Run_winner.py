@@ -170,45 +170,47 @@ def replay_function(genomes, config):
             print("Error message")
 
 def replay_genome_2DBox(genome, config,number_left):
-    net = neat.nn.FeedForwardNetwork.create(genome, config)
+    try:
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
 
-    fitnesses = []
+        fitnesses = []
 
-    for ep in range(int(GENERATION_EP)):
-        # env = gym.make("LunarLander-v2")
-        env = gym.make(env_variable)
-        observation = env.reset()
+        for ep in range(int(GENERATION_EP)):
+            # env = gym.make("LunarLander-v2")
+            env = gym.make(env_variable)
+            observation = env.reset()
 
-        fitness = 0.0
-        done = False
+            fitness = 0.0
+            done = False
 
-        while not done:
-            # model Prediction
-            env.render()
-            action = np.argmax(net.activate(observation))
-            observation, reward, done, info = env.step(action)
-            fitness += reward
+            while not done:
+                # model Prediction
+                env.render()
+                action = np.argmax(net.activate(observation))
+                observation, reward, done, info = env.step(action)
+                fitness += reward
+            env.close()
+            if fitness == None:
+                fitness = 0
+            if number_left == 0:
+                try:
+                    genome.fitness = "Exit"
+
+                    return
+                except TypeError:
+                    print("END")
+            fitnesses.append(fitness)
+
+        return np.max(fitnesses)
+    except Exception as e:  # work on python 3.x
         env.close()
-        if fitness == None:
-            fitness = 0
-        if number_left == 0:
-            try:
-                genome.fitness = "Exit"
-
-                return
-            except TypeError:
-                print("END")
-        fitnesses.append(fitness)
-
-    return np.max(fitnesses)
+        print("\nError message: " + str(e))
 
 def find_best_genomes(best_genomes,best_unique):
-    while len(best_genomes) != num_of_genomes:
-        best_genome = max(best_unique, key=lambda genome: float(genome[1].fitness))
-        best_genomes.append(best_genome)
-        best_unique.remove(best_genome)
-        find_best_genomes(best_genomes, best_unique)
-
+    for genome_id, genome in best_unique:
+        best_genomes.append(tuple((genome_id,genome)))
+        if len(best_genomes) == num_of_genomes:
+            break
 
 def replay_genomes_2DBox(genomes, config):
     global best_unique
@@ -216,9 +218,10 @@ def replay_genomes_2DBox(genomes, config):
     for genome_id, genome in genomes:
         if genome.fitness is None:
             genome.fitness = 0
+            best_unique.append(tuple((genome_id, genome)))
         else:
             best_unique.append(tuple((genome_id,genome)))
-    if num_of_genomes == 0 or len(best_unique) <= num_of_genomes:
+    if num_of_genomes == 0 or len(best_unique) < num_of_genomes:
         best_unique.sort(key=lambda genome: float(genome[1].fitness), reverse=True)
         number_left = len(best_unique)
         for genome_id, genome in best_unique:
@@ -228,11 +231,11 @@ def replay_genomes_2DBox(genomes, config):
     else:
         best_genomes =[]
         find_best_genomes(best_genomes, best_unique)
-
         number_left = len(best_genomes)
-        for genome_id, genome in best_unique:
+        for genome_id, genome in best_genomes:
             # for runs in range(runs_per_net):
             number_left = number_left - 1
+            print("Genome: " + str(genome_id))
             genome.fitness = replay_genome_2DBox(genome, config, number_left)
 
     return
@@ -346,6 +349,11 @@ def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_nam
                 print("\nCheckpoint: " + directory_temp)
                 replay_checkpoint(directory_value_winner_string, NEAT_Single_Processing.raw(directory_temp))
         elif len(directory_check) == 1:
+            try:
+                num_of_genomes = int(number_of_genomes.get())
+                num_of_genomes = int(num_of_genomes)
+            except ValueError:
+                num_of_genomes = 0
             print("\nLoading checkpoint")
             directory_temp = directory_check[0].replace("\\", "/")
             print("\nCheckpoint: " + directory_temp)
@@ -356,6 +364,7 @@ def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_nam
         pyglet.app.exit()
     except Exception as e:  # work on python 3.x
         # Empty console that will use for print
+
         Output_Console_winner.delete('1.0', END)
         Output_Console_winner.insert(END, "\nError message: " + str(e))
     return
