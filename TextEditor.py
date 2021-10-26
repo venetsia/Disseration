@@ -493,7 +493,6 @@ def insert(line, value_to_be_added):
 
 # RUN NEAT - pre-processing
 def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, game_checkpoint, network_type, directory_value, render_window, runs_per_network, num_generations, choose_config_file):
-    print(choose_config_file.get())
     # Make sure the algorithm does not start if these are empty (game, evaluation, wiinner file name or directory where config is
     if game_selection.get() == "" or game_evaluation.get() == "" or winner_file_name.compare("end-1c", "==",
                                                                                              "1.0") or directory_value.get(
@@ -570,7 +569,7 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
     if game_checkpoint.get() == "":
         game_checkpoint.set("0")
     if num_generations.get() == "":
-        num_generations.set("0")
+        num_generations.set("1")
 
     # Logging information
     logging.info(f'Time: {strftime("%Y-%m-%d %H:%M:%S", gmtime())}')
