@@ -225,14 +225,14 @@ class Education_tab(object):
         global perceptron_label
         global check_answer
         if Performed_Progress_Check == False:
-            with open("progress_logfile".log, "r") as input_file:
+            with open("progress_logfile.log", "r") as input_file:
                 text = input_file.read()  # Read file
                 for education_value in education_values:
                     for line in text.split("\n"):
                         if education_value in line:
-                            value = education_value.split(": ", 1)[1]
-                            if value is True:
-                                eval(str(education_value) + " = True")
+                            #value = education_value.split(": ", 1)[-1]
+                            if line == education_value + ": True":
+                                exec(str(education_value) + " = True")
         if value == "Artificial Intelligence":
             Artificial_intelligence_tab = True
             if label2 != "":
