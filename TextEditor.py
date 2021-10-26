@@ -889,7 +889,7 @@ def switch_modes():
         save_progress_btn.grid()
 
         # Run button for Neat using a thread
-        reset_progress.grid()
+        reset_progress_btn.grid()
 
         root.mainloop()
 def getFolderPath():
@@ -1313,7 +1313,7 @@ def next_button_action(hidden_level_value):
         sticky.mainarea.insert(1.0,
                                "Because we have set no_fitness_termination = True in config file, when you load the config file it scans for this"
                                "parameter and value and gives you the option to choose how many generations would you like to train."
-                               "To do:\n"
+                               "\nTo do:\n"
                                "- Choose after how many generations you would like the algorithm to stop.\n"
                                "(Terminate after num of generations:)")
 def setup_logger(name, log_file, level=logging.INFO):
@@ -1376,7 +1376,7 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
                     'Neural Network', 'Components of a neural network', 'Learning Types',
                     "How do the neural network learn?","Reinforcement Learning L1",
                     "Reinforcement Learning L2","Reinforcement Learning L3",'NEAT Config File', 'Load Winner/Checkpoints E1',
-                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination")
+                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination", "Atari Example")
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
                                 name="activation_options", exportselection=0)
@@ -1384,6 +1384,19 @@ Education_listbox.grid(row=1, column=0, pady=2, sticky=tk.W)
 education_options_selected = Education_listbox.bind('<Leave>', items_selected)
 Education_listbox.select_set(0)  # This only sets focus on the first item.
 Education_listbox.event_generate("<<ListboxSelect>>")
+
+save_progress_btn = tk.Button(frame_Education, text="Save Progress",
+                         command=save_progress,
+                         justify=tk.LEFT, anchor="w")
+save_progress_btn.grid(row=2, column=0, sticky=tk.W, padx=5, pady=5)
+
+reset_progress_btn= tk.Button(frame_Education, text="Reset Progress",
+                              command=reset_progress,
+                              justify=tk.LEFT, anchor="w")
+reset_progress_btn.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+
+save_progress_btn.grid_remove()
+reset_progress_btn.grid_remove()
 
 tab_View = tk.IntVar()
 tabControl = ttk.Notebook(frame1)
@@ -2667,16 +2680,8 @@ if response_from_message_box == 6: #yes
         mode='determinate',
         length=280
     )
-    # Run button for Neat using a thread
-    save_progress_btn = tk.Button(frame_Education, text="Save Progress",
-                             command=save_progress,
-                             justify=tk.LEFT, anchor="w")
-    save_progress_btn.grid(row=2, column=0, sticky=tk.W, padx=5, pady=5)
-    # Run button for Neat using a thread
-    reset_progress= tk.Button(frame_Education, text="Reset Progress",
-                                  command=reset_progress,
-                                  justify=tk.LEFT, anchor="w")
-    reset_progress.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+    save_progress_btn.grid()
+    reset_progress_btn.grid()
     root.mainloop()
 
     pyglet.app.run()
