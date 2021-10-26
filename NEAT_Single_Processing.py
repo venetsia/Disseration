@@ -221,7 +221,7 @@ def run_Program(Output_Console,game_selection, winner_file_name, game_checkpoint
         # Get winner
         if env_variable in game_list_atari:
             if num_generations != 0:
-                num_generations_value = int(num_generations.get())
+                num_generations_value = int(num_generations)
                 winner = pop.run(eval_genomes, num_generations_value)
             else:
                 winner = pop.run(eval_genomes)

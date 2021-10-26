@@ -568,8 +568,11 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
     # If nothing is chosen, choose 0
     if game_checkpoint.get() == "":
         game_checkpoint.set("0")
-    if num_generations.get() == "":
-        num_generations.set("1")
+    if num_generations.winfo_ismapped() == True:
+        if num_generations.get() == "":
+            num_generations.set("1")
+    else:
+        num_generations.set("0")
 
     # Logging information
     logging.info(f'Time: {strftime("%Y-%m-%d %H:%M:%S", gmtime())}')
