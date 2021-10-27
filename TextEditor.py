@@ -863,7 +863,7 @@ def switch_modes():
         education_L.grid_remove()
         Education_listbox.grid_remove()
         save_progress_btn.grid_remove()
-        reset_progress.grid_remove()
+        reset_progress_btn.grid_remove()
         tabControl.tab(tab_education, state="disabled")
 
         for label in labels_list:
