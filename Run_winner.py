@@ -31,7 +31,13 @@ runs_per_net = 15
 
 EP_STEP = 300           # maximum episode steps
 GENERATION_EP = 1     # evaluate by the minimum of 10-episode rewards
-game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo"]
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0",
+                   'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo",
+                   "Alien-v0", "Pong-v0", "Asterix-v0", "Asteroids-v0", "Amidar-v0",
+                   "Assault-v0", "Atlantis-v0", "BattleZone-v0", "Carnival-v0",
+                   "Centipede-v0", "DemonAttack-v0", "JourneyEscape-v0",
+                   "Phoenix-v0", "Pooyan-v0", "StarGunner-v0",
+                   "TimePilot-v0", "UpNDown-v0"]
 game_list_2D = [ "LunarLander-v2", "CartPole-v1"]
 best_unique = []
 num_of_genomes = 1

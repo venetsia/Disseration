@@ -2,7 +2,15 @@ import re
 import sys
 import gym
 
-games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0",'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1", "Pong-v0"]
+games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0",
+                            "KungFuMaster-v0",
+                            "Pong-v0", "Alien-v0", "Asterix-v0", "Asteroids-v0",
+                            "Amidar-v0", "Assault-v0", "Atlantis-v0", "BattleZone-v0",
+                            "Carnival-v0", "Centipede-v0", "DemonAttack-v0",
+                            "JourneyEscape-v0", "Phoenix-v0",
+                            "Pooyan-v0", "StarGunner-v0",
+                            "TimePilot-v0", "UpNDown-v0"
+                            ]
 game_evaluation_choice = ["Single-Processing", "Multi-Processing"]
 network_type_choice = ["Feed-forward", "Recurrent"]
 render_window_choice = ["True", "False"]

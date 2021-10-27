@@ -48,8 +48,15 @@ ReinforcementL1 = False
 ReinforcementL2 = False
 ReinforcementL3 = False
 Feedforward_vs_Recurrent_tab = False
+No_Fitness_termination_tab = False
+Atari_Example_tab = False
 
-education_values = ["Introduction_tab","Artificial_intelligence_tab","AI_Categories_tab","AI_Categories_tab_2","Intelligent_Agents_tab", "Neuron_tab","Perceptron_tab","Components_of_NN" ,"Learning_Types","Neat_config_choice","LoadWinner","LoadWinner2","Run_Neat_choice" ,"How_Lean_NN" ,"ReinforcementL1","ReinforcementL2" ,"ReinforcementL3" ,"Feedforward_vs_Recurrent_tab"]
+education_values = ["Introduction_tab","Artificial_intelligence_tab","AI_Categories_tab",
+                    "AI_Categories_tab_2","Intelligent_Agents_tab", "Neuron_tab",
+                    "Perceptron_tab","Components_of_NN" ,"Learning_Types","Neat_config_choice",
+                    "LoadWinner","LoadWinner2","Run_Neat_choice" ,"How_Lean_NN" ,"ReinforcementL1",
+                    "ReinforcementL2" ,"ReinforcementL3" ,"Feedforward_vs_Recurrent_tab", "No_Fitness_termination_tab"
+                    "Atari_Example_tab"]
 
 class Education_tab(object):
 
@@ -211,6 +218,8 @@ class Education_tab(object):
         global LoadWinner2
         global Run_Neat_choice
         global Feedforward_vs_Recurrent_tab
+        global No_Fitness_termination_tab
+        global Atari_Example_tab
 
         global how_learn_nn_label
         global label1
@@ -1240,6 +1249,7 @@ class Education_tab(object):
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
                     and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True:
+                No_Fitness_termination_tab = True
                 if label2 != "":
                     self.hide_old_widgets(label2)
                 if chat_bot_dynamic_learn != "":
@@ -1270,6 +1280,105 @@ class Education_tab(object):
                                          command=lambda: self.automate(hidden_level_text, educatuin_tab),
                                          justify=tk.LEFT, anchor="w")
                 check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+            else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab, text="Please refer to Run NEAT E1 lesson first",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
+        elif value == "Atari Example":
+            if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
+                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and \
+                    AI_Categories_tab_2 == True and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True\
+                    and No_Fitness_termination_tab == True:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                Atari_Example_tab = True
+                try:
+                    StickyNote.StickyNotes.quit_window_all(sticky)
+                except:
+                    pass
+                label2 = tk.Label(educatuin_tab, text="The Atari games are simulated though the rcade Learning Environment"
+                                                      " [ALE], which uses the Stella [Stella] Atari emulator. "
+                                                      "You can download the Stella emulator and play the games yourself."
+                                                      "The Atari games are a bit more complicated to play, at least for the computer"
+                                                      "because it has to process the RGB image and regocnise the objects within it.",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
+                check_answer = tk.Button(educatuin_tab, text="Start",
+                                         command=lambda: self.automate(hidden_level_text, educatuin_tab),
+                                         justify=tk.LEFT, anchor="w")
+                check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+            else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab, text="Please refer to Run NEAT E1 lesson first",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
 def Activate_Content(education_option_selected, educatuin_tab, hidden_level_text):
     toolTip = Education_tab(education_option_selected)
     widget_name = education_option_selected._name

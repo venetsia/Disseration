@@ -38,7 +38,13 @@ import gym.envs.atari
 from StickyNote import StickyNotes
 
 game_list_2D = ["LunarLander-v2", "CartPole-v1"]
-game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0"]
+game_list_atari = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0',
+                   'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "Pong-v0",
+                   "Alien-v0", "Asterix-v0", "Asteroids-v0", "Amidar-v0",
+                   "Assault-v0", "Atlantis-v0", "BattleZone-v0", "Carnival-v0",
+                   "Centipede-v0", "DemonAttack-v0", "JourneyEscape-v0",
+                   "Phoenix-v0", "Pooyan-v0", "StarGunner-v0",
+                   "TimePilot-v0", "UpNDown-v0"]
 Start_NEAT_Config = False
 NEAT_Config_Beginner_Level = False
 
@@ -1347,6 +1353,8 @@ def save_progress():
     logger.info(f'ReinforcementL2: {Education_Tab.ReinforcementL2}')
     logger.info(f'ReinforcementL3: {Education_Tab.ReinforcementL3}')
     logger.info(f'Feedforward_vs_Recurrent_tab: {Education_Tab.Feedforward_vs_Recurrent_tab}')
+    logger.info(f'No_Fitness_termination_tab: {Education_Tab.No_Fitness_termination_tab}')
+    logger.info(f'Atari_Example_tab: {Education_Tab.Atari_Example_tab}')
 def reset_progress():
     open("progress_logfile.log", 'w').close()
 # def update_progress_label():
@@ -1682,7 +1690,15 @@ game_selection_config_l = tk.Label(tab1, text="Gym Game: ", justify=LEFT, anchor
 game_selection_config_l.grid(row=0, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_config = ttk.Combobox(tab1, name="game_selection_config", width =20)
-game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1", "Pong-v0")
+game_selection_config['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0",
+                            "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1",
+                            "Pong-v0", "Alien-v0", "Asterix-v0", "Asteroids-v0",
+                            "Amidar-v0", "Assault-v0", "Atlantis-v0", "BattleZone-v0",
+                            "Carnival-v0", "Centipede-v0", "DemonAttack-v0",
+                            "JourneyEscape-v0", "Phoenix-v0",
+                            "Pooyan-v0", "StarGunner-v0",
+                            "TimePilot-v0", "UpNDown-v0", "Zaxxon-v0"
+                            )
 game_selection_config.grid(row=0, column=1, sticky=tk.W)
 game_selection_config.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Gym_Game(game_selection_config, game_selection_config_l, style, num_inputs, num_outputs), "%P"))
@@ -2408,7 +2424,15 @@ game_selection_l = tk.Label(tab2, text="Gym Game:", justify=LEFT, anchor="w")
 game_selection_l.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection = ttk.Combobox(tab2, name="game_selection", width =20)
-game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1", "Pong-v0")
+game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0",
+                            "KungFuMaster-v0", "LunarLander-v2", "CartPole-v1",
+                            "Pong-v0", "Alien-v0", "Asterix-v0", "Asteroids-v0",
+                            "Amidar-v0", "Assault-v0", "Atlantis-v0", "BattleZone-v0",
+                            "Carnival-v0", "Centipede-v0", "DemonAttack-v0",
+                            "JourneyEscape-v0", "Phoenix-v0",
+                            "Pooyan-v0", "StarGunner-v0",
+                            "TimePilot-v0", "UpNDown-v0", "Zaxxon-v0"
+                            )
 game_selection.grid(row=1, column=1, sticky=tk.W)
 game_selection.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Game_Selection(game_selection, game_selection_l, style, runs_per_network_l, runs_per_network), "%P"))
@@ -2532,7 +2556,11 @@ game_selection_l_Winner = tk.Label(tab3, text="Gym Game:", justify=LEFT, anchor=
 game_selection_l_Winner.grid(row=1, column=0,ipadx=37, pady=2, sticky=tk.W)
 
 game_selection_winner = ttk.Combobox(tab3, name="game_selection_winner", width =20)
-game_selection_winner['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0","Breakout-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo", "LunarLander-v2", "CartPole-v1", "Pong-v0")
+game_selection_winner['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 'Frostbite-v0', "Kangaroo-v0", "KungFuMaster-vo",
+                                   "LunarLander-v2", "CartPole-v1", "Pong-v0", "Alien-v0", "Asterix-v0", "Asteroids-v0", "Amidar-v0", "Assault-v0",
+                                   "Atlantis-v0", "BattleZone-v0", "Carnival-v0", "Centipede-v0", "DemonAttack-v0", "JourneyEscape-v0",
+                                   "Phoenix-v0", "Pooyan-v0",
+                                   "StarGunner-v0", "TimePilot-v0", "UpNDown-v0")
 game_selection_winner.grid(row=1, column=1, sticky=tk.W)
 game_selection_winner.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_selection_winner, game_selection_l_Winner, style), "%P"))
