@@ -1340,11 +1340,14 @@ class Education_tab(object):
                     StickyNote.StickyNotes.quit_window_all(sticky)
                 except:
                     pass
-                label2 = tk.Label(educatuin_tab, text="The Atari games are simulated though the rcade Learning Environment"
-                                                      " [ALE], which uses the Stella [Stella] Atari emulator. "
-                                                      "You can download the Stella emulator and play the games yourself."
-                                                      "The Atari games are a bit more complicated to play, at least for the computer"
-                                                      "because it has to process the RGB image and regocnise the objects within it.",
+                label2 = tk.Label(educatuin_tab, text="The Atari games are simulated though the rcade Learning Environment\n"
+                                                      "[ALE], which uses the Stella [Stella] Atari emulator.\n "
+                                                      "You can download the Stella emulator and play the games yourself.\n"
+                                                      "The Atari games are a bit more complicated to play, at least for the \ncomputer"
+                                                      "because it has to process the RGB image and recognise the objects within\n"
+                                                      "it. Each input for the games will be 1092 and the output will vary depending\n"
+                                                      "on the game selected. Every config file can be used with any of the games\n"
+                                                      "given you provide correct output.",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
