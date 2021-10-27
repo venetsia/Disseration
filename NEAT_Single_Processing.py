@@ -128,16 +128,17 @@ def eval_genome_2DBox(genome, config):
                 #env = gym.make("LunarLander-v2")
                 env = gym.make(env_variable)
                 observation = env.reset()
-                if render_window_variable == "True":
-                    env.render()
+
                 fitness = 0.0
                 done = False
 
                 while not done:
+                    if render_window_variable == "True":
+                        env.render()
                     action = np.argmax(net.activate(observation))
                     observation, reward, done, info = env.step(action)
                     fitness += reward
-
+                env.close()
                 fitnesses.append(fitness)
 
         return np.max(fitnesses)
