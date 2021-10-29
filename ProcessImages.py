@@ -20,10 +20,11 @@ reinforcement_Learning_1 = ""
 reinforcement_Learning_2 = ""
 reinforcement_Learning_3 = ""
 feedforward_vs_recurrent_pic = ""
+neuro_neat = ""
 filelist = ["AI-Intro.png", "AI_second.png","AI_Seond_Pic.png", "biological_neuron.png", "percepron.png",
             "Types_of_learning.png", "Components_of_Neural_Network.png", "agent.png",
             "How_does_the_neural_network_learn.png", "ReinforcementLearningImage1.png",
-            "ReinforcementLearningImage2.png", "ReinforcementLearningImage3.png","feed-forwardVSrecurrent.PNG" ]
+            "ReinforcementLearningImage2.png", "ReinforcementLearningImage3.png","feed-forwardVSrecurrent.PNG", "Neuro_NEAT.png" ]
 threadList = ["Thread-1", "Thread-2", "Thread-3"]
 queueLock = threading.Lock()
 workQueue = queue.Queue(15)
@@ -56,6 +57,7 @@ def process_data(threadName, q):
     global reinforcement_Learning_2
     global reinforcement_Learning_3
     global feedforward_vs_recurrent_pic
+    global neuro_neat
 
     while not exitFlag:
         queueLock.acquire()
@@ -88,6 +90,8 @@ def process_data(threadName, q):
                 reinforcement_Learning_3 = ImageTk.PhotoImage(file="ReinforcementLearningImage3.png")
             elif data == "feed-forwardVSrecurrent.PNG":
                 feedforward_vs_recurrent_pic = ImageTk.PhotoImage(file="feed-forwardVSrecurrent.PNG")
+            elif data == "Neuro_NEAT.png":
+                neuro_neat = ImageTk.PhotoImage(file="Neuro_NEAT.png")
 
         else:
             queueLock.release()

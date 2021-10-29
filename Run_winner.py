@@ -291,7 +291,11 @@ def replay_genome(config_path, winner_file_name_winner ):
 
             env.close()
             fitness = high_score
-            print('Genome: ', genome, ' Fitness: ', fitness)
+            print('Fitness: ', fitness)#, )
+            #print(#'Genome: ', genome , ' Fitness: ', fitness)
+
+
+
     return
 
 def replay_checkpoint(config_path,checkpoint_directory):
@@ -317,6 +321,7 @@ def replay_checkpoint(config_path,checkpoint_directory):
         winner = pop.run(replay_function)
     elif env_variable in game_list_2D:
         winner = pop.run(replay_genomes_2DBox)
+
     return
 def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes):
     try:

@@ -47,6 +47,7 @@ How_Lean_NN = False
 ReinforcementL1 = False
 ReinforcementL2 = False
 ReinforcementL3 = False
+NeuroEvolution_Neat = False
 Feedforward_vs_Recurrent_tab = False
 No_Fitness_termination_tab = False
 Atari_Example_tab = False
@@ -148,7 +149,7 @@ class Education_tab(object):
             # Load Sticky Note
             sticky = StickyNote.StickyNotes(educatuin_tab)
             sticky.mainarea.insert(1.0,
-                                   "Now we will see an an trained neural network to play the CartPole example."
+                                   "Now we will see an trained neural network to play the CartPole example."
                                    "\nWe have to choose the game the winner is trained on."
                                    "\nWe also need to specify the name of the winner file"
                                    "\nNumber of episodes per genomes means how many times/episodes do we want to test our winner on."
@@ -182,8 +183,8 @@ class Education_tab(object):
                                    "On this tab we can train our own winner so we will start with CartPole example.\n"
                                    "Runs per network - Each genomes plays the game for N number of times.\n"
                                    "The evaluation will be single-processing which means it will run on one core (one agent at a time).\n"
-                                   "\nThe network type will stay FeedForward. - we will see what it is on the next lesson."
-                                    "\nIn the most bottom text field you will be able to see the progress of the training."
+                                   "The network type will stay FeedForward. - we will see what it is on the next lesson."
+                                    "\nIn the most bottom text field you will be able to see the progress of the training.\n"
                                    "To Do:\n"
                                    "- Please name your file for the winner.\n"
                                    " * Save Checkpoints - This can be left empty but if you would like to save progress specify after how many generations."
@@ -213,6 +214,8 @@ class Education_tab(object):
         global How_Lean_NN
         global ReinforcementL2
         global ReinforcementL1
+        global ReinforcementL3
+        global NeuroEvolution_Neat
         global Neat_config_choice
         global LoadWinner
         global LoadWinner2
@@ -902,7 +905,7 @@ class Education_tab(object):
         elif value == "Reinforcement Learning L3":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True and Neuron_tab == True and \
                     Perceptron_tab == True and Components_of_NN == True and Learning_Types == True and How_Lean_NN == True and ReinforcementL1 == True and AI_Categories_tab_2 == True:
-                ReinforcementL2 = True
+                ReinforcementL3 = True
                 if label2 != "":
                     self.hide_old_widgets(label2)
                 if chat_bot_dynamic_learn != "":
@@ -956,9 +959,66 @@ class Education_tab(object):
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
+        elif value == "Neuroevolution and NEAT":
+            if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
+                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True and How_Lean_NN == True and AI_Categories_tab_2 == True and ReinforcementL3 == True:
+                NeuroEvolution_Neat = True
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                how_learn_nn_label = tk.Label(educatuin_tab, image=ProcessImages.neuro_neat)
+                how_learn_nn_label.image = ProcessImages.neuro_neat
+                how_learn_nn_label.grid(row=1, column=0)
+                how_learn_nn_label.config(fg="grey75", bg="grey75")
+            else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab, text="Please refer to Reinforcement Learning L3 first",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
         elif value == "NEAT Config File":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
-                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True and How_Lean_NN == True and AI_Categories_tab_2 == True:
+                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True and How_Lean_NN == True and AI_Categories_tab_2 == True and ReinforcementL3 == True and NeuroEvolution_Neat == True:
                 Neat_config_choice = True
                 if label2 != "":
                     self.hide_old_widgets(label2)
@@ -982,6 +1042,16 @@ class Education_tab(object):
                     self.hide_old_widgets(reference_from_source)
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab,
+                                  text="Now we will see the most important parameters\n"
+                                       "in the NEAT configuration file that we need to\n"
+                                       "specify. If you have a ready configuration file\n"
+                                       "the only things that would need to be changed\n"
+                                       " when training your neural network is the input\n"
+                                       " and output.",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
                 check_answer = tk.Button(educatuin_tab, text="Start",
                                          command=lambda: self.automate(hidden_level_text,educatuin_tab),
                                          justify=tk.LEFT, anchor="w")
@@ -1009,14 +1079,14 @@ class Education_tab(object):
                     self.hide_old_widgets(reference_from_source)
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
-                label2 = tk.Label(educatuin_tab, text="Please refer to Learning Types lesson first",
+                label2 = tk.Label(educatuin_tab, text="Please refer to Neuroevolution and Neat lesson first",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
         elif value == "Load Winner/Checkpoints E1":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True\
-                    and Neat_config_choice == True and AI_Categories_tab_2 == True:
+                    and Neat_config_choice == True and AI_Categories_tab_2 == True and ReinforcementL3 == True and NeuroEvolution_Neat == True:
                 LoadWinner = True
                 if label2 != "":
                     self.hide_old_widgets(label2)
@@ -1040,6 +1110,15 @@ class Education_tab(object):
                     self.hide_old_widgets(reference_from_source)
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab,
+                                  text="Now we will see a trained neural network\n"
+                                       "to play the game from the previous example\n"
+                                       "with the values of the parameters we saw.\n"
+                                       "In order for the winner to play even better\n"
+                                       "we can set a higher threshold while training.",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
                 check_answer = tk.Button(educatuin_tab, text="See Winner/Checkpoint(s)",
                                          command=lambda: self.automate(hidden_level_text, educatuin_tab),
                                          justify=tk.LEFT, anchor="w")
@@ -1074,7 +1153,7 @@ class Education_tab(object):
         elif value == "Load Winner/Checkpoints E2":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
-                    and Neat_config_choice == True and LoadWinner == True and AI_Categories_tab_2 == True:
+                    and Neat_config_choice == True and LoadWinner == True and AI_Categories_tab_2 == True and ReinforcementL3 == True and NeuroEvolution_Neat == True:
                 LoadWinner2 = True
                 if label2 != "":
                     self.hide_old_widgets(label2)
@@ -1098,6 +1177,14 @@ class Education_tab(object):
                     self.hide_old_widgets(reference_from_source)
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab,
+                                  text="We will see a another example of a trained\n"
+                                       "neural network to play a different game, but\n"
+                                       "we will see some checkpoints first so we can see\n"
+                                       "its progress over the generations.",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
                 check_answer = tk.Button(educatuin_tab, text="See Winner/Checkpoint(s)",
                                          command=lambda: self.automate(hidden_level_text, educatuin_tab),
                                          justify=tk.LEFT, anchor="w")
@@ -1132,7 +1219,7 @@ class Education_tab(object):
         elif value == "Run NEAT E1":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
-                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True:
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True and ReinforcementL3 == True and NeuroEvolution_Neat == True:
                 if label2 != "":
                     self.hide_old_widgets(label2)
                 if chat_bot_dynamic_learn != "":
@@ -1156,6 +1243,16 @@ class Education_tab(object):
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
                 Run_Neat_choice = True
+                label2 = tk.Label(educatuin_tab,
+                                  text="Once you click on the button you will be guided\n"
+                                       "on how to start your own training. Remember that\n"
+                                       "you can use the same configuration file for training\n"
+                                       "on a different game provided you change the input and\n"
+                                       "output. An easy way to do this is via the app with the\n"
+                                       "checkbox.",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
                 check_answer = tk.Button(educatuin_tab, text="See how to Run Neat",
                                          command=lambda: self.automate(hidden_level_text, educatuin_tab),
                                          justify=tk.LEFT, anchor="w")
@@ -1190,7 +1287,7 @@ class Education_tab(object):
         elif value == "Feed-Forward vs Recurrent":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
-                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True and Run_Neat_choice == True:
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True and Run_Neat_choice == True and ReinforcementL3 == True and NeuroEvolution_Neat == True:
                 if label2 != "":
                     self.hide_old_widgets(label2)
                 if chat_bot_dynamic_learn != "":
@@ -1248,7 +1345,8 @@ class Education_tab(object):
         elif value == "No Fitness Termination":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
-                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True:
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and AI_Categories_tab_2 == True \
+                    and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True and ReinforcementL3 == True and NeuroEvolution_Neat == True:
                 No_Fitness_termination_tab = True
                 if label2 != "":
                     self.hide_old_widgets(label2)
@@ -1312,7 +1410,7 @@ class Education_tab(object):
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
                     and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and \
                     AI_Categories_tab_2 == True and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True\
-                    and No_Fitness_termination_tab == True:
+                    and No_Fitness_termination_tab == True and ReinforcementL3 == True and NeuroEvolution_Neat == True:
                 if label2 != "":
                     self.hide_old_widgets(label2)
                 if chat_bot_dynamic_learn != "":
@@ -1350,6 +1448,7 @@ class Education_tab(object):
                                                       "given you provide correct output.",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
+                label2.configure(anchor="w")
                 label2.grid(row=1, column=0)
                 check_answer = tk.Button(educatuin_tab, text="Start",
                                          command=lambda: self.automate(hidden_level_text, educatuin_tab),
@@ -1381,7 +1480,9 @@ class Education_tab(object):
                 label2 = tk.Label(educatuin_tab, text="Please refer to Run NEAT E1 lesson first",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
+                label2.configure(anchor="w")
                 label2.grid(row=1, column=0)
+
 def Activate_Content(education_option_selected, educatuin_tab, hidden_level_text):
     toolTip = Education_tab(education_option_selected)
     widget_name = education_option_selected._name

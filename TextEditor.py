@@ -1189,7 +1189,7 @@ def next_button_action(hidden_level_value):
 
         #Change selected List Box to be 'Load Winner/Checkpoints E1'
         Education_listbox.selection_clear(0, END)
-        Education_listbox.selection_set(14)
+        Education_listbox.selection_set(15)
         Education_listbox.event_generate("<<ListboxSelect>>")
 
         # LoadWinnerExample
@@ -1237,7 +1237,7 @@ def next_button_action(hidden_level_value):
 
         # Change selected List Box to be 'Load Winner/Checkpoints E2'
         Education_listbox.selection_clear(0, END)
-        Education_listbox.selection_set(15)
+        Education_listbox.selection_set(16)
         Education_listbox.event_generate("<<ListboxSelect>>")
 
         # Set Values for Example 2 - Lunar Lander
@@ -1282,7 +1282,7 @@ def next_button_action(hidden_level_value):
 
         # Change selected List Box to be 'Run NEAT'
         Education_listbox.selection_clear(0, END)
-        Education_listbox.selection_set(16)
+        Education_listbox.selection_set(17)
         Education_listbox.event_generate("<<ListboxSelect>>")
 
 
@@ -1352,6 +1352,7 @@ def save_progress():
     logger.info(f'ReinforcementL1: {Education_Tab.ReinforcementL1}')
     logger.info(f'ReinforcementL2: {Education_Tab.ReinforcementL2}')
     logger.info(f'ReinforcementL3: {Education_Tab.ReinforcementL3}')
+    logger.info(f'Examples: {hidden_level_text}')
     logger.info(f'Feedforward_vs_Recurrent_tab: {Education_Tab.Feedforward_vs_Recurrent_tab}')
     logger.info(f'No_Fitness_termination_tab: {Education_Tab.No_Fitness_termination_tab}')
     logger.info(f'Atari_Example_tab: {Education_Tab.Atari_Example_tab}')
@@ -1383,7 +1384,7 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
                     'Intelligent Agents', 'Neuron',
                     'Neural Network', 'Components of a neural network', 'Learning Types',
                     "How do the neural network learn?","Reinforcement Learning L1",
-                    "Reinforcement Learning L2","Reinforcement Learning L3",'NEAT Config File', 'Load Winner/Checkpoints E1',
+                    "Reinforcement Learning L2","Reinforcement Learning L3","Neuroevolution and NEAT",'NEAT Config File', 'Load Winner/Checkpoints E1',
                     'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination", "Atari Example")
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
