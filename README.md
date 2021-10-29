@@ -1,3 +1,24 @@
+# NEAT 
+## [NEAT] section
+- `fitness_criterion` - this function determinesthe termination criterion from the genome fitness. 
+   - max - For example if you choose max it will terminate whenver a single genome reaches the `fitness_threshold` you have set up - Terminate when "Best fitness:" reaches `fitness_threshold`
+   - mean - If you set it up to mean it will terminate when the whole population reaches an avarage of the fitness threshold (shown in NEAT training output) - Terminate (find winner) when "Population's average fitness" reaches `fitness_threshold`
+   ![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/NEAT_output.PNG)
+- `fitness_threshold` - determine what fitness does the population/genome has to reach in order to find winner (terminate)
+- `no_fitness_termination` - if set to `True` you can choose for how many generations to run the algorithm for.
+- `pop_size` - how many genomes per generation you have in the beginning
+- `reset_on_extinction` 
+   -  on choosing`False` - Because the training may not find a solution it will terminate when all of the genomes are removed from the population (Total extinctions)
+   -  on choosing  `True` - If total extinction is reached by from the training, the training will restart from scratch with same configuration file and other settings.
+## [DefaultStagnation] section
+- `species_fitness_func` - how to calculate the species fitness
+- `max_stagnation` - the number training you will see that the species/genomes age so after this N number if it has not shown improvement it will be removed from the generation
+- `species_elitism` - how many species are protected from removal (prevent total extinctions) 
+## [DefaultReproduction] section
+- `elitism` - how many most fit individuals to be preserved from one generation to another
+- `survival_threshold` - fraction of the species that are allowed to reproduce in each generation
+- `min_species_size` - minimal number of genomes per species after reproduction
+
 # NEAT Editor
 ## Introduction
 Welcome to the READ me file for the NEAT Editor software. Here you will get an overview of the application and how to use it and what tasks can you perform with it.
