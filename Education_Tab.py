@@ -200,6 +200,11 @@ class Education_tab(object):
             sticky.mainarea.insert(1.0,
                                    "Now because training your neural network may take a while you can actually choose to train your neural network for N number of generations.\n"
                                    "In the configuration file \"No Fitness Termination?\" (no_fitness_termination) should be set to True.\n")
+        elif hidden_level_value == "NoFitnessTerminationExample\n":
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "Atari_Example_1")
+            print(hidden_level_text.get(1.0, tk.END))
     def load_content(self,education_option_selected,educatuin_tab, hidden_level_text):
         selected_indices = education_option_selected.curselection()
         value = education_option_selected.get(selected_indices[0])

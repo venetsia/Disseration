@@ -1171,6 +1171,28 @@ def onModification(event):
                                 command=lambda: next_button_action(hidden_level_value),
                                 justify=tk.LEFT, anchor="w")
         next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+    elif hidden_level_value == "Atari_Example_1\n" and education_mode == True:
+        for label in labels_list:
+            exec(label + '.grid_remove()')
+        for form_value in form_values_list:
+            exec(form_value + '.grid_remove()')
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+        except:
+            pass
+        genome_Section_l.grid()
+        network_Parameters_l.grid()
+        num_inputs_l.grid()
+        num_inputs.grid()
+        num_outputs_l.grid()
+        num_outputs.grid()
+        game_selection_config_l.grid()
+        game_selection_config.grid()
+        next_button = tk.Button(tab1, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
 def next_button_action(hidden_level_value):
 
     current_directory = os.path.abspath(os.getcwd())
@@ -1389,6 +1411,13 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
                                 name="activation_options", exportselection=0)
+
+scrollbar = tk.Scrollbar(frame_Education, orient="vertical")
+scrollbar.config(command=Education_listbox.yview)
+scrollbar.grid(row=1,column=1)
+
+Education_listbox.config(yscrollcommand=scrollbar.set)
+
 Education_listbox.grid(row=1, column=0, pady=2, sticky=tk.W)
 education_options_selected = Education_listbox.bind('<Leave>', items_selected)
 Education_listbox.select_set(0)  # This only sets focus on the first item.
