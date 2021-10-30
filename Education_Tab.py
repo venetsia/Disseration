@@ -200,11 +200,24 @@ class Education_tab(object):
             sticky.mainarea.insert(1.0,
                                    "Now because training your neural network may take a while you can actually choose to train your neural network for N number of generations.\n"
                                    "In the configuration file \"No Fitness Termination?\" (no_fitness_termination) should be set to True.\n")
-        elif hidden_level_value == "NoFitnessTerminationExample\n":
+        elif hidden_level_value == "NoFitnessTerminationExampleWithin\n":
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
             hidden_level_text.insert(tk.END, "Atari_Example_1")
             print(hidden_level_text.get(1.0, tk.END))
+            sticky = StickyNote.StickyNotes(educatuin_tab)
+            sticky.mainarea.insert(1.0,
+                                   "We will see what is the input and output for an Atari game\n"
+                                   "To do: \n"
+                                   "- Choose from the 'Gym Game:' list one of:\n"
+                                   "game_list_atari = ['SpaceInvaders-v0', \"Berzerk-v0\", \"Boxing-v0\",'Freeway-v0', 'Frostbite-v0', "
+                                   "\"Kangaroo-v0\",\"KungFuMaster-vo\", \"Alien-v0\", \"Pong-v0\", \"Asterix-v0\",\"Asteroids-v0\", "
+                                   "\"Amidar-v0\", \"Assault-v0\", \"Atlantis-v0\",\"BattleZone-v0\", \"Carnival-v0\", \"Centipede-v0\","
+                                   " \"DemonAttack-v0\",\"JourneyEscape-v0\", \"Phoenix-v0\", \"Pooyan-v0\",\"StarGunner-v0\", \"TimePilot-v0\""
+                                   ", \"UpNDown-v0\"]\n"
+                                   "    * Once you select a game, move your cursor to another box to see the results.\n\n"
+                                   "All of the input values for the Atari games will be 1092 due to the way the software is processing the image.\n"
+                                   "Only the outputs will change as every game has different actions the character can perform.")
     def load_content(self,education_option_selected,educatuin_tab, hidden_level_text):
         selected_indices = education_option_selected.curselection()
         value = education_option_selected.get(selected_indices[0])

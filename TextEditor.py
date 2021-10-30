@@ -726,32 +726,36 @@ def update_editor():
                             if form_input not in non_added_values:
                                 non_added_values.append(form_input)
             if form_input == "elitism" and eval(str(form_input) + ".get()") != 0:  # if statement created for elitism
-                for line in thetext.split("\n"):
-                    num_line += 1
-                    if line.find("elitism = ") == 0:
-                        txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                        txt_edit.insert(float(num_line), "elitism = " + elitism.get() + "\n")
-                        added_values.append(form_input)
-                        if form_input in non_added_values:
-                            non_added_values.remove(form_input)
-                        break
-                    else:
-                        if form_input not in non_added_values:
-                            non_added_values.append(form_input)
+                elitism_value = eval(str(form_input) + ".get()")
+                if elitism_value != "":
+                    for line in thetext.split("\n"):
+                        num_line += 1
+                        if line.find("elitism") == 0:
+                            txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                            txt_edit.insert(float(num_line), "elitism = " + elitism.get() + "\n")
+                            added_values.append(form_input)
+                            if form_input in non_added_values:
+                                non_added_values.remove(form_input)
+                            break
+                        else:
+                            if form_input not in non_added_values:
+                                non_added_values.append(form_input)
             if form_input == "species_elitism" and eval(
                     str(form_input) + ".get()") != 0:  # if statement created for elitism
-                for line in thetext.split("\n"):
-                    num_line += 1
-                    if line.find("species_elitism = ") == 0:
-                        txt_edit.delete(float(num_line), float(num_line) + 1.0)
-                        txt_edit.insert(float(num_line), "species_elitism = " + elitism.get() + "\n")
-                        added_values.append(form_input)
-                        if form_input in non_added_values:
-                            non_added_values.remove(form_input)
-                        break
-                    else:
-                        if form_input not in non_added_values:
-                            non_added_values.append(form_input)
+                elitism_value = eval(str(form_input) + ".get()")
+                if elitism_value != "":
+                    for line in thetext.split("\n"):
+                        num_line += 1
+                        if line.find("species_elitism") == 0:
+                            txt_edit.delete(float(num_line), float(num_line) + 1.0)
+                            txt_edit.insert(float(num_line), "species_elitism = " + elitism.get() + "\n")
+                            added_values.append(form_input)
+                            if form_input in non_added_values:
+                                non_added_values.remove(form_input)
+                            break
+                        else:
+                            if form_input not in non_added_values:
+                                non_added_values.append(form_input)
             if len(eval(
                     str(form_input) + ".get()")) != 0 and (form_input != "elitism" or form_input == "activation_options" or form_input != "initial_connection"):
                 for line in thetext.split("\n"):
@@ -1105,6 +1109,10 @@ def onModification(event):
         runs_per_network_l.grid()
         runs_per_network.grid()
         runs_per_network.set("1")
+        next_button = tk.Button(tab2, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
     elif hidden_level_value == "ExampleLevel1\n" and education_mode == True:
         fitness_criterion.set("max")
         fitness_threshold.set("500")
@@ -1133,6 +1141,7 @@ def onModification(event):
             exec(form_value + '.grid_remove()')
         activation_listbox.grid_remove()
         listbox_aggregation_options.grid_remove()
+
 
         neat_section_L.grid()
         fitness_criterion_l.grid()
@@ -1171,6 +1180,11 @@ def onModification(event):
                                 command=lambda: next_button_action(hidden_level_value),
                                 justify=tk.LEFT, anchor="w")
         next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+    elif hidden_level_value == "NoFitnessTerminationExampleWithin\n" and education_mode == True:
+        next_button = tk.Button(tab2, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
     elif hidden_level_value == "Atari_Example_1\n" and education_mode == True:
         for label in labels_list:
             exec(label + '.grid_remove()')
@@ -1181,6 +1195,13 @@ def onModification(event):
             StickyNotes.quit_window_all(Education_Tab.sticky)
         except:
             pass
+        neat_section_L.grid()
+        fitness_criterion_l.grid()
+        fitness_criterion.grid()
+        fitness_threshold_l.grid()
+        fitness_threshold.grid()
+        pop_size_l.grid()
+        pop_size.grid()
         genome_Section_l.grid()
         network_Parameters_l.grid()
         num_inputs_l.grid()
@@ -1189,6 +1210,17 @@ def onModification(event):
         num_outputs.grid()
         game_selection_config_l.grid()
         game_selection_config.grid()
+
+        # Set Focus on tab Education
+        tabControl.select(tab1)
+
+        fitness_criterion.set("")
+        fitness_threshold.set("")
+        pop_size.set("")
+        num_inputs.set("")
+        num_outputs.set("")
+        game_selection_config.set("")
+        game_selection_config_l.config(fg="red")
         next_button = tk.Button(tab1, text="Next",
                                 command=lambda: next_button_action(hidden_level_value),
                                 justify=tk.LEFT, anchor="w")
@@ -1320,10 +1352,24 @@ def next_button_action(hidden_level_value):
         network_type.set("Feed-forward")
         winner_file_name_l.config(fg="red")
         render_window_l.config(fg="red")
+    elif hidden_level_value == "RunNeatExampleCartPole\n" and education_mode == True:
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+
+        except:
+            pass
+        # Set Focus on tab Education
+        tabControl.select(tab_education)
+        # Change selected List Box to be 'Run NEAT'
+        Education_listbox.selection_clear(0, END)
+        Education_listbox.selection_set(18)
+        Education_listbox.event_generate("<<ListboxSelect>>")
     elif hidden_level_value == "NoFitnessTerminationExample\n" and education_mode == True:
         try:
             # Close Sticky Note
             StickyNotes.quit_window_all(Education_Tab.sticky)
+
         except:
             pass
         # Set Focus on tab Education
@@ -1337,13 +1383,40 @@ def next_button_action(hidden_level_value):
         winner_file_name_l.config(fg="red")
         render_window_l.config(fg="black")
         render_window.set("False")
-        sticky = StickyNote.StickyNotes(tab2)
-        sticky.mainarea.insert(1.0,
+        Education_Tab.sticky = StickyNote.StickyNotes(tab2)
+        Education_Tab.sticky.mainarea.insert(1.0,
                                "Because we have set no_fitness_termination = True in config file, when you load the config file it scans for this"
                                "parameter and value and gives you the option to choose how many generations would you like to train."
                                "\nTo do:\n"
                                "- Choose after how many generations you would like the algorithm to stop.\n"
                                "(Terminate after num of generations:)")
+        hidden_level_text.delete(1.0, tk.END)
+        print(hidden_level_text.get(1.0, tk.END))
+        hidden_level_text.insert(tk.END, "NoFitnessTerminationExampleWithin")
+        print(hidden_level_text.get(1.0, tk.END))
+    elif hidden_level_value == "NoFitnessTerminationExampleWithin\n" and education_mode == True:
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+
+        except:
+            pass
+        # Set Focus on tab Education
+        tabControl.select(tab_education)
+        # Change selected List Box to be 'Run NEAT'
+        Education_listbox.selection_clear(0, END)
+        Education_listbox.selection_set(20)
+        Education_listbox.event_generate("<<ListboxSelect>>")
+
+    elif hidden_level_value =="Atari_Example_1\n" and education_mode == True:
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+
+        except:
+            pass
+        # Set Focus on tab Education
+        tabControl.select(tab2)
 def setup_logger(name, log_file, level=logging.INFO):
     """To setup as many loggers as you want"""
 
