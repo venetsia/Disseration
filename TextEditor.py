@@ -1225,6 +1225,55 @@ def onModification(event):
                                 command=lambda: next_button_action(hidden_level_value),
                                 justify=tk.LEFT, anchor="w")
         next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+
+        # Set Values in Load Winner for SpaceInvaders
+        game_selection.set("SpaceInvaders-v0")
+        game_evaluation.set("Single-Processing")
+        game_checkpoint.set("0")
+        network_type.set("Recurrent")
+        directory_value.delete(1.0, tk.END)
+        target_path_1 = current_directory + "/Atari_example_Space_invaders1/configfeedforwardSpaceInvadersExample.txt"
+        directory_value.configure(state='normal')
+        directory_value.delete('1.0', END)
+        directory_value.insert(END, target_path_1)
+        directory_value.configure(state='disabled')
+        winner_file_name_winner.delete('1.0', END)
+        target_path_1 = current_directory + '/Atari_example_Space_invaders1/winner_Space_Invaders'
+        winner_file_name_winner.insert(END, target_path_1)
+        runs_per_network_l.grid_remove()
+        runs_per_network.grid_remove()
+        winner_file_name_l.config(fg="red")
+    elif hidden_level_value == "Atari_Example_within\n" and education_mode == True:
+        next_button = tk.Button(tab3, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+    elif hidden_level_value == "Atari_Example_within_1\n" and education_mode == True:
+        next_button = tk.Button(tab2, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
+    elif hidden_level_value == "Atari_Example_within_2_feed_within\n" and education_mode == True:
+        # Set Focus on tab Education
+        tabControl.select(tab3)
+        # Set Values in Load Winner for SpaceInvaders
+        game_selection.set("SpaceInvaders-v0")
+        game_evaluation.set("Single-Processing")
+        game_checkpoint.set("0")
+        network_type.set("Feed-forward")
+        directory_value.delete(1.0, tk.END)
+        target_path_1 = current_directory + "/Atari_Example_Space_Invaders2/configSpaceInvadersExample2.txt"
+        directory_value.configure(state='normal')
+        directory_value.delete('1.0', END)
+        directory_value.insert(END, target_path_1)
+        directory_value.configure(state='disabled')
+        winner_file_name_winner.delete('1.0', END)
+        target_path_1 = current_directory + '/Atari_Example_Space_Invaders2/Space_invaders-FeedForward_winner'
+        winner_file_name_winner.insert(END, target_path_1)
+        next_button = tk.Button(tab3, text="Next",
+                                command=lambda: next_button_action(hidden_level_value),
+                                justify=tk.LEFT, anchor="w")
+        next_button.grid(row=40, column=0, sticky=tk.W, padx=5, pady=5)
 def next_button_action(hidden_level_value):
 
     current_directory = os.path.abspath(os.getcwd())
@@ -1415,8 +1464,74 @@ def next_button_action(hidden_level_value):
 
         except:
             pass
+        Education_Tab.sticky = StickyNote.StickyNotes(tab2)
+        Education_Tab.sticky.mainarea.insert(1.0,
+                                             "Let's see an example of a trained neural network"
+                                             "with Recurrent rather than Feed-Forward and later we will view the same example trained with Feed-Fordward.\n"
+                                             "To do:\n (optional)"
+                                             "* Select how many times do you want the neural network to try and play the game (number of runs)\n"
+                                             "* Select folder Atari_example_Space_invaders1 if you would like to view checkpoints")
+        # Set Focus on tab Education
+        tabControl.select(tab3)
+        hidden_level_text.delete(1.0, tk.END)
+        print(hidden_level_text.get(1.0, tk.END))
+        hidden_level_text.insert(tk.END, "Atari_Example_within")
+        print(hidden_level_text.get(1.0, tk.END))
+        game_selection.set("SpaceInvaders-v0")
+        num_generations_l.grid_remove()
+        num_generations.grid_remove()
+        directory_value.delete('1.0', END)
+    elif hidden_level_value == "Atari_Example_within\n" and education_mode == True:
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+
+        except:
+            pass
+        Education_Tab.sticky = StickyNote.StickyNotes(tab2)
+        Education_Tab.sticky.mainarea.insert(1.0,
+                                             "Now you can train your own neural network. It may take a while as we have a population of 30 genomes and the threshold is quite high."
+                                             "The example from winner was trained with the same configuration and parameters."
+                                             "So if you would like train the neural network and and would not like to wait a while you can decrease the threshold and population.\n"
+                                             "You can also change Recurrent to Feed-forward if you would like.\n"
+                                             "To-do:\n"
+                                             "- Select winner file name ")
+
         # Set Focus on tab Education
         tabControl.select(tab2)
+
+        hidden_level_text.delete(1.0, tk.END)
+        print(hidden_level_text.get(1.0, tk.END))
+        hidden_level_text.insert(tk.END, "Atari_Example_within_1")
+        print(hidden_level_text.get(1.0, tk.END))
+    elif hidden_level_value == "Atari_Example_within_1\n" and education_mode == True:
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+        except:
+            pass
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "Atari_Example_within_2_feed")
+            print(hidden_level_text.get(1.0, tk.END))
+            # Set Focus on tab Education
+            tabControl.select(tab_education)
+            # Change selected List Box to be 'Run NEAT'
+            Education_listbox.selection_clear(0, END)
+            Education_listbox.selection_set(21)
+            Education_listbox.event_generate("<<ListboxSelect>>")
+    elif hidden_level_value == "Atari_Example_within_2_feed_within\n" and education_mode == True:
+        try:
+            # Close Sticky Note
+            StickyNotes.quit_window_all(Education_Tab.sticky)
+        except:
+            pass
+            # Set Focus on tab Education
+            tabControl.select(tab_education)
+            # Change selected List Box to be 'Run NEAT'
+            Education_listbox.selection_clear(0, END)
+            Education_listbox.selection_set(22)
+            Education_listbox.event_generate("<<ListboxSelect>>")
 def setup_logger(name, log_file, level=logging.INFO):
     """To setup as many loggers as you want"""
 
@@ -1480,7 +1595,7 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
                     'Neural Network', 'Components of a neural network', 'Learning Types',
                     "How do the neural network learn?","Reinforcement Learning L1",
                     "Reinforcement Learning L2","Reinforcement Learning L3","Neuroevolution and NEAT",'NEAT Config File', 'Load Winner/Checkpoints E1',
-                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination", "Atari Example")
+                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination", "Atari Example Recurrent","Atari Example Feed-Forward", "Conclusion")
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
                                 name="activation_options", exportselection=0)

@@ -14,6 +14,8 @@ import NEAT_Single_Processing
 from TextRedirector import TextRedirector
 from neat.six_util import iteritems, itervalues
 
+from inputgenerator import inputgen
+
 env_variable =""
 network = ""
 config = ""
@@ -48,6 +50,7 @@ def replay_winner(genome,config):
         net = neat.nn.FeedForwardNetwork.create(genome, config)
     for ep in range(int(GENERATION_EP)):  # run many episodes for the genome in case it's
         env = gym.make(env_variable)
+
         # env = game_selection.get()
         observation = env.reset()
         frame = 0
@@ -93,13 +96,13 @@ def replay_winner(genome,config):
         env.close()
         fitness = high_score
 
-        print('Genome: ', genome, ' Fitness: ', fitness)
+        print(' Fitness: ', fitness)
 
     return
 def replay_function(genomes, config):
     number_left = len(genomes)
     for genome_id, genome in genomes:
-        print(number_left)
+        print("Number of genomes left: " + number_left)
         # for runs in range(runs_per_net):
         number_left = number_left - 1
 
@@ -325,6 +328,8 @@ def replay_checkpoint(config_path,checkpoint_directory):
     return
 def pre_process_data(Output_Console_winner,game_selection_winner,winner_file_name_winner, game_checkpoint_winner, checkpoint_directory_value_winner, network_type_winner, directory_value_winner, number_of_genomes):
     try:
+        # Empty console that will use for print
+        Output_Console_winner.delete('1.0', END)
         global env_variable
         global network
         env_variable = game_selection_winner.get()

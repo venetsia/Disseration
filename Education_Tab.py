@@ -218,6 +218,22 @@ class Education_tab(object):
                                    "    * Once you select a game, move your cursor to another box to see the results.\n\n"
                                    "All of the input values for the Atari games will be 1092 due to the way the software is processing the image.\n"
                                    "Only the outputs will change as every game has different actions the character can perform.")
+
+        elif hidden_level_value == "Atari_Example_within_2_feed\n":
+            # LoadWinnerExample
+            hidden_level_text.delete(1.0, tk.END)
+            print(hidden_level_text.get(1.0, tk.END))
+            hidden_level_text.insert(tk.END, "Atari_Example_within_2_feed_within")
+            print(hidden_level_text.get(1.0, tk.END))
+            sticky = StickyNote.StickyNotes(educatuin_tab)
+            sticky.mainarea.insert(1.0,
+                                   "You may see that Space Invaders is better trained on Feed Forward rather"
+                                   "than recurrent as the same files were used for both trainings. "
+                                   "You may experiment with the config file and network type on your"
+                                   " own and see what works best.\n"
+                                   "To-Do: (optional)\n"
+                                   "* You can view the checkpoints to see how the neural network progressed.")
+
     def load_content(self,education_option_selected,educatuin_tab, hidden_level_text):
         selected_indices = education_option_selected.curselection()
         value = education_option_selected.get(selected_indices[0])
@@ -1061,12 +1077,12 @@ class Education_tab(object):
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
                 label2 = tk.Label(educatuin_tab,
-                                  text="Now we will see the most important parameters\n"
-                                       "in the NEAT configuration file that we need to\n"
+                                  text="Now we will see the most important parameters  \n"
+                                       "in the NEAT configuration file that we need to \n"
                                        "specify. If you have a ready configuration file\n"
-                                       "the only things that would need to be changed\n"
-                                       " when training your neural network is the input\n"
-                                       " and output.",
+                                       "the only things that would need to be changed  \n"
+                                       "when training your neural network is the input \n"
+                                       "and output.                                      ",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
@@ -1129,11 +1145,11 @@ class Education_tab(object):
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
                 label2 = tk.Label(educatuin_tab,
-                                  text="Now we will see a trained neural network\n"
-                                       "to play the game from the previous example\n"
-                                       "with the values of the parameters we saw.\n"
-                                       "In order for the winner to play even better\n"
-                                       "we can set a higher threshold while training.",
+                                  text="Now we will see a trained neural network    \n"
+                                       "to play the game from the previous example  \n"
+                                       "with the values of the parameters we saw.   \n"
+                                       "In order for the winner to play even better \n"
+                                       "we can set a higher threshold while training. ",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
@@ -1196,10 +1212,10 @@ class Education_tab(object):
                 if how_learn_nn_label != "":
                     self.hide_old_widgets(how_learn_nn_label)
                 label2 = tk.Label(educatuin_tab,
-                                  text="We will see a another example of a trained\n"
-                                       "neural network to play a different game, but\n"
-                                       "we will see some checkpoints first so we can see\n"
-                                       "its progress over the generations.",
+                                  text="We will see a another example of a trained neural\n"
+                                       "network to play a different game, but we will see\n"
+                                       "some checkpoints first so we can see its progress\n"
+                                       "over the generations.                              ",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
@@ -1423,7 +1439,7 @@ class Education_tab(object):
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
-        elif value == "Atari Example":
+        elif value == "Atari Example Recurrent":
             if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
                     and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
                     and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and \
@@ -1456,14 +1472,15 @@ class Education_tab(object):
                     StickyNote.StickyNotes.quit_window_all(sticky)
                 except:
                     pass
-                label2 = tk.Label(educatuin_tab, text="The Atari games are simulated though the rcade Learning Environment\n"
-                                                      "[ALE], which uses the Stella [Stella] Atari emulator.\n "
-                                                      "You can download the Stella emulator and play the games yourself.\n"
-                                                      "The Atari games are a bit more complicated to play, at least for the \ncomputer"
-                                                      "because it has to process the RGB image and recognise the objects within\n"
-                                                      "it. Each input for the games will be 1092 and the output will vary depending\n"
-                                                      "on the game selected. Every config file can be used with any of the games\n"
-                                                      "given you provide correct output.",
+                label2 = tk.Label(educatuin_tab, text="The Atari games are simulated though the arcade Learning Environment   \n"
+                                                      "[ALE], which uses the Stella [Stella] Atari emulator.                  \n"
+                                                      "You can download the Stella emulator and play the games yourself.      \n"
+                                                      "The Atari games are a bit more complicated to play, at least for the   \n"
+                                                      "computer because it has to process the RGB image and recognise the     \n"
+                                                      "objects within it. Each input for the games will be 1092 and the output\n"
+                                                      "will vary depending on the game selected. Every config file can be used\n"
+                                                      "with any of the games given you provide correct output.                \n"
+                                                      "We will see a Recurrent example first.                                   ",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.configure(anchor="w")
@@ -1472,6 +1489,151 @@ class Education_tab(object):
                                          command=lambda: self.automate(hidden_level_text, educatuin_tab),
                                          justify=tk.LEFT, anchor="w")
                 check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+            else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab, text="Please refer to Run NEAT E1 lesson first",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.configure(anchor="w")
+                label2.grid(row=1, column=0)
+        elif value == "Atari Example Feed-Forward":
+            if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
+                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and \
+                    AI_Categories_tab_2 == True and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True \
+                    and No_Fitness_termination_tab == True and ReinforcementL3 == True and NeuroEvolution_Neat == True and Atari_Example_tab == True:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                try:
+                    StickyNote.StickyNotes.quit_window_all(sticky)
+                except:
+                    pass
+                label2 = tk.Label(educatuin_tab, text="Now that we have seen an example of Recurrent we can see the same\n"
+                                                      "example with Feed-Forward for the Atari game Space-Invaders.",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.configure(anchor="w")
+                label2.grid(row=1, column=0)
+                check_answer = tk.Button(educatuin_tab, text="Start",
+                                         command=lambda: self.automate(hidden_level_text, educatuin_tab),
+                                         justify=tk.LEFT, anchor="w")
+                check_answer.grid(row=3, column=0, sticky=tk.W, padx=5, pady=5)
+            else:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab, text="Please refer to Atari Recurrent Example lesson first",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.configure(anchor="w")
+                label2.grid(row=1, column=0)
+        elif value == "Conclusion":
+            if Artificial_intelligence_tab == True and AI_Categories_tab == True and Intelligent_Agents_tab == True \
+                    and Neuron_tab == True and Perceptron_tab == True and Learning_Types == True and Components_of_NN == True \
+                    and Neat_config_choice == True and LoadWinner == True and LoadWinner2 == True and \
+                    AI_Categories_tab_2 == True and Run_Neat_choice == True and Feedforward_vs_Recurrent_tab == True \
+                    and No_Fitness_termination_tab == True and ReinforcementL3 == True and NeuroEvolution_Neat == True and Atari_Example_tab == True:
+                if label2 != "":
+                    self.hide_old_widgets(label2)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if response_enter != "":
+                    self.hide_old_widgets(response_enter)
+                if chatbot_next != "":
+                    self.hide_old_widgets(chatbot_next)
+                if neuron_tab_label != "":
+                    self.hide_old_widgets(neuron_tab_label)
+                if label1 != "":
+                    self.hide_old_widgets(label1)
+                if chat_bot_dynamic_learn != "":
+                    self.hide_old_widgets(chat_bot_dynamic_learn)
+                if perceptron_label != "":
+                    self.hide_old_widgets(perceptron_label)
+                if check_answer != "":
+                    self.hide_old_widgets(check_answer)
+                if reference_from_source != "":
+                    self.hide_old_widgets(reference_from_source)
+                if how_learn_nn_label != "":
+                    self.hide_old_widgets(how_learn_nn_label)
+                label2 = tk.Label(educatuin_tab, text="I hope you have learned some valuable information in the education     \n"
+                                                      "mode and you can now freely train a neural network and see the results \n"
+                                                      "from it. If you would like to see the full guidence for the application\n"
+                                                      "you can view it in the ReadMe file.                                    \n"
+                                                      "                                                                       \n"
+                                                      "A few extra notes:                                                     \n"
+                                                      "- in order to train your neural network so you reach a threshold, start\n"
+                                                      "  with a lower threshold in order to view how the score increases in a \n"
+                                                      "  game and what is the limit                                           \n"
+                                                      "- you can also use no_fitness_termination = True so you can run the    \n"
+                                                      "game for N generations to get an idea of how the game works            \n"
+                                                      "- you can reuse your config file given you change the input and output \n"
+                                                      "  depending on the game you have chosen                                \n"
+                                                      "- the games provided in the dropbox are tested games so any other game \n"
+                                                      "   you try to input will not work                                         ",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.configure(anchor="w")
+                label2.grid(row=1, column=0)
             else:
                 if label2 != "":
                     self.hide_old_widgets(label2)
