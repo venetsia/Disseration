@@ -2651,45 +2651,68 @@ game_selection['values'] = ('SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Free
                             "Pooyan-v0", "StarGunner-v0",
                             "TimePilot-v0", "UpNDown-v0", "Zaxxon-v0"
                             )
+CreateHelpMessage.CreateToolTip(game_selection_l,
+                                text='A game from the gym environment.\nAtari games:\n "SpaceInvaders-v0", "Berzerk-v0", "Boxing-v0", "Freeway-v0", "Frostbite-v0", "Kangaroo-v0", "KungFuMaster-v0","Pong-v0", "Alien-v0", "Asterix-v0", "Asteroids-v0", "Amidar-v0", "Assault-v0", "Atlantis-v0", "BattleZone-v0", "Carnival-v0", "Centipede-v0", "DemonAttack-v0", "JourneyEscape-v0", "Phoenix-v0", "Pooyan-v0", "StarGunner-v0","TimePilot-v0", "UpNDown-v0", "Zaxxon-v0"\nBox2D games:\n  "LunarLander-v2", "CartPole-v1"')
+
 game_selection.grid(row=1, column=1, sticky=tk.W)
 game_selection.config(validate="key", validatecommand=(
     Validate_Neat_Setup.Validate_Game_Selection(game_selection, game_selection_l, style, runs_per_network_l, runs_per_network), "%P"))
+CreateHelpMessage.CreateToolTip(game_selection,
+                                text='A game from the gym environment.\nAtari games:\n "SpaceInvaders-v0", "Berzerk-v0", "Boxing-v0", "Freeway-v0", "Frostbite-v0", "Kangaroo-v0", "KungFuMaster-v0","Pong-v0", "Alien-v0", "Asterix-v0", "Asteroids-v0", "Amidar-v0", "Assault-v0", "Atlantis-v0", "BattleZone-v0", "Carnival-v0", "Centipede-v0", "DemonAttack-v0", "JourneyEscape-v0", "Phoenix-v0", "Pooyan-v0", "StarGunner-v0","TimePilot-v0", "UpNDown-v0", "Zaxxon-v0"\nBox2D games:\n  "LunarLander-v2", "CartPole-v1"')
 
 
 # Select evalutation
 game_evaluation_l = tk.Label(tab2, text="Evaluate Genomes:", justify=LEFT, anchor="w")
 game_evaluation_l.grid(row=2, column=0,ipadx=37, pady=2, sticky=tk.W)
+CreateHelpMessage.CreateToolTip(game_evaluation_l,
+                                text='When single-processing is selected it means it will run only on one core or one thread of your computer, so one game (genome) at a time.')
+
 
 game_evaluation = ttk.Combobox(tab2, name="game_evaluation", width =20)
 game_evaluation['values'] = ("Single-Processing")
 game_evaluation.grid(row=2, column=1, sticky=tk.W)
 game_evaluation.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_evaluation, game_evaluation_l, style), "%P"))
+CreateHelpMessage.CreateToolTip(game_evaluation,
+                                text='When single-processing is selected it means it will run only on one core or one thread of your computer, so one game (genome) at a time.')
 
 # Winner file name
 winner_file_name_l = tk.Label(tab2, text="Winner file name:", justify=LEFT, anchor="w")
 winner_file_name_l.grid(row=3, column=0, ipadx=37, pady=2, sticky=tk.W)
+CreateHelpMessage.CreateToolTip(winner_file_name_l,
+                                text='The name of the file that will save the winner genome that reaches fitness_threshold.')
 
 winner_file_name = tk.Text(tab2, name="winner_file_name", height = 0.5, width =17)
 winner_file_name.grid(row=3, column=1, sticky=tk.W)
 winner_file_name.bind('<KeyRelease>',Validate_Text_Widget_Neat)
-
+CreateHelpMessage.CreateToolTip(winner_file_name,
+                                text='The name of the file that will save the winner genome that reaches fitness_threshold.')
 # Checkpoints
 game_checkpoint_l = tk.Label(tab2, text="Save Checkpoint:", justify=LEFT, anchor="w")
 game_checkpoint_l.grid(row=4, column=0,ipadx=37, pady=2, sticky=tk.W)
+CreateHelpMessage.CreateToolTip(game_checkpoint_l,
+                                text='Choosing N(5 for example) number of checkpoints it means that the process of your game will be saved after N(5 for example) number of generations.')
 
 game_checkpoint = ttk.Spinbox(tab2, from_=0, to=100000000, increment=1, name = "game_checkpoint", width =19)
 game_checkpoint.grid(row=4, column=1, sticky=tk.W)
 game_checkpoint.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_checkpoint, game_checkpoint_l, style), "%P"))
+CreateHelpMessage.CreateToolTip(game_checkpoint_l,
+                                text='Choosing N(5 for example) number of checkpoints it means that the process of your game will be saved after N(5 for example) number of generations.')
 
 # Console
 console_l = tk.Label(tab2, text="Enter command:", justify=LEFT, anchor="w")
 console_l.grid(row=11, column=0,ipadx=37, pady=2, sticky=tk.W)
+CreateHelpMessage.CreateToolTip(console_l,
+                                text='Here you will see the input and output for the game you have selected if the tickbox is ticked.\nOtherwise you can type commands such as:\n'
+                                     'print(env.action_space) or print(env.observation_space) after you have selected the game and you can manually see output (action_space) and input(observation_space)')
 
 build_in_console = tk.Text(tab2, name="build_in_console", height = 5, width =45)
 build_in_console.grid(row=12, column=0, sticky=tk.W,columnspan=2)
 build_in_console.bind("<Return>",Build_in_Console.Get_Console_input(build_in_console, game_selection))
+CreateHelpMessage.CreateToolTip(build_in_console,
+                                text='Here you will see the input and output for the game you have selected if the tickbox is ticked.\nOtherwise you can type commands such as:\n'
+                                     'print(env.action_space) or print(env.observation_space) after you have selected the game and you can manually see output (action_space) and input(observation_space)')
 
 # Reccurent / FeedForward network
 network_type_l = tk.Label(tab2, text="Network Type:", justify=LEFT, anchor="w")
@@ -2704,21 +2727,28 @@ network_type.config(validate="key", validatecommand=(
 # Directory path
 directory_value_l = tk.Label(tab2, text="Directory:", justify=LEFT, anchor="w")
 directory_value_l.grid(row=8, column=0, pady=2, sticky=tk.W)
-
+CreateHelpMessage.CreateToolTip(directory_value_l,
+                                text='The directory of your Configuration file or checkpoint')
 directory_value = tk.Text(tab2, name="directory_value", height = 2, width =50)
 directory_value.grid(row=9, column=0, sticky=tk.W, columnspan=3)
 directory_value.bind('<Key>',lambda e: 'break')
-
+CreateHelpMessage.CreateToolTip(directory_value,
+                                text='The directory of your Configuration file or checkpoint')
 
 # Render Window
 render_window_l = tk.Label(tab2, text="Render game?", justify=LEFT, anchor="w")
 render_window_l.grid(row=6, column=0,ipadx=37, pady=2, sticky=tk.W)
-
+CreateHelpMessage.CreateToolTip(render_window_l,
+                                text='True - you will see the game on your screen while your computer is trying to learn how to play\n'
+                                     'False - you will not see the game on your screen while your computer is trying to learn to play')
 render_window = ttk.Combobox(tab2, name="render_window", width =20)
 render_window['values'] = ("True", "False")
 render_window.grid(row=6, column=1, sticky=tk.W)
 render_window.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(render_window, render_window_l, style), "%P"))
+CreateHelpMessage.CreateToolTip(render_window,
+                                text='True - you will see the game on your screen while your computer is trying to learn how to play\n'
+                                     'False - you will not see the game on your screen while your computer is trying to learn to play')
 
 # Runs Per Network
 num_generations_l = tk.Label(tab2, text="Terminate after num of generations:", justify=LEFT, anchor="w")
@@ -2742,12 +2772,14 @@ choose_config_file = ttk.Combobox(tab2, name="choose_config_file", width =20)
 choose_config_file['values'] = ("From Text Editor", "Choose file from directory", "Restore from Checkpoint")
 choose_config_file.grid(row=7, column=1, sticky=tk.W)
 choose_config_file.config(validate="key", validatecommand=Get_Directory_For_Neat.run_NEAT_get_input(choose_config_file, directory_value, txt_edit, num_generations, num_generations_l))
-
+CreateHelpMessage.CreateToolTip(choose_config_file,
+                                text='The directory of your Configuration file or checkpoint')
 # Output console
 Output_Console = tk.Text(tab2, name="output_console", height = 30, width = 80)
 Output_Console.grid(row=13, column=0, sticky=tk.W, rowspan =4, columnspan=4, pady = 5)
 Output_Console.bind('<Key>',lambda e: 'break')
 Output_Console.insert(tk.END, "## See the evolution of genomes while running NEAT ##")
+
 
 var1 = tk.IntVar()
 var2 = tk.IntVar()

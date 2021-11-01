@@ -104,12 +104,12 @@ class Education_tab(object):
         input = widget.get("1.0", tk.END)
         input = input.lower()
         if value == "Neural Network":
-            if input in "hidden layer" or input.lower() in "hidden-layer" or input.find("hidden-layer") == 0 or input.find("hidden layer") == 0:
+            if "hidden layer" in input or "hidden" in input or input.lower() in "hidden-layer" or input.find("hidden-layer") == 0 or input.find("hidden layer") == 0:
                 widget.config(bg="green")
             else:
                 widget.config(bg="red")
         elif value == "Learning Types":
-            if input.find("reinforcement learning (rl)") == 0 or input.find("reinforcement learning (rl)") == 0 or input.find("reinforcement learning") == 0 or input.find("reinforcement learning") == 0 or input.find("rl") == 0 or input.find("rl") == 0 or input.find("reinforcement") == 0 or input.find("reinforcement") == 0 :
+            if input.find("reinforcement learning (rl)") == 0 or input.find("reinforcement learning (rl)") == 0 or input.find("reinforcement learning") == 0 or input.find("reinforcement learning") == 0 or input.find("rl") == 0 or input.find("rl") == 0 or input.find("reinforcement") == 0 or input.find("reinforcement") == 0 or "reinforcement" in input or "rl" in input:
                 widget.config(bg="green")
             else:
                 widget.config(bg="red")
@@ -1550,7 +1550,10 @@ class Education_tab(object):
                 except:
                     pass
                 label2 = tk.Label(educatuin_tab, text="Now that we have seen an example of Recurrent we can see the same\n"
-                                                      "example with Feed-Forward for the Atari game Space-Invaders.",
+                                                      "example with Feed-Forward for the Atari game Space-Invaders.     \n"
+                                                      "Remember the input for each game will be 1092 (pixels) for every \n"
+                                                      "Atari game due to the image processing the software is doing to  \n"
+                                                      "resize the rendered image for the game.                          \n",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.configure(anchor="w")
