@@ -1,7 +1,7 @@
 import random
 import tkinter as tk
 import numpy as np
-import pyautogui
+# import pyautogui
 import CreateHelpMessage
 import ProcessImages
 import StickyNote

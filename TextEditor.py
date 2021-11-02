@@ -6,14 +6,14 @@ import threading
 import tkinter as tk
 from multiprocessing import Pool
 from pathlib import Path
-from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT, VERTICAL
+from tkinter.filedialog import askopenfilename, asksaveasfilename, LEFT#, VERTICAL
 from tkinter import ttk, INSERT, END, SE, filedialog
 from tkinter.messagebox import showinfo
 from tkinter import messagebox
 
 import StickyNote
 import gym
-import pyautogui
+#import pyautogui
 import CreateHelpMessage
 from time import gmtime, strftime
 import ctypes  # An included library with Python install.
