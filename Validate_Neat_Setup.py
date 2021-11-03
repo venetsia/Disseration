@@ -9,7 +9,7 @@ games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 
                             "Carnival-v0", "Centipede-v0", "DemonAttack-v0",
                             "JourneyEscape-v0", "Phoenix-v0",
                             "Pooyan-v0", "StarGunner-v0",
-                            "TimePilot-v0", "UpNDown-v0"
+                            "TimePilot-v0", "UpNDown-v0",  "LunarLander-v2", "CartPole-v1"
                             ]
 game_evaluation_choice = ["Single-Processing", "Multi-Processing"]
 network_type_choice = ["Feed-forward", "Recurrent"]
