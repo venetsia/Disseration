@@ -2,7 +2,7 @@ import re
 import copy
 import importlib
 import warnings
-
+import os
 from gym import error, logger
 
 # This format is true today, but it's *not* an official spec.
@@ -11,7 +11,7 @@ from gym import error, logger
 # 2016-10-31: We're experimentally expanding the environment ID format
 # to include an optional username.
 env_id_re = re.compile(r'^(?:[\w:-]+\/)?([\w:.-]+)-v(\d+)$')
-
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
 
 def load(name):
     mod_name, attr_name = name.split(":")

@@ -25,7 +25,7 @@ import Run_winner
 import ValidateInput
 import Build_in_Console
 import Validate_Neat_Setup
-import pyglet
+#import pyglet
 from concurrent.futures import ThreadPoolExecutor
 from CustonText import CustomText
 import gym.envs.classic_control
@@ -2944,6 +2944,8 @@ root.protocol("WM_DELETE_WINDOW", on_closing)
 
 ProcessImages.process_file()
 
+#print(gym.envs.registration.ROOT_DIR)
+
 if response_from_message_box == 6: #yes
     education_mode = True
     root.resizable(True, False)  # Width, Height
@@ -2962,7 +2964,7 @@ if response_from_message_box == 6: #yes
     reset_progress_btn.grid()
     root.mainloop()
 
-    pyglet.app.run()
+    #pyglet.app.run()
 else:
     education_mode_normal_mode.config(image=education_mode_pic)
     frame_Education.grid_remove()
@@ -2970,6 +2972,6 @@ else:
     Education_listbox.grid_remove()
     tabControl.tab(tab_education, state = "disabled")
     root.mainloop()
-    pyglet.app.run()
+    #pyglet.app.run()
 
 
