@@ -9,7 +9,7 @@
 
 ###  - Have PyCharm instaled from https://www.jetbrains.com/pycharm/ (it is free to use) - program is not limited to only this IDE  
 
-### Install Visual Studio and install C++ dependencies (otherwise Atari games would not load)
+### - Install Visual Studio and install C++ dependencies (otherwise Atari games would not load)
 
 Following guidence on https://github.com/openai/gym/issues/1726
 
