@@ -18,6 +18,8 @@ else:
     #                                        'ale_interface/ale_c.dll'))
     test = os.path.join(os.path.dirname(__file__),'ale_interface/ale_c.dll')
     test1 = os.path.abspath(os.getcwd())
+    tesst3 = os.path.join(os.path.abspath(os.getcwd()),
+                                            'atari_py/ale_interface/ale_c.dll')
     ale_lib = cdll.LoadLibrary(os.path.join(os.path.abspath(os.getcwd()),
                                             'atari_py/ale_interface/ale_c.dll'))
 

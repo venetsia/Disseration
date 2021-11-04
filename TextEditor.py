@@ -30,11 +30,11 @@ from concurrent.futures import ThreadPoolExecutor
 from CustonText import CustomText
 import gym.envs.classic_control
 import gym.envs.box2d
-#import atari_py.ale_interface
-#import atari_py.ale_python_interface
-#import atari_py
-#import gym.envs.atari.atari_env
-#import gym.envs.atari
+import atari_py.ale_interface
+import atari_py.ale_python_interface
+import atari_py
+import gym.envs.atari.atari_env
+import gym.envs.atari
 from StickyNote import StickyNotes
 
 game_list_2D = ["LunarLander-v2", "CartPole-v1"]
