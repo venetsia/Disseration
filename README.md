@@ -1,4 +1,4 @@
-https://github.com/openai/gym/issues/1726
+
 # How to run the program
 ## Pre-requirements
 ###  - Have Python 3.7.0 installed 
@@ -9,7 +9,30 @@ https://github.com/openai/gym/issues/1726
 
 ###  - Have PyCharm instaled from https://www.jetbrains.com/pycharm/ (it is free to use) - program is not limited to only this IDE  
 
-## How to load in Pycharm via GIT
+### Install Visual Studio and install C++ dependencies (otherwise Atari games would not load)
+
+Following guidence on https://github.com/openai/gym/issues/1726
+
+You need to:
+1. Download VS build tools here: https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=BuildTools&rel=16
+2. C++ Builld tools via:
+- Run the VS build setup and select "C++ build tools" (or it can be under "Desktop Development with C++" in new versions of the VS Build Tool) and install it.
+
+**If you cannot find Windows 10 SDK (10.18362.0) do not worry, just install the newest version there is for Windows 10, currently up to 04.11.2021 it is Windows 10 SDK(10.0.19041.0)**
+
+![image](https://user-images.githubusercontent.com/15977217/140330921-f1b03bc0-c214-4401-8a83-85afbeeda8f2.png)
+
+- Visual Studio 2019 - under Desktop Develipment with C++)
+
+![image](https://user-images.githubusercontent.com/15977217/140331978-705ad222-b1d8-442b-95bf-2c4452d107ed.png)
+
+![image](https://user-images.githubusercontent.com/15977217/140332544-2511c795-e6a6-412b-90a2-8b1fe2541893.png)
+
+3. Restart PC
+4. Only after the restart you should install the library requirements (atari_py (integrated in gym library) needs the C++ build tools otherwise it will not find the modules)
+**If you try to run the program without the build tools it will run but the Atari games will not work as it will fail to find the modules**
+
+## How to load in PyCharm via GIT
 1a. Click on "Get From VCS"
 ![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/VSC.png) 
 
@@ -38,10 +61,180 @@ Click on "Clone" and then copy the link from HTTPS
 
 **On "Directory" you are specifying where would you like to save the project on your computer (locally)**
 
-5. Click "Clone button
+5. Click "Clone" button
 
 ![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/paste.png)
 
+6. The following screen will open: (Click on Project)
+
+![image](https://user-images.githubusercontent.com/15977217/140334975-9556439a-7cb3-4704-9a2a-9fcd5a7fae0f.png)
+
+**On the bottom you will see that it is performing some checks so you should proceed after it is done (when you see:)**
+
+![image](https://user-images.githubusercontent.com/15977217/140335150-6b952cc9-3070-4006-a871-9fea2b3ee8aa.png)
+
+7. Expand the project:
+
+![image](https://user-images.githubusercontent.com/15977217/140335275-d273d60a-98ba-46d8-86f1-eaa8b944c2cf.png)
+
+8. We need to first choose an "Interpreter" (Python language)
+
+- First time using PyCharm you will see:
+ 
+![image](https://user-images.githubusercontent.com/15977217/140335771-aad85f58-7bc6-461c-9291-d63ebb561bea.png)
+
+- Non first time user of PyCharm:
+
+![image](https://user-images.githubusercontent.com/15977217/140335926-103b9cdb-c97e-4f75-8703-895ad4eddae6.png)
+
+9. Click on File -> Settings:
+
+![image](https://user-images.githubusercontent.com/15977217/140336105-88d2db1f-4f94-4e5a-905e-2fd0538ec523.png)
+
+10. Click on "Project:<Directory you have chosen from step 4>" (In my case it would be NeatEditor following from that example, but due to more testing I have named the Directory DissertationTestint - So it would have whatever name you have chosen there for that specific load):
+
+![image](https://user-images.githubusercontent.com/15977217/140336308-60e81c74-cf5e-4b44-a15c-7a270edd3046.png)
+
+11. Click on Project Interpreter
+
+![image](https://user-images.githubusercontent.com/15977217/140337232-f5e8eee3-54a6-4521-af98-f233fe9d1acf.png)
+
+12. Click on the "COG" and Choose "Add"
+
+**Depending on whether or not this is your first time using PyCharm the PythonInterpreter may be saying "No Interpreter" or something like mine - you can ignore this as we will add a new one**
+
+![image](https://user-images.githubusercontent.com/15977217/140337703-ae6be931-2bf0-4fb7-ab8b-4a0c1ea29023.png)
+
+
+![image](https://user-images.githubusercontent.com/15977217/140337644-3903444e-fd42-44fb-a408-d3aa9db555c1.png)
+
+13. Choose "New Environment"
+
+![image](https://user-images.githubusercontent.com/15977217/140338124-5faed25b-a37e-474e-a0e4-f1ec06098a65.png)
+
+14. On "Location" change **venv** to **venv1** (for example) - this is where it will store the language you are using and all of the installed libraries
+
+![image](https://user-images.githubusercontent.com/15977217/140338757-ef568fe7-321f-4746-8251-715997bafaa3.png)
+
+**Why change it?**
+When you hover over the text field it will let you know that it is not empty so after many tests it is easier to create a new Virtualenv Environment
+![image](https://user-images.githubusercontent.com/15977217/140338646-4141c72e-b474-4cdd-8d7e-de132c510357.png)
+
+
+15. Choose the Python 3.7.0 version by clicking on "..." and paste the path to your python.exe 
+
+![image](https://user-images.githubusercontent.com/15977217/140343708-80c1b0d5-2dbb-4934-bb6a-3e4ad3907e43.png)
+
+Outcome after  pasting path:
+![image](https://user-images.githubusercontent.com/15977217/140344875-f97b25ca-18b2-4b9a-ad4f-1b0e28b533cf.png)
+
+**How to find path to exe?**
+15.1. Search for Python in Search Bar and click on "Open File Location"
+
+![image](https://user-images.githubusercontent.com/15977217/140339033-170f8bcc-abb7-4160-b05f-597e98a81b39.png)
+
+15.2. Right Click on Python 3.7 (64-bit) and select "Properties"
+
+![image](https://user-images.githubusercontent.com/15977217/140339468-99460bb1-205c-446c-b237-bf09391664db.png)
+
+15.3. Click on Target text filed (anywhere)
+
+![image](https://user-images.githubusercontent.com/15977217/140339738-a44d225c-8d81-4607-b3a0-be6350a2151f.png)
+
+15.4. On Keyboard press "Ctrl + A"/ right click and choose "Select all" to select the whole path and "Ctrl + C"/ or right click and select "Copy" to copy
+
+![image](https://user-images.githubusercontent.com/15977217/140340381-558b1008-7006-4f37-8068-dbb4fdb33a63.png)
+
+15.5. Paste in the text field
+
+![image](https://user-images.githubusercontent.com/15977217/140346686-8366f6ca-8c69-4565-9d3e-09b9f313a71d.png)
+
+
+**If you are having issues with this for some reason:**
+- Click on "Open File Location" and copy the whole path (in my case it is: C:\Users\User\AppData\Local\Programs\Python\Python37)
+ 
+![image](https://user-images.githubusercontent.com/15977217/140341945-4a3c1103-f280-4444-8cbb-ad8d1861360e.png)
+
+- Paste in the path and add python.exe or choose the python.exe 
+
+![image](https://user-images.githubusercontent.com/15977217/140347133-30722895-7ddf-4652-b107-d626f67f6ea2.png)
+
+16. Press "OK"
+
+![image](https://user-images.githubusercontent.com/15977217/140347960-417916aa-0e02-4937-b017-9387a4051141.png)
+
+17. Wait for "Creating Virtual Environment" to finish
+
+![image](https://user-images.githubusercontent.com/15977217/140348770-22070ed0-1bd3-447d-8110-74d74a9456c1.png)
+
+18. Click on "OK"
+
+![image](https://user-images.githubusercontent.com/15977217/140351116-4feaeb4f-9697-4c20-9f3a-915e6b2879f5.png)
+
+19. Wait until you do not see anything loading on the bottom and you see: (**Loading may be: "Indexing", "Finding binaries", etc - you will see it on bottom right corner after "Creating Virtual Environment" dissappears)
+
+![image](https://user-images.githubusercontent.com/15977217/140349730-92523fa6-eb9d-4c66-aa7c-1286db33be47.png)
+
+20. Double click on "TextEditor.py"
+
+![image](https://user-images.githubusercontent.com/15977217/140352070-42a113dc-8231-406b-a176-65949dcdc335.png)
+
+21. Scroll to the top until you see:
+
+![image](https://user-images.githubusercontent.com/15977217/140352902-481f2fa1-dc84-4088-9c79-0d42b8cf2f6d.png)
+
+
+![image](https://user-images.githubusercontent.com/15977217/140352639-00e832e6-fd87-48f2-a91d-9e2e87a459ad.png)
+
+21. Click on "Install Requirements":
+
+![image](https://user-images.githubusercontent.com/15977217/140353269-4032a9cb-3ae4-4639-9255-d414632df3a0.png)
+
+22. Click on "Install"
+
+![image](https://user-images.githubusercontent.com/15977217/140354715-e03827f6-9a45-4166-ab00-0e5cb6f7d506.png)
+
+**Important Notice**
+For some reason it does not install opencv-python == 4.5.3.56 so after you no longer see "Installing package <name == version>: (if you did see it within the checked parameters you can skip 23)
+
+![image](https://user-images.githubusercontent.com/15977217/140356170-ad87f086-fb45-420e-b24b-4de54ed747b3.png)
+
+23. Check if  opencv-python == 4.5.3.56 is installed
+
+![image](https://user-images.githubusercontent.com/15977217/140356170-ad87f086-fb45-420e-b24b-4de54ed747b3.png)
+
+After you see:
+
+![image](https://user-images.githubusercontent.com/15977217/140364372-96c9a8ca-2106-4aa5-b4f8-0744ccfe5386.png)
+
+Go to "File -> Settings"
+
+![image](https://user-images.githubusercontent.com/15977217/140364867-872b8f5f-111c-4257-b1dd-27fd2a320701.png)
+
+Click on "+"
+
+![image](https://user-images.githubusercontent.com/15977217/140365482-7a779384-b3c3-447d-8ba7-ef5f6551e0a9.png)
+
+Type: opencv-python, and tick the "Specify version" and choose from the dropdown 4.5.3.56 and click "Install Package"
+
+![image](https://user-images.githubusercontent.com/15977217/140366142-686dba4c-6267-4919-b595-a491a781809a.png)
+
+Close the "Available Packages" window (click on "x")
+
+![image](https://user-images.githubusercontent.com/15977217/140367803-a8c1d426-72f0-42fd-9ca4-96badfa57303.png)
+
+Close the "Settings" window by clicking "OK"
+
+![image](https://user-images.githubusercontent.com/15977217/140368600-40e2d12f-9811-4f60-b48f-f61d1e3c8f8d.png)
+
+
+You should see shortly 
+
+![image](https://user-images.githubusercontent.com/15977217/140367127-51e70c2a-d7e0-41e7-a98d-07abdff743ea.png)
+
+24. Right Click on TextEditor.py and select "Run TextEditor"
+
+![image](https://user-images.githubusercontent.com/15977217/140369592-e3a69d9d-85da-4185-a4fa-7648a75728dc.png)
 
 # NEAT 
 ## [NEAT] section
