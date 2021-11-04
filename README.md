@@ -1,3 +1,24 @@
+# Tested on:
+
+- Widnows 10
+Processor: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz   2.81 GHz
+Installed RAM: 16.0 GB (15.9 GB usable)
+System type: 64-bit operating system, x64-based processor
+Windows Edition: Windows 10 Home
+Version: 21H1
+OS Build: 19043.1288
+
+- Windows 11
+Processor: Intel(R) Core(TM) i7-8750H CPU @ 2.20 GHz 2.21 GHz
+Installed RAM: 16.0 GB (15.9 GB usable)
+System type: 64-bit operating system, x64-based processor
+Windows Edition: Windows 11 Home
+Version: 21H2
+OS Build: 22000.258
+
+**Display Resolution: 1920 x 1080**
+
+**Not Tested on: Linux, MAC OS, any other Windops OS**
 
 # How to run the program
 ## Pre-requirements
