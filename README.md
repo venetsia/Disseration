@@ -8,8 +8,39 @@
 
 ###  - Have PyCharm instaled from https://www.jetbrains.com/pycharm/ (it is free to use) - program is not limited to only this IDE  
 
-## How to load in Pycharm
-### - First time installed PyCharm
+## How to load in Pycharm via GIT
+1a. Click on "Get From VCS"
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/VSC.png) 
+
+OR
+
+1b. Click on "Git" and then clone 
+
+![image](https://user-images.githubusercontent.com/15977217/140252759-bee76b25-6e9e-4c34-a059-2cabb97cad33.png)
+
+2.You should see the below screen: 
+
+![image](https://user-images.githubusercontent.com/15977217/140252849-357b949d-9e18-4b09-bd52-21005c09e09f.png)
+
+
+**Important if you do not have GIT it will say so under the "Directory" and you will have the option to install it - You should install GIT if you would like to "Clone" the program ** 
+
+3. On the main page of the github project you should see the button "Clone"
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/clone.png) 
+
+Click on "Clone" and then copy the link from HTTPS
+
+4. Paste the link you have copied from github to Pycharm in the URL text field
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/paste.png)
+
+**On "Directory" you are specifying where would you like to save the project on your computer (locally)**
+
+5. Click "Clone button
+
+![alt text](https://github.com/venetsia/Disseration/blob/master/ReadMePictures/paste.png)
+
 
 # NEAT 
 ## [NEAT] section
