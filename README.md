@@ -1,3 +1,16 @@
+# How to run the program
+## Pre-requirements
+###  - Have Python 3.7.0 installed 
+#### in order to run the program you will need Python 3.7.0 from official website - https://www.python.org/downloads/release/python-370/
+##### If you scroll down you will see the files (install the one according to your machine)
+
+![image](https://user-images.githubusercontent.com/15977217/140250964-195d6337-d05f-4075-8254-c1859a348fd3.png)
+
+###  - Have PyCharm instaled from https://www.jetbrains.com/pycharm/ (it is free to use) - program is not limited to only this IDE  
+
+## How to load in Pycharm
+### - First time installed PyCharm
+
 # NEAT 
 ## [NEAT] section
 - `fitness_criterion` - this function determinesthe termination criterion from the genome fitness. 
