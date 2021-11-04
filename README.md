@@ -1,6 +1,7 @@
 # Tested on:
 
 - Widnows 10
+
 Processor: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz   2.81 GHz
 
 Installed RAM: 16.0 GB (15.9 GB usable)
@@ -15,6 +16,7 @@ OS Build: 19043.1288
 
 
 - Windows 11
+
 Processor: Intel(R) Core(TM) i7-8750H CPU @ 2.20 GHz 2.21 GHz
 
 Installed RAM: 16.0 GB (15.9 GB usable)
