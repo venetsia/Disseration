@@ -1,6 +1,6 @@
 # Testing the application
 
-**If you do not wish to test it on your own machine but you still wish to test the application you can contact me on venetsia@icloud.com or 40313507@live.napier.ac.uk and I can show the application form my computer via Teams/Webex/Skype or another application of your choice.**
+**If you do not wish to test it on your own machine but you still wish to test the application you can contact me on venetsia@icloud.com or 40313507@live.napier.ac.uk and I can show the application from my computer via Teams/Webex/Skype or another application of your choice.**
 
 # Tested on:
 
