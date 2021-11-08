@@ -4,7 +4,7 @@
 
 # Tested on:
 
-- Widnows 10
+- Windows 10
 
 Processor: Intel(R) Core(TM) i7-7700HQ CPU @ 2.80GHz   2.81 GHz
 
