@@ -34,6 +34,7 @@ Version: 21H2
 OS Build: 22000.258
 
 
+
 **Display Resolution: 1920 x 1080**
 
 **Not Tested on: Linux, MAC OS, any other Windops OS**
