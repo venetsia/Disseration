@@ -1,3 +1,51 @@
+# Executive summary - What can you do with the program?
+
+The program is designed to provide an easy to use graphical user interface so you can edit Neat Config file, train a neural network and then run the agent (genome) that reached the score you have specified in Neat Config (fitness_threshold) and/or see the progress of previous generations so you can compare. You would not need any coding experience in order to play with NEAT, train your network and later see the winner agent.
+
+## How can I run the program?
+
+Currently you would need to clone the program in PyCharm and install the specified libraries in requirements.txt. While the program is designed to enable the user to play with NEAT without having to code, you would need to run the program from PyCharm (or another integrated development environment (IDE) (a software application that provides comprehensive facilities to computer programmers for software development.)) 
+
+Configuring an executable file (.exe file) caused issues where it could not find the C++ Build Tools on another computer). Later versions of the software may provide a Docker Image for you to run or an .exe file but currently it is not supported due to issues with mapping dependencies and further testing needs to be done.
+
+## NEAT Config
+In this tab you can easily edit the configuration file and choose the desired values for the parameters. You can easily see the description of the parameter so you do not have to refer to the NEAT-Python guidence online.
+- Easily edit the NEAT configuration file with a single button.
+- Get NEAT Configuration file with default values for parameters
+- Get NEAT Configuration file with empty values for the parameters
+- Import an external config file and edit it easily (structures the configuration file layout so you can easily see the categories)
+- While choosing your values for the parameters you can see the definition for the parameter
+
+## Neat Setup (train your neural network)
+This tab is used to train your neural network (agents) to learn to play a chosen game. Can save checkpoints so you can see the progress of the generation (in Load Winner) or resume the training. 
+1. Parameters needed to start training
+- Choose a game from a list of tested games
+- Choose how you would like to train your neural network (single-processing (on one core) only available for now)
+- Choose the name of the winner agent (genome)
+- (optional) Choose the number of checkpoints you would like to save (Saves every N number of generations) -> This can be used to see the progress of the generation (in Load Winner) or resume the training from a checkpoint (Neat Setup)
+- Choose the Network Type (Feed-Forward / Recurrent)
+- Choose whether you would like to see the game rendered while training is in progress
+- Choose the configuration file (one that you have just edited or saved one) / or to restore training from a checkpoint
+2. Extra features
+- See output of Neat training - this produces the fitness a genome has reached so you know if the network is getting better and soon will reach fitness_threshold (desired score) or is it stuck
+- no_fitness_termination = True - choose after N number of generations to stop the training
+- "Check config file for input/output" - change the num_inputs and num_output in config file for chosen game automatically
+- See num_inputs and num_outputs for selected game
+- Train a genome (a single genome/agent in the generation) on a number of episodes so the training process takes less generations. - Avaiable for "LunarLander" and "CartPole"
+- Recall what you have trained with what values for the parameters so you can later load the winner. - recall from logfilename.log
+
+## Load Winner 
+This tab is used so you can see how the winner genome plays the chosen game after reaching the desired  score (fithness_threshold). You can view the process of earlier generations so you can make a comparison from generation 0 to the winner genome (single angent from a generation).
+The values chosen in this section should mirror the ones you have chosen when training the neural network. You can recall what have you used in logfilename.log
+
+- Choose a game from a list of tested games
+- Choose the winner agent (genome)
+- Choose how many episodes would you like the winner genome to play the game (Single the genome is trained, it will be familiar with the environment so it will try to beat the game)
+- (optional) Choose the location of the saved checkpoints so you can view what the progress was on that generation.
+- Choose the Network Type (Feed-Forward / Recurrent)
+- Choose the configuration file you used to train the neural network
+
+
 # Testing the application
 
 **If you do not wish to test it on your own machine but you still wish to test the application you can contact me on venetsia@icloud.com or 40313507@live.napier.ac.uk and I can show the application from my computer via Teams/Webex/Skype or another application of your choice.**
@@ -697,7 +745,7 @@ You can easily see what you have run with what names and where the config file i
 
 **Important Note**
 
-Beware that in oredr to run Winner you will need to specify the same things you have when you have trained the neural network.
+Beware that in order to run Winner you will need to specify the same things you have when you have trained the neural network. - you can view this from logfilename.log
 Why?
 Imagine you train your neural network to play Space Invaders and it is trained with the actions and observations of that game and you try to load the winner genome (that has the actions and observations of Space Invaders) with another game. It will not know what to do because it has not been trained to play the different game.
 
