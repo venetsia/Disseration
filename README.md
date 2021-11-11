@@ -94,7 +94,7 @@ OS Build: 22000.258
 
 ![image](https://user-images.githubusercontent.com/15977217/140250964-195d6337-d05f-4075-8254-c1859a348fd3.png)
 
-###  - Have PyCharm instaled from https://www.jetbrains.com/pycharm/ (it is free to use) - program is not limited to only this IDE  
+###  - Have PyCharm installed from https://www.jetbrains.com/pycharm/ (it is free to use) - program is not limited to only this IDE  
 
 ### - Install Visual Studio and install C++ dependencies (otherwise Atari games would not load)
 
