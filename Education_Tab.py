@@ -189,7 +189,8 @@ class Education_tab(object):
                                    "- Please name your file for the winner.\n"
                                    " * Save Checkpoints - This can be left empty but if you would like to save progress specify after how many generations."
                                    "\n- Render Window - choose True if you want to view the neural network attempt to reach threshold."
-                                   "\n* if you would like to increase the \"Runs per network\" you deffinitely can change it.")
+                                   "\n* if you would like to increase the \"Runs per network\" you deffinitely can change it.\n"
+                                   "Once the neural network finds a winner it shows the connections within the genome.")
         elif hidden_level_value == "RunNeatExampleCartPole\n":
             hidden_level_text.delete(1.0, tk.END)
             print(hidden_level_text.get(1.0, tk.END))
@@ -216,7 +217,7 @@ class Education_tab(object):
                                    " \"DemonAttack-v0\",\"JourneyEscape-v0\", \"Phoenix-v0\", \"Pooyan-v0\",\"StarGunner-v0\", \"TimePilot-v0\""
                                    ", \"UpNDown-v0\"]\n"
                                    "    * Once you select a game, move your cursor to another box to see the results.\n\n"
-                                   "All of the input values for the Atari games will be 1092 due to the way the software is processing the image.\n"
+                                   "All of the input values for the Atari games will be 1092 PIXELS due to the way the software is processing the image.\n"
                                    "Only the outputs will change as every game has different actions the character can perform.")
 
         elif hidden_level_value == "Atari_Example_within_2_feed\n":
@@ -1480,10 +1481,10 @@ class Education_tab(object):
                                                       "You can download the Stella emulator and play the games yourself.      \n"
                                                       "The Atari games are a bit more complicated to play, at least for the   \n"
                                                       "computer because it has to process the RGB image and recognise the     \n"
-                                                      "objects within it. Each input for the games will be 1092 and the output\n"
-                                                      "will vary depending on the game selected. Every config file can be used\n"
-                                                      "with any of the games given you provide correct output.                \n"
-                                                      "We will see a Recurrent example first.                                   ",
+                                                      "objects within it. Each input for the games will be 1092 PIXELS and the\n"
+                                                      "output will vary depending on the game selected. Every config file can \n"
+                                                      "be used with any of the games given you provide correct output.        \n"
+                                                      "We will see a Recurrent example first.                                 \n",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.configure(anchor="w")

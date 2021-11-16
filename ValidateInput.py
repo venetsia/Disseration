@@ -44,6 +44,9 @@ class Validate(object):
             # value = text.get()
             print(value.isdigit())
             print(len(value) if len(value) > 0 else "no")
+            if value == "0" or value == "0.0":
+                label.config(fg="black")
+                return
             if re.search('[a-zA-Z]', value):
                 text.set("")
                 label.config(fg="red")
@@ -103,17 +106,21 @@ class Validate(object):
                         text.set("")
                         label.config(fg="red")
             except ValueError:
-                if float(value):
-                    print("Float with minus")
-                    temp_value = float(value)
-                    text.set("-" + str(temp_value))
-                    if str(bg) == "grey75":
-                        print(bg)
-                        label.config(fg="black")
+                try:
+                    if float(value):
+                        print("Float with minus")
+                        temp_value = float(value)
+                        text.set("-" + str(temp_value))
+                        if str(bg) == "grey75":
+                            print(bg)
+                            label.config(fg="black")
+                        else:
+                            print(bg)
+                            label.config(fg="white")
                     else:
-                        print(bg)
-                        label.config(fg="white")
-                else:
+                        text.set("")
+                        label.config(fg="red")
+                except ValueError:
                     text.set("")
                     label.config(fg="red")
         elif text._name == "no_fitness_termination"  or text._name == "enabled_default" or text._name =="single_structural_mutation":
@@ -173,6 +180,13 @@ class Validate(object):
             else:
                 text.set("mean")
         elif text._name == "max_stagnation":
+            if value == "0":
+                if str(bg) == "grey75":
+                    label.config(fg="black")
+                else:
+                    print(bg)
+                    label.config(fg="white")
+                return
             if value.find("-") == 0:
                 value = value.replace("-", "")
             if value.isdigit():
@@ -218,6 +232,13 @@ class Validate(object):
             else:
                 text.set("0")
         elif text._name == "survival_threshold":
+            if value =="0" or value == "0.0":
+                if str(bg) == "grey75":
+                    label.config(fg="black")
+                else:
+                    print(bg)
+                    label.config(fg="white")
+                return
             if value.find("-") == 0:
                 value = value.replace("-", "")
             print(value)
@@ -316,22 +337,31 @@ class Validate(object):
                 or text._name == "enabled_mutate_rate" or text._name == "conn_add_prob" or text._name == "conn_delete_prob":
             print(text._name)
             value = text.get()
+            if value == "0" or value == "0.0":
+                if str(bg) == "grey75":
+                    # print("In third if")
+                    label.config(fg="black")
+                else:
+                    # print(bg)
+                    label.config(fg="white")
+                value.set("0.0")
+                return
             if value.find("-") == 0:
                 value = value.replace("-", "")
-            print(value + " Not in try")
+            #print(value + " Not in try")
             try:
-                print("In try statement")
+                #print("In try statement")
                 if float(value):
-                    print("In first if")
+                    #print("In first if")
                     value = float(value)
                     if isinstance(value, float) and (1.0 >= value >= 0.0):
-                        print("In second if")
+                        #print("In second if")
                         text.set(float(value))
                         if str(bg) == "grey75":
-                            print("In third if")
+                            #print("In third if")
                             label.config(fg="black")
                         else:
-                            print(bg)
+                            #print(bg)
                             label.config(fg="white")
                     else:
                         text.set("")
@@ -339,10 +369,10 @@ class Validate(object):
                 elif value == "0.0":
                     text.set("0.0")
                     if str(bg) == "grey75":
-                        print("In forth if")
+                        #print("In forth if")
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -370,10 +400,10 @@ class Validate(object):
                 tempvalue = value
             try:
                 if float(tempvalue):
-                    print("In first if: " + str(float(value)))
-                    print(minus_detected)
+                    #print("In first if: " + str(float(value)))
+                    #print(minus_detected)
                     if minus_detected is True:
-                        print("WTF")
+                        #print("WTF")
                         text.set("-" + str(float(tempvalue)))
                     else:
                         #print("WHAT")
