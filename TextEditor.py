@@ -250,11 +250,15 @@ def print_selection():
 
 # Delete any special symbols from winner name that will be used on writing time (real time)
 def Validate_Text_Widget_Neat(event):
-    winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
-    winner_file_name.delete('1.0', END)
-    winner_file_name.insert(END, winner_file_name_text)
-    print(winner_file_name_text)
-
+    #print(event.widget._name)
+    if event.widget._name == "winner_file_name":
+        winner_file_name_text = re.sub(r'[^\w]', '', winner_file_name.get("1.0", END))
+        winner_file_name.delete('1.0', END)
+        winner_file_name.insert(END, winner_file_name_text)
+    elif event.widget._name == "winner_file_name_winner":
+        winner_file_name_text1 = re.sub(r'[^\w]', '', winner_file_name_winner.get("1.0", END))
+        winner_file_name_winner.delete('1.0', END)
+        winner_file_name_winner.insert(END, winner_file_name_text1)
 
 # Open File
 # Restricts to .txt files
