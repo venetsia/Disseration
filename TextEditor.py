@@ -1688,7 +1688,7 @@ ValidateInput.ValidateInput(fitness_threshold, fitness_threshold, fitness_thresh
 
 # No fitness Termination
 no_fitness_termination_l = tk.Label(tab1, text="No Fit Termination?", justify=LEFT, anchor="w")
-no_fitness_termination_l.grid(row=4, column=0, ipadx=36)
+no_fitness_termination_l.grid(row=4, column=0, ipadx=28)
 CreateHelpMessage.CreateToolTip(no_fitness_termination_l,
                                 text='no_fitness_termination\nIf this evaluates to True, then the fitness_criterion and fitness_threshold are ignored for termination; only valid if termination by a maximum number of generations passed to population.Population.run() is enabled,\n and the found_solution method is called upon generation number termination. If it evaluates to False, then fitness is used to determine termination. This defaults to “False”.')
 
@@ -2635,6 +2635,9 @@ CreateHelpMessage.CreateToolTip(runs_per_network_l,
 
 runs_per_network = ttk.Spinbox(tab2, from_=0, to=100000000, increment=1, name = "runs_per_network", width =19)
 runs_per_network.grid(row=1, column=2, sticky=tk.W)
+runs_per_network.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.Validate_Game_Selection(runs_per_network, runs_per_network_l, style, runs_per_network_l, runs_per_network), "%P"))
+
 CreateHelpMessage.CreateToolTip(runs_per_network,
                                 text='The game you selected runs on a number of episodes')
 
@@ -2764,6 +2767,8 @@ num_generations = ttk.Spinbox(tab2, from_=0, to=100000000, increment=1, name = "
 num_generations.grid(row=3, column=2, sticky=tk.W)
 CreateHelpMessage.CreateToolTip(num_generations,
                                 text='no_fitness_termination = True in Config file which means fitness_criterion and fitness_threshold are ignnored and algorithm will run N generations')
+num_generations.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(num_generations, num_generations_l, style), "%P"))
 
 num_generations_l.grid_remove()
 num_generations.grid_remove()
@@ -2834,7 +2839,7 @@ btnFind_winner.grid(row=3,column=2)
 game_checkpoint_l_winner = tk.Label(tab3, text="Num of ep. per genome:", justify=LEFT, anchor="w")
 game_checkpoint_l_winner.grid(row=4, column=0,ipadx=37, pady=2, sticky=tk.W)
 
-game_checkpoint_winner = ttk.Spinbox(tab3, from_=0, to=100000000, increment=1, name = "game_checkpoint", width =19)
+game_checkpoint_winner = ttk.Spinbox(tab3, from_=0, to=100000000, increment=1, name = "ep_per_genome", width =19)
 game_checkpoint_winner.grid(row=4, column=1, sticky=tk.W)
 game_checkpoint_winner.config(validate="key", validatecommand=(
     Validate_Neat_Setup.ValidateInputNEAT(game_checkpoint_winner, game_checkpoint_l_winner, style), "%P"))
@@ -2845,6 +2850,8 @@ number_of_genomes_l.grid(row=5, column=2,ipadx=37, pady=2, sticky=tk.W)
 
 number_of_genomes = ttk.Spinbox(tab3, from_=0, to=100000000, increment=1, name = "number_of_genomes", width =19)
 number_of_genomes.grid(row=5, column=3, sticky=tk.W)
+number_of_genomes.config(validate="key", validatecommand=(
+    Validate_Neat_Setup.ValidateInputNEAT(number_of_genomes, number_of_genomes_l, style), "%P"))
 
 number_of_genomes_l.grid_remove()
 number_of_genomes.grid_remove()

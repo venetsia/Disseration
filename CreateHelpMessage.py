@@ -14,21 +14,23 @@ class CreateHelpMessage(object):
         self.x = self.y = 0
 
     def showtip(self, text):
-        "Display text in tooltip window"
-        self.text = text
-        if self.tipwindow or not self.text:
-            return
-        x, y, cx, cy = self.widget.bbox("insert")
-        x = x + self.widget.winfo_rootx() + 57
-        y = y + cy + self.widget.winfo_rooty() +27
-        self.tipwindow = tw = Toplevel(self.widget)
-        tw.wm_overrideredirect(1)
-        tw.wm_geometry("+%d+%d" % (x, y))
-        label = Label(tw, text=self.text, justify=LEFT,
-                      background="#ffffe0", relief=SOLID, borderwidth=1,
-                      font=("tahoma", "8", "normal"), wraplength = self.wraplength)
-        label.pack(ipadx=1)
-
+        try:
+            "Display text in tooltip window"
+            self.text = text
+            if self.tipwindow or not self.text:
+                return
+            x, y, cx, cy = self.widget.bbox("insert")
+            x = x + self.widget.winfo_rootx() + 57
+            y = y + cy + self.widget.winfo_rooty() +27
+            self.tipwindow = tw = Toplevel(self.widget)
+            tw.wm_overrideredirect(1)
+            tw.wm_geometry("+%d+%d" % (x, y))
+            label = Label(tw, text=self.text, justify=LEFT,
+                          background="#ffffe0", relief=SOLID, borderwidth=1,
+                          font=("tahoma", "8", "normal"), wraplength = self.wraplength)
+            label.pack(ipadx=1)
+        except:
+            pass
     def hidetip(self):
         tw = self.tipwindow
         self.tipwindow = None
@@ -42,13 +44,16 @@ class CreateHelpMessage(object):
             widget1.config(state="disabled")
 
 def CreateToolTip(widget, text):
-    toolTip = CreateHelpMessage(widget)
-    def enter(event):
-        toolTip.showtip(text)
-    def leave(event):
-        toolTip.hidetip()
-    widget.bind('<Enter>', enter)
-    widget.bind('<Leave>', leave)
+    try:
+        toolTip = CreateHelpMessage(widget)
+        def enter(event):
+            toolTip.showtip(text)
+        def leave(event):
+            toolTip.hidetip()
+        widget.bind('<Enter>', enter)
+        widget.bind('<Leave>', leave)
+    except:
+        pass
 
 def Validate(widget,widget1):
     toolTip = CreateHelpMessage(widget)
@@ -58,13 +63,16 @@ def Validate(widget,widget1):
     widget.bind('<Enter>', enable)
 
 def CreateToolTip_For_Education_Mode(widget, text):
-    toolTip = CreateHelpMessage(widget)
-    def enter(event):
-        toolTip.showtip(text)
-    def leave(event):
-        toolTip.hidetip()
-    widget.bind('<KeyPress>', enter)
-    widget.bind('<Enter>', enter)
-    widget.bind('<Leave>', leave)
+    try:
+        toolTip = CreateHelpMessage(widget)
+        def enter(event):
+            toolTip.showtip(text)
+        def leave(event):
+            toolTip.hidetip()
+        widget.bind('<KeyPress>', enter)
+        widget.bind('<Enter>', enter)
+        widget.bind('<Leave>', leave)
+    except:
+        pass
 
 

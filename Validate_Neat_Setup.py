@@ -11,7 +11,7 @@ games_available = ['SpaceInvaders-v0', "Berzerk-v0", "Boxing-v0", 'Freeway-v0', 
                             "Pooyan-v0", "StarGunner-v0",
                             "TimePilot-v0", "UpNDown-v0",  "LunarLander-v2", "CartPole-v1"
                             ]
-game_evaluation_choice = ["Single-Processing", "Multi-Processing"]
+game_evaluation_choice = ["Single-Processing"] #, "Multi-Processing"]
 network_type_choice = ["Feed-forward", "Recurrent"]
 render_window_choice = ["True", "False"]
 choose_config_file_choice = ["From Text Editor", "Choose file from directory"]
@@ -30,13 +30,14 @@ class Validate_Neat(object):
         sys.__stderr__
         text = widget.get()
         bg = style.lookup('TFrame', 'background')
-        if widget_name == "game_selection":
+        if widget_name == "game_selection" or widget_name == "game_selection_winner":
             if str(text) in games_available:
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
                     label.config(fg="white")
             else:
+                widget.set("")
                 label.config(fg="red")
         if widget_name == "game_evaluation":
             if str(text) in game_evaluation_choice:
@@ -47,7 +48,7 @@ class Validate_Neat(object):
             else:
                 widget.set("")
                 label.config(fg="red")
-        if widget_name == "network_type":
+        if widget_name == "network_type" or widget_name == "network_type_winner":
             if text in network_type_choice:
                 if str(bg) == "grey75":
                     label.config(fg="black")
@@ -67,7 +68,7 @@ class Validate_Neat(object):
             else:
                 widget.set("")
                 label.config(fg="red")
-        if widget_name == "choose_config_file":
+        if widget_name == "choose_config_file" or widget_name == "choose_config_file_winner":
             if text in choose_config_file_choice:
                 if str(bg) == "grey75":
                     print(bg)
@@ -107,6 +108,56 @@ class Validate_Neat(object):
                 else:
                     widget.set("")
                     label.config(fg="red")
+        if widget_name == "num_generations" or widget_name == "number_of_genomes" or widget_name == "ep_per_genome":
+            try:
+                if text.find("-") == 0:
+                    text = text.replace("-", "")
+                if text == "":
+                    widget.set("1")
+                    return
+                if re.search('[a-zA-Z]', text):
+                    widget.set("1")
+                    return
+                if text.isdigit():
+                    if int(text) > 0:
+                        widget.set(int(text))
+                        if str(bg) == "grey75":
+                            label.config(fg="black")
+                        else:
+                            print(bg)
+                            label.config(fg="white")
+                    elif int(text) == 0:
+                        widget.set("1")
+                    else:
+                        widget.set("1")
+
+                else:
+                    if float(text) or text == "0.0":
+                        widget.set("1")
+                    else:
+                        widget.set("1")
+
+            except:
+                widget.set("1")
+        if widget_name == "runs_per_network":
+            try:
+                if text == "0.0" or text == "0":
+                    widget.set("1")
+                if int(text):
+                    if str(bg) == "grey75":
+                        label.config(fg="black")
+                    else:
+                        print(bg)
+                        label.config(fg="white")
+                else:
+                    widget.set("1")
+            except ValueError:
+                try:
+                    if float(text):
+                        widget.set(int(text))
+                except:
+                    widget.set("1")
+
 
     def validate_spinbox_game(self, widget_name, label, style, widget, input, output):
         text = widget.get()
@@ -140,10 +191,12 @@ class Validate_Neat(object):
         if widget_name == "game_selection":
             if str(text) in games_available:
                 if str(bg) == "grey75":
+
                     label.config(fg="black")
                 else:
                     label.config(fg="white")
             else:
+                widget.set("")
                 label.config(fg="red")
 def ValidateInputNEAT(widget, label, style):
     toolTip = Validate_Neat(widget)
