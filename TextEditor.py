@@ -314,7 +314,7 @@ def open_file():
                         default_stagnation_list.append(line + "\n")
                     elif form_input in default_reproduction:
                         default_reproduction_list.append(line + "\n")
-                    elif form_input in network_parameters:
+                    elif form_input in network_parameters or "num_inputs" in line:
                         network_parameters_list.append(line + "\n")
                     elif form_input in activation_section:
                         activation_list.append(line + "\n")
@@ -536,7 +536,7 @@ def run_NEAT(Output_Console,game_selection, game_evaluation, winner_file_name, g
                             # Get string between ", (" and ",)"
                             int_input= string_space[str(string_space).find(start) + len(start):str(string_space).rfind(end)]
                             # Replace the line with the correct inputs needed
-                            new_line = line.replace(line, "num_input = " + int_input + "\n")
+                            new_line = line.replace(line, "num_inputs = " + int_input + "\n")
                             # Add new line into the file content
                             new_file_content += new_line
                         else:
