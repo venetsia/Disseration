@@ -882,4 +882,54 @@ If you would like to use Educatio mode click on:
 
 If you would like to switch to Normal Mode click on:
 
-!alt text](https://github.com/venetsia/Disseration/blob/master/normal_mode_pic.png)
+![alt text](https://github.com/venetsia/Disseration/blob/master/normal_mode_pic.png)
+
+# NEAT Output Information
+
+All of the information is gathered from personal experience and Omelianenko, I. (2019). Hands-On Neuroevolution with Python. Packt Publishing. https://learning.oreilly.com/library/view/hands-on-neuroevolution-with/9781838824914/
+
+
+
+## Running Generation <Number> 
+ 
+![image](https://user-images.githubusercontent.com/15977217/142737285-d467eb2f-ae40-4811-9325-6288c9e380f7.png)
+
+This line lets the user know which generation is currently the NEAT algorithm at. 
+ 
+ ## Genome <id> and Fitness
+ 
+ ![image](https://user-images.githubusercontent.com/15977217/142737330-6b69ffe3-0d3c-407a-9902-0bd9e3ab6f53.png)
+
+ The genome <id> is the <id> member of the population. For example if you specify in your Config file that the population will have 30 members you will see that in the 0 generation 30 genomes will be trained (evaluated). If afterwards the number changes that is because NEAT decides if it will remove any genomes or add new ones (from mutation or crossover).
+ 
+ ## Results for generation
+ 
+ ![image](https://user-images.githubusercontent.com/15977217/142737419-18b7bf79-e459-4d46-84a9-fbc5d5d36246.png)
+
+*The population's average in the generation here is 124.00000* - This is calculated by summing up the fitness of all of the generation and divide it by the number of genomes (members).
+ 
+*Best fitness: 290.00000* - This line shows the generation's best fitness found from all of the genomes. 
+ - If the fitness_criterion = max and the fitness_threshold = 250 it will terminate the algorithm as a genome has reached the fitness threshold
+ 
+*size: (6, 3279)* - The best genome of the population (the one with 290.00) which encodes an ANN (Artificial Neural Network) phenotype that consists of six nodes and 3279 connections (the size is (6, 3279)).
+ 
+*Population of 30 members in 1 species:* - This means that 30 members of the population were classified to be in 1 specie. 
+ 
+How is a specie determined?
+ 
+compatibility_threshold = <value> - Individuals whose genetic distance is less than this threshold are considered to be in the same species.
+ 
+Population Properties:
+ 
+![image](https://user-images.githubusercontent.com/15977217/142738168-69c3efa3-3c40-4be8-b4a8-d4b48c861b1c.png)
+
+## Found winner
+
+![image](https://user-images.githubusercontent.com/15977217/142738252-f2c86358-7eda-45db-bc2f-d75d748f73a6.png)
+ 
+*Best individual in generation 13 meets fitness threshold* - The genome that meets the fitness_threshold is found in generation 13
+ 
+*complexity: (8, 1608)* - Genome has 8 nodes and 1608 connections
+
+ 
+
