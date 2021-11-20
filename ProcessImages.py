@@ -21,13 +21,17 @@ reinforcement_Learning_2 = ""
 reinforcement_Learning_3 = ""
 feedforward_vs_recurrent_pic = ""
 neuro_neat = ""
+neat_running_explanation = ""
+neat_results_from_generation = ""
+neat_found_winner = ""
 filelist = ["AI-Intro.png", "AI_second.png","AI_Seond_Pic.png", "biological_neuron.png", "percepron.png",
             "Types_of_learning.png", "Components_of_Neural_Network.png", "agent.png",
             "How_does_the_neural_network_learn.png", "ReinforcementLearningImage1.png",
-            "ReinforcementLearningImage2.png", "ReinforcementLearningImage3.png","feed-forwardVSrecurrent.PNG", "Neuro_NEAT.png" ]
+            "ReinforcementLearningImage2.png", "ReinforcementLearningImage3.png","feed-forwardVSrecurrent.PNG", "Neuro_NEAT.png", "NeatRunningExplanation.PNG",
+            "Neat_Results_From_Generation.PNG", "Neat_Found_winner.PNG"]
 threadList = ["Thread-1", "Thread-2", "Thread-3"]
 queueLock = threading.Lock()
-workQueue = queue.Queue(15)
+workQueue = queue.Queue(18)
 threads = []
 threadID = 1
 
@@ -58,6 +62,9 @@ def process_data(threadName, q):
     global reinforcement_Learning_3
     global feedforward_vs_recurrent_pic
     global neuro_neat
+    global neat_running_explanation
+    global neat_results_from_generation
+    global neat_found_winner
 
     while not exitFlag:
         queueLock.acquire()
@@ -92,7 +99,12 @@ def process_data(threadName, q):
                 feedforward_vs_recurrent_pic = ImageTk.PhotoImage(file="feed-forwardVSrecurrent.PNG")
             elif data == "Neuro_NEAT.png":
                 neuro_neat = ImageTk.PhotoImage(file="Neuro_NEAT.png")
-
+            elif data == "NeatRunningExplanation.PNG":
+                neat_running_explanation = ImageTk.PhotoImage(file="NeatRunningExplanation.PNG")
+            elif data == "Neat_Results_From_Generation.PNG":
+                 neat_results_from_generation = ImageTk.PhotoImage(file="Neat_Results_From_Generation.PNG")
+            elif data == "Neat_Found_winner.PNG":
+                neat_found_winner = ImageTk.PhotoImage(file="Neat_Found_winner.PNG")
         else:
             queueLock.release()
         time.sleep(1)

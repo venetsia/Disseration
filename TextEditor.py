@@ -1599,7 +1599,8 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
                     'Neural Network', 'Components of a neural network', 'Learning Types',
                     "How do the neural network learn?","Reinforcement Learning L1",
                     "Reinforcement Learning L2","Reinforcement Learning L3","Neuroevolution and NEAT",'NEAT Config File', 'Load Winner/Checkpoints E1',
-                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination", "Atari Example Recurrent","Atari Example Feed-Forward", "Conclusion")
+                    'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination", "Atari Example Recurrent","Atari Example Feed-Forward", "Conclusion",
+                    "NEAT Running Generation", "NEAT Results for generation", "NEAT Found Winner")
 langs_var = tk.StringVar(value=eduction_options)
 Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
                                 name="activation_options", exportselection=0)

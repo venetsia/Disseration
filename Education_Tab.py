@@ -1669,6 +1669,88 @@ class Education_tab(object):
                 label2.config(bg="grey75")
                 label2.configure(anchor="w")
                 label2.grid(row=1, column=0)
+        elif value == "NEAT Running Generation":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if neuron_tab_label != "":
+                self.hide_old_widgets(neuron_tab_label)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            if reference_from_source != "":
+                self.hide_old_widgets(reference_from_source)
+            if how_learn_nn_label != "":
+                self.hide_old_widgets(how_learn_nn_label)
+            how_learn_nn_label = tk.Label(educatuin_tab, image=ProcessImages.neat_running_explanation)
+            how_learn_nn_label.image = ProcessImages.neat_running_explanation
+            how_learn_nn_label.grid(row=1, column=0)
+            how_learn_nn_label.config(fg="grey75", bg="grey75")
+        elif value == "NEAT Results for generation":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if neuron_tab_label != "":
+                self.hide_old_widgets(neuron_tab_label)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            if reference_from_source != "":
+                self.hide_old_widgets(reference_from_source)
+            if how_learn_nn_label != "":
+                self.hide_old_widgets(how_learn_nn_label)
+            how_learn_nn_label = tk.Label(educatuin_tab, image=ProcessImages.neat_results_from_generation)
+            how_learn_nn_label.image = ProcessImages.neat_results_from_generation
+            how_learn_nn_label.grid(row=1, column=0)
+            how_learn_nn_label.config(fg="grey75", bg="grey75")
+        elif value == "NEAT Found Winner":
+            if label2 != "":
+                self.hide_old_widgets(label2)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if response_enter != "":
+                self.hide_old_widgets(response_enter)
+            if chatbot_next != "":
+                self.hide_old_widgets(chatbot_next)
+            if neuron_tab_label != "":
+                self.hide_old_widgets(neuron_tab_label)
+            if label1 != "":
+                self.hide_old_widgets(label1)
+            if chat_bot_dynamic_learn != "":
+                self.hide_old_widgets(chat_bot_dynamic_learn)
+            if perceptron_label != "":
+                self.hide_old_widgets(perceptron_label)
+            if check_answer != "":
+                self.hide_old_widgets(check_answer)
+            if reference_from_source != "":
+                self.hide_old_widgets(reference_from_source)
+            if how_learn_nn_label != "":
+                self.hide_old_widgets(how_learn_nn_label)
+            how_learn_nn_label = tk.Label(educatuin_tab, image=ProcessImages.neat_found_winner)
+            how_learn_nn_label.image = ProcessImages.neat_found_winner
+            how_learn_nn_label.grid(row=1, column=0)
+            how_learn_nn_label.config(fg="grey75", bg="grey75")
+
 
 def Activate_Content(education_option_selected, educatuin_tab, hidden_level_text):
     toolTip = Education_tab(education_option_selected)
