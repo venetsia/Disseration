@@ -886,6 +886,10 @@ If you would like to switch to Normal Mode click on:
 
 # NEAT Output Information
 
+All of the information is gathered from personal experience and Omelianenko, I. (2019). Hands-On Neuroevolution with Python. Packt Publishing. https://learning.oreilly.com/library/view/hands-on-neuroevolution-with/9781838824914/
+
+
+
 ## Running Generation <Number> 
  
 ![image](https://user-images.githubusercontent.com/15977217/142737285-d467eb2f-ae40-4811-9325-6288c9e380f7.png)
@@ -910,7 +914,9 @@ This line lets the user know which generation is currently the NEAT algorithm at
 *size: (6, 3279)* - The best genome of the population (the one with 290.00) which encodes an ANN (Artificial Neural Network) phenotype that consists of six nodes and 3279 connections (the size is (6, 3279)).
  
 *Population of 30 members in 1 species:* - This means that 30 members of the population were classified to be in 1 specie. 
+ 
 How is a specie determined?
+ 
 compatibility_threshold = <value> - Individuals whose genetic distance is less than this threshold are considered to be in the same species.
  
 Population Properties:
@@ -925,4 +931,5 @@ Population Properties:
  
 *complexity: (8, 1608)* - Genome has 8 nodes and 1608 connections
 
+ 
 
