@@ -76,8 +76,8 @@ def eval_genomes(genomes, config) :
             penalty = 0
             frame += 1
             counter += 1
-            img = cv2.cvtColor(observation, cv2.COLOR_BGR2RGB)
-            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            #img = cv2.cvtColor(observation, cv2.COLOR_BGR2RGB)
+            img = cv2.cvtColor(observation, cv2.COLOR_RGB2GRAY)
             if render_window_variable == "True":
                 env.render()
             frame += 1

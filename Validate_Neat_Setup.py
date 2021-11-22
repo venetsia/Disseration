@@ -60,10 +60,10 @@ class Validate_Neat(object):
         if widget_name == "render_window":
             if text in render_window_choice:
                 if str(bg) == "grey75":
-                    print(bg)
+                    #print(bg)
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 widget.set("")
@@ -71,10 +71,10 @@ class Validate_Neat(object):
         if widget_name == "choose_config_file" or widget_name == "choose_config_file_winner":
             if text in choose_config_file_choice:
                 if str(bg) == "grey75":
-                    print(bg)
+                    #print(bg)
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 widget.set("")
@@ -95,7 +95,7 @@ class Validate_Neat(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 elif int(text) == 0:
                     widget.set("0")
@@ -124,7 +124,7 @@ class Validate_Neat(object):
                         if str(bg) == "grey75":
                             label.config(fg="black")
                         else:
-                            print(bg)
+                            #print(bg)
                             label.config(fg="white")
                     elif int(text) == 0:
                         widget.set("1")
@@ -147,7 +147,7 @@ class Validate_Neat(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     widget.set("1")
@@ -181,12 +181,13 @@ class Validate_Neat(object):
 
     def validate_Game_selection(self, widget_name,label,style,widget,runs_per_network_l, runs_per_network):
         text = widget.get()
-        if text in game_list_2D:
-            runs_per_network_l.grid()
-            runs_per_network.grid()
-        else:
-            runs_per_network_l.grid_remove()
-            runs_per_network.grid_remove()
+        if widget_name == "game_selection":
+            if text in game_list_2D:
+                runs_per_network_l.grid()
+                runs_per_network.grid()
+            else:
+                runs_per_network_l.grid_remove()
+                runs_per_network.grid_remove()
         bg = style.lookup('TFrame', 'background')
         if widget_name == "game_selection":
             if str(text) in games_available:

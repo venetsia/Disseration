@@ -29,10 +29,10 @@ class Validate(object):
             # value = text.get()
             if (value == "max" or value == "min" or value == "mean"):
                 if str(bg) == "grey75":
-                    print(bg)
+                    #print(bg)
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 text.set("")
@@ -42,8 +42,8 @@ class Validate(object):
                 label.config(fg="red")
                 return
             # value = text.get()
-            print(value.isdigit())
-            print(len(value) if len(value) > 0 else "no")
+            #print(value.isdigit())
+            #print(len(value) if len(value) > 0 else "no")
             if value == "0" or value == "0.0":
                 label.config(fg="black")
                 return
@@ -55,28 +55,28 @@ class Validate(object):
                 if value.find("-") == 0:
                     temp_value = value.replace("-", "")
                     if int(temp_value):
-                        print("Int with minus")
+                        #print("Int with minus")
                         if temp_value.isdigit():
                             temp_value = int(temp_value)
                             text.set("-" + str(temp_value))
                             if str(bg) == "grey75":
-                                print(bg)
+                                #print(bg)
                                 label.config(fg="black")
                             else:
-                                print(bg)
+                                #print(bg)
                                 label.config(fg="white")
                         else:
                             text.set("")
                             label.config(fg="red")
                     elif float(temp_value):
-                        print("Float with minus")
+                        #print("Float with minus")
                         temp_value = float(temp_value)
                         text.set("-" + str(temp_value))
                         if str(bg) == "grey75":
-                            print(bg)
+                            #print(bg)
                             label.config(fg="black")
                         else:
-                            print(bg)
+                            #print(bg)
                             label.config(fg="white")
                     else:
                         text.set("")
@@ -86,10 +86,10 @@ class Validate(object):
                         if int(value):
                             text.set(int(value))
                             if str(bg) == "grey75":
-                                print(bg)
+                                #print(bg)
                                 label.config(fg="black")
                             else:
-                                print(bg)
+                                #print(bg)
                                 label.config(fg="white")
                         else:
                             text.set("")
@@ -97,10 +97,10 @@ class Validate(object):
                     elif float(value):
                         text.set(float(value))
                         if str(bg) == "grey75":
-                            print(bg)
+                            #print(bg)
                             label.config(fg="black")
                         else:
-                            print(bg)
+                            #print(bg)
                             label.config(fg="white")
                     else:
                         text.set("")
@@ -108,14 +108,14 @@ class Validate(object):
             except ValueError:
                 try:
                     if float(value):
-                        print("Float with minus")
+                        #print("Float with minus")
                         temp_value = float(value)
                         text.set("-" + str(temp_value))
                         if str(bg) == "grey75":
-                            print(bg)
+                            #print(bg)
                             label.config(fg="black")
                         else:
-                            print(bg)
+                            #print(bg)
                             label.config(fg="white")
                     else:
                         text.set("")
@@ -128,7 +128,7 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 text.set("False")
@@ -138,7 +138,7 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 text.set("default")
@@ -148,7 +148,7 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 text.set("")
@@ -162,7 +162,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -175,7 +175,7 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 text.set("mean")
@@ -184,7 +184,7 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
                 return
             if value.find("-") == 0:
@@ -195,7 +195,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                       # print(bg)
                         label.config(fg="white")
                 else:
                     text.set("15")
@@ -210,7 +210,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("0")
@@ -225,7 +225,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("0")
@@ -236,7 +236,7 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
                 return
             if value.find("-") == 0:
@@ -249,7 +249,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("0.2")
@@ -264,7 +264,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("2")
@@ -279,7 +279,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -296,7 +296,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -313,7 +313,7 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -328,14 +328,14 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 text.set("unconnected")
         elif text._name == "initial_connection_value" or text._name == "activation_mutate_rate" \
                 or text._name == "aggregation_mutate_rate" or text._name =="node_add_prob" or text._name =="node_delete_prob"\
                 or text._name == "enabled_mutate_rate" or text._name == "conn_add_prob" or text._name == "conn_delete_prob":
-            print(text._name)
+            #print(text._name)
             value = text.get()
             if value == "0" or value == "0.0":
                 if str(bg) == "grey75":
@@ -385,7 +385,7 @@ class Validate(object):
                         #print("In third if")
                         label.config(fg="black")
                     else:
-                        print(bg)
+                       # print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -411,14 +411,14 @@ class Validate(object):
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 elif value == "0.0" or  value == "0":
                     #print("here")
                     if str(bg) == "grey75":
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -433,15 +433,12 @@ class Validate(object):
                 if str(bg) == "grey75":
                     label.config(fg="black")
                 else:
-                    print(bg)
+                    #print(bg)
                     label.config(fg="white")
             else:
                 #print("WTF3")
                 text.set("gaussian")
-        else:
-            print("not digit")
-            print(text)
-            print(text._name)
+
 
     def validate_spinbox_with_Random(self, text,label,isLightMode, random_Enabled):
         bg = isLightMode.lookup('TFrame', 'background')
@@ -456,10 +453,10 @@ class Validate(object):
                         value == "sigmoid" or value == "sin" or value == "softplus" or
                         value == "square" or value == "tanh"):
                     if str(bg) == "grey75":
-                        print(bg)
+                       # print(bg)
                         label.config(fg="black")
                     else:
-                        print(bg)
+                       # print(bg)
                         label.config(fg="white")
                 else:
                     text.set(random.choice(activation_options_list))
@@ -469,10 +466,10 @@ class Validate(object):
                         value == "max" or value == "mean" or value == "median" or
                         value == "maxabs"):
                     if str(bg) == "grey75":
-                        print(bg)
+                       # print(bg)
                         label.config(fg="black")
                     else:
-                        print(bg)
+                       # print(bg)
                         label.config(fg="white")
                 else:
                     text.set(random.choice(aggregation_options_list))
@@ -486,10 +483,10 @@ class Validate(object):
                         value == "sigmoid" or value == "sin" or value == "softplus" or
                         value == "square" or value == "tanh"):
                     if str(bg) == "grey75":
-                        print(bg)
+                       # print(bg)
                         label.config(fg="black")
                     else:
-                        print(bg)
+                       # print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")
@@ -499,10 +496,10 @@ class Validate(object):
                         value == "max" or value == "mean" or value == "median" or
                         value == "maxabs"):
                     if str(bg) == "grey75":
-                        print(bg)
+                       # print(bg)
                         label.config(fg="black")
                     else:
-                        print(bg)
+                        #print(bg)
                         label.config(fg="white")
                 else:
                     text.set("")

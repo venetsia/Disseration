@@ -1282,12 +1282,15 @@ class Education_tab(object):
                     self.hide_old_widgets(how_learn_nn_label)
                 Run_Neat_choice = True
                 label2 = tk.Label(educatuin_tab,
-                                  text="Once you click on the button you will be guided\n"
-                                       "on how to start your own training. Remember that\n"
-                                       "you can use the same configuration file for training\n"
-                                       "on a different game provided you change the input and\n"
-                                       "output. An easy way to do this is via the app with the\n"
-                                       "checkbox.",
+                                  text="Once you click on the button you will be guided        \n"
+                                       "on how to start your own training. Remember that       \n"
+                                       "you can use the same configuration file for training   \n"
+                                       "on a different game provided you change the input and  \n"
+                                       "output. An easy way to do this is via the app with the \n"
+                                       "checkbox.                                              \n"
+                                       "In order to understand the output of NEAT you can see  \n"
+                                       "NEAT Running Generation and NEAT Results for generation\n"
+                                       "lessons after Conclusion lesson.                       \n",
                                   font=("Courier", 20, "bold"))
                 label2.config(bg="grey75")
                 label2.grid(row=1, column=0)
@@ -1412,6 +1415,22 @@ class Education_tab(object):
                     StickyNote.StickyNotes.quit_window_all(sticky)
                 except:
                     pass
+                label2 = tk.Label(educatuin_tab,
+                                  text="Using no_fitness_termination you can     \n"
+                                       "specify for how many generations to      \n"
+                                       "run the algorithm for. The parameter     \n"
+                                       "has to be no_fitness_termination = True  \n"
+                                       "in config file.                          \n"
+                                       "This is a clever trick to use in order   \n"
+                                       "to be able to stop the algorithm and not \n"
+                                       "leave it running without any progress.   \n"
+                                       "Currently there is no way to stop the    \n"
+                                       "algorithm from running within the app so \n"
+                                       "application has to be closed completely  \n"
+                                       "if you want to start a different training\n",
+                                  font=("Courier", 20, "bold"))
+                label2.config(bg="grey75")
+                label2.grid(row=1, column=0)
                 check_answer = tk.Button(educatuin_tab, text="Start",
                                          command=lambda: self.automate(hidden_level_text, educatuin_tab),
                                          justify=tk.LEFT, anchor="w")

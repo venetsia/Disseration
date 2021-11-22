@@ -1566,7 +1566,7 @@ def save_progress():
     logger.info(f'ReinforcementL1: {Education_Tab.ReinforcementL1}')
     logger.info(f'ReinforcementL2: {Education_Tab.ReinforcementL2}')
     logger.info(f'ReinforcementL3: {Education_Tab.ReinforcementL3}')
-    logger.info(f'Examples: {hidden_level_text}')
+    logger.info(f'Examples: {hidden_level_text.get("1.0",END)}')
     logger.info(f'Feedforward_vs_Recurrent_tab: {Education_Tab.Feedforward_vs_Recurrent_tab}')
     logger.info(f'No_Fitness_termination_tab: {Education_Tab.No_Fitness_termination_tab}')
     logger.info(f'Atari_Example_tab: {Education_Tab.Atari_Example_tab}')
@@ -1602,14 +1602,17 @@ eduction_options = ('Introduction', 'Artificial Intelligence', 'AI categories L1
                     'Load Winner/Checkpoints E2','Run NEAT E1', "Feed-Forward vs Recurrent", "No Fitness Termination", "Atari Example Recurrent","Atari Example Feed-Forward", "Conclusion",
                     "NEAT Running Generation", "NEAT Results for generation", "NEAT Found Winner")
 langs_var = tk.StringVar(value=eduction_options)
-Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
-                                name="activation_options", exportselection=0)
 
 scrollbar = tk.Scrollbar(frame_Education, orient="vertical")
-scrollbar.config(command=Education_listbox.yview)
-scrollbar.grid(row=1,column=1)
 
-Education_listbox.config(yscrollcommand=scrollbar.set)
+Education_listbox = tk.Listbox(frame_Education, height=20,width =30, listvariable=langs_var, selectmode='single',
+                                name="activation_options", exportselection=0, yscrollcommand=scrollbar.set)
+
+scrollbar = tk.Scrollbar(frame_Education, orient="vertical")
+#scrollbar.config(command=Education_listbox.yview)
+scrollbar.grid(row=1,column=1)
+scrollbar.config( command = Education_listbox.yview )
+Education_listbox.config()
 
 Education_listbox.grid(row=1, column=0, pady=2, sticky=tk.W)
 education_options_selected = Education_listbox.bind('<Leave>', items_selected)
